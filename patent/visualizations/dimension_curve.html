@@ -1,0 +1,24 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<title>Dimension Curve — SIMULATED</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>body{margin:0;padding:14px;background:#fff;font-family:sans-serif;}
+.title{font-size:15px;font-weight:500;margin-bottom:3px;}
+.sub{font-size:11px;color:#6b7280;margin-bottom:14px;}
+</style></head><body>
+<div class="title">V11: F_total by Spatial Dimension — d=3 is the unique habitable dimension</div>
+<div class="sub">F_total = F_orbital × F_atomic × F_structural · Only d=3 gives F_total > 0 · Bertrand theorem + Schrödinger · C5 CONFIRMED · SIMULATED</div>
+<div style="position:relative;height:300px;"><canvas id="c"></canvas></div>
+<script>
+var D=[{"d": 1, "F_orb": 0.0, "F_atom": 0.0, "F_struct": 1.0, "F_total": 0.0}, {"d": 2, "F_orb": 0.0, "F_atom": 0.0, "F_struct": 0.9069, "F_total": 0.0}, {"d": 3, "F_orb": 1.0, "F_atom": 1.0, "F_struct": 0.7405, "F_total": 0.7405}, {"d": 4, "F_orb": 0.0, "F_atom": 0.0, "F_struct": 0.6169, "F_total": 0.0}, {"d": 5, "F_orb": 0.0, "F_atom": 0.0, "F_struct": 0.9305, "F_total": 0.0}, {"d": 6, "F_orb": 0.0, "F_atom": 0.0, "F_struct": 0.646, "F_total": 0.0}, {"d": 7, "F_orb": 0.0, "F_atom": 0.0, "F_struct": 0.2953, "F_total": 0.0}];
+new Chart(document.getElementById('c'),{type:'bar',
+  data:{labels:D.map(d=>'d='+d.d),
+    datasets:[
+      {label:'F_structural (packing)',data:D.map(d=>d.F_struct),backgroundColor:'rgba(156,163,175,0.4)',borderWidth:0,borderRadius:3},
+      {label:'F_total = F_orb×F_atom×F_struct',data:D.map(d=>d.F_total),
+        backgroundColor:D.map(d=>d.d===3?'rgba(22,163,74,0.85)':'rgba(220,38,38,0.5)'),borderWidth:0,borderRadius:3},
+    ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom'}},
+    scales:{y:{min:0,max:1.1,title:{display:true,text:'Freedom score'}}}
+  }});
+</script></body></html>

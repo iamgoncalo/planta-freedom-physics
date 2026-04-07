@@ -1,0 +1,144 @@
+{
+  "query": {
+    "elements": [
+      "C",
+      "Si",
+      "Al"
+    ],
+    "area_m2": 80.0,
+    "budget_eur": 10000.0,
+    "priority": "structural"
+  },
+  "step1_elements": {
+    "C": {
+      "Z": 6,
+      "F_electrical": 0.0022,
+      "F_thermal": 0.3263,
+      "F_chemical": 0.2579,
+      "F_nuclear": 0.8732,
+      "F_structural": 0.6423
+    },
+    "Si": {
+      "Z": 14,
+      "F_electrical": 0.0,
+      "F_thermal": 0.345,
+      "F_chemical": 0.1333,
+      "F_nuclear": 0.9605,
+      "F_structural": 0.6359
+    },
+    "Al": {
+      "Z": 13,
+      "F_electrical": 0.5984,
+      "F_thermal": 0.5524,
+      "F_chemical": 0.1036,
+      "F_nuclear": 0.9472,
+      "F_structural": 0.6012
+    }
+  },
+  "step2_pso": {
+    "best_composition": {
+      "C": 0.9527,
+      "Si": 0.0405,
+      "Al": 0.0067
+    },
+    "F_composite": 0.6417,
+    "channel": "structural",
+    "n_iterations": 100,
+    "seed": 2026,
+    "element_F": {
+      "C": 0.6423,
+      "Si": 0.6359,
+      "Al": 0.6012
+    },
+    "thesis": "T2+T3",
+    "label": "SIMULATED. F=P/D HYPOTHESIS UNDER TEST."
+  },
+  "step3_material": {
+    "composition": {
+      "C": 0.9527,
+      "Si": 0.0405,
+      "Al": 0.0067
+    },
+    "F_composite": 0.6417,
+    "F_thermal": 0.3282,
+    "F_electrical": 0.0019,
+    "density_g_cm3": 13.83,
+    "melting_point_K": 3534.0,
+    "freedom_channels": {
+      "electrical": 0.0019,
+      "thermal": 0.3282,
+      "structural": 0.6417,
+      "nuclear": 0.8771
+    },
+    "note": "Proxy estimates. T2+T5.",
+    "label": "SIMULATED. F=P/D HYPOTHESIS UNDER TEST."
+  },
+  "step4_structure": {
+    "F_global": 0.5416,
+    "members": [
+      {
+        "id": "M1",
+        "F": 0.6214,
+        "D": 1.0326,
+        "load_factor": 0.663
+      },
+      {
+        "id": "M2",
+        "F": 0.4998,
+        "D": 1.284,
+        "load_factor": 0.824
+      },
+      {
+        "id": "M3",
+        "F": 0.5393,
+        "D": 1.1899,
+        "load_factor": 0.764
+      },
+      {
+        "id": "M4",
+        "F": 0.5643,
+        "D": 1.1371,
+        "load_factor": 0.73
+      },
+      {
+        "id": "M5",
+        "F": 0.5686,
+        "D": 1.1286,
+        "load_factor": 0.724
+      },
+      {
+        "id": "M6",
+        "F": 0.4697,
+        "D": 1.3662,
+        "load_factor": 0.877
+      }
+    ],
+    "weak_members": [],
+    "safety_ok": true,
+    "n_members": 6
+  },
+  "step5_cost": {
+    "material_eur": 8074.9,
+    "labour_eur": 3481.6,
+    "total_eur": 11556.5,
+    "budget_eur": 10000.0,
+    "within_budget": false,
+    "area_m2": 80.0
+  },
+  "step6_innovation": {
+    "F_innovation": 0.3226,
+    "novelty_proxy": 0.9283,
+    "novel": false
+  },
+  "step7_economics": {
+    "F_debt_avoided_eur_yr": 10497.45,
+    "F_structure_vs_baseline": {
+      "baseline": 0.22,
+      "designed": 0.5416,
+      "improvement": 0.3216
+    }
+  },
+  "seed": 2026,
+  "thesis": "T1+T2+T3+T4+T5",
+  "label": "SIMULATED. F=P/D HYPOTHESIS UNDER TEST."
+}

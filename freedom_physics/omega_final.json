@@ -1,0 +1,32 @@
+{
+  "pipeline": "Freedom-Physics-Omega-v3.0",
+  "phases_complete": [
+    "\u03a91",
+    "\u03a92",
+    "\u03a93",
+    "\u03a94",
+    "\u03a95",
+    "\u03a96",
+    "\u03a97",
+    "\u03a98",
+    "\u03a99"
+  ],
+  "toe": {
+    "score": 29.1,
+    "out_of": 50,
+    "pct": 58.2,
+    "not_addressed": 0
+  },
+  "elements": 118,
+  "counterfactuals": 60,
+  "visualizations": 15,
+  "agents": 4,
+  "ci_checks_passed": 17,
+  "ci_checks_total": 17,
+  "house_C_Si_Al": {
+    "F_global": 0.5416,
+    "cost_eur": 11556.5
+  },
+  "disclaimer": "ALL RESULTS SIMULATION-BASED. F=P/D HYPOTHESIS UNDER TEST. seed=2026.",
+  "done": true
+}

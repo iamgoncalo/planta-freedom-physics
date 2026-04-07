@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>FLRP Architecture — F=P/D SIMULATED</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+body { margin:0; background:#ffffff; font-family:sans-serif; }
+#info {
+  position:fixed; top:12px; left:12px;
+  background:rgba(255,255,255,0.94);
+  padding:10px 16px; border-radius:8px;
+  font-size:12px; border:0.5px solid #e5e7eb; line-height:1.8;
+}
+.dot { display:inline-block; width:10px; height:10px;
+       border-radius:50%; margin-right:6px; }
+</style>
+</head>
+<body>
+<div id="info">
+  <b>FLRP Architecture — Generative Order: F→L→R→Φ</b><br>
+  <span class="dot" style="background:#3b82f6"></span>F — Freedom / Topology<br>
+  <span class="dot" style="background:#f59e0b"></span>L — Logic / Filter (binary)<br>
+  <span class="dot" style="background:#10b981"></span>R — Relations / Swarm<br>
+  <span class="dot" style="background:#ef4444"></span>Φ — Physics / Patterns<br>
+  <small>Never multiply layers · Cross-layer R²&lt;0.02<br>
+  SIMULATED · F=P/D hypothesis · seed=2026</small>
+</div>
+<canvas id="c"></canvas>
+<script>
+var renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('c'), antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0xffffff, 1);
+
+var scene = new THREE.Scene();
+var cam = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 200);
+cam.position.set(0, 10, 20);
+cam.lookAt(0, 4, 0);
+
+var ambient = new THREE.AmbientLight(0xffffff, 0.55);
+scene.add(ambient);
+
+var dl1 = new THREE.DirectionalLight(0xfff5e0, 0.75);
+dl1.position.set(8, 12, 10);
+scene.add(dl1);
+
+var dl2 = new THREE.DirectionalLight(0xe0f0ff, 0.3);
+dl2.position.set(-5, 8, -8);
+scene.add(dl2);
+
+var layers = [
+  { y: 0,  color: 0x3b82f6, label: "F — Freedom / Topology",   opacity: 0.72 },
+  { y: 3,  color: 0xf59e0b, label: "L — Logic / Filter",        opacity: 0.68 },
+  { y: 6,  color: 0x10b981, label: "R — Relations / Swarm",     opacity: 0.68 },
+  { y: 9,  color: 0xef4444, label: "Φ — Physics / Patterns",    opacity: 0.72 },
+];
+
+layers.forEach(function(l) {
+  var geo  = new THREE.BoxGeometry(11, 0.7, 7);
+  var mat  = new THREE.MeshPhongMaterial({
+    color: l.color, transparent: true, opacity: l.opacity, shininess: 25
+  });
+  var mesh = new THREE.Mesh(geo, mat);
+  mesh.position.set(0, l.y, 0);
+  scene.add(mesh);
+
+  var edges = new THREE.LineSegments(
+    new THREE.EdgesGeometry(geo),
+    new THREE.LineBasicMaterial({ color: l.color, linewidth: 2 })
+  );
+  edges.position.set(0, l.y, 0);
+  scene.add(edges);
+});
+
+// Arrows F→L→R→Φ on the right side
+var arrowMat = new THREE.LineBasicMaterial({ color: 0x374151, linewidth: 2 });
+[[0, 3], [3, 6], [6, 9]].forEach(function(pair) {
+  var y1 = pair[0]; var y2 = pair[1];
+  var pts = [
+    new THREE.Vector3(6.2, y1 + 0.35, 0),
+    new THREE.Vector3(6.2, y2 - 0.35, 0)
+  ];
+  var geo = new THREE.BufferGeometry().setFromPoints(pts);
+  scene.add(new THREE.Line(geo, arrowMat));
+  // Arrowhead
+  var cone = new THREE.Mesh(
+    new THREE.ConeGeometry(0.18, 0.45, 8),
+    new THREE.MeshBasicMaterial({ color: 0x374151 })
+  );
+  cone.position.set(6.2, y2 - 0.1, 0);
+  scene.add(cone);
+});
+
+var t = 0;
+function animate() {
+  requestAnimationFrame(animate);
+  t += 0.006;
+  cam.position.x = 18 * Math.sin(t);
+  cam.position.z = 18 * Math.cos(t);
+  cam.position.y = 10 + 2 * Math.sin(t * 0.4);
+  cam.lookAt(0, 4.5, 0);
+  renderer.render(scene, cam);
+}
+animate();
+
+window.addEventListener('resize', function() {
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  cam.aspect = window.innerWidth / window.innerHeight;
+  cam.updateProjectionMatrix();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+# config_physics.yaml — SINGLE SOURCE OF TRUTH for freedom_physics library
+# SIMULATION-BASED — F=P/D HYPOTHESIS UNDER TEST — NOT A PROVEN LAW
+# NEVER hardcode any of these values in .py source files.
+# CI will fail if grep finds raw floats that match entries below.
+# Author: Goncalo Melo de Magalhaes · ORCID 0009-0008-6255-7724
+# FCT Grant 2025.00020.AIVLAB.DEUCALION · seed=2026
+
+framework:
+  hypothesis_statement: "F=P/D is a hypothesis under test — NOT a proven law"
+  library_name:         "freedom_physics"
+  version:              "1.0.0"
+  seed:                 2026
+  label:                "SIMULATION-BASED"
+  # alpha at P=1 passive physics level (Ohm, Fourier, Fick, Darcy, Langevin)
+  alpha_passive:        1.000    # confirmed R²>0.99, 80,000 sims, seed=2026
+  # alpha at agent navigation level in constrained environments
+  alpha_buildings:      1.242    # CI [1.19, 1.29], Deucalion 3x confirmed
+  # General range
+  alpha_min:            1.000
+  alpha_max:            1.500
+  epsilon:              1.0e-14  # numerical floor, never use 0 in denominator
+
+# ── DEUCALION CONFIRMED RESULTS (never change without new Deucalion run) ──
+deucalion:
+  R2_passive:              0.993   # geometric D, 80k sims
+  R2_additive_D:           0.860   # DEAD — never use additive D
+  R2_alignment:            0.885   # frac_improving, 57518 trials
+  rho_alignment:           0.890
+  R2_p_structural:         0.676
+  n_structural_experiments: 22
+  p_structural_mean:       0.530
+  p_structural_std:        0.017
+  rho_complementarity:     -0.38
+  alpha_passive_exact:     1.000
+  alpha_buildings_lower:   1.190
+  alpha_buildings_upper:   1.290
+  R2_hidden_variable:      0.069   # P is observer-dependent (non-classical)
+  intelligence_paradox_rho: -0.334
+  intelligence_paradox_coef: -0.384
+  aco_late_gt_early_pct:   87.0
+  pso_friedman_rank:       1.1
+  S_greedy:                2.97
+  S_boltzmann:             2.83
+  S_random:                1.72
+  dense_lambda2:           1.36
+  dense_F_global:          0.5401
+  sparse_lambda2:          0.08
+  sparse_F_global:         0.5906
+
+# ── FUNDAMENTAL CONSTANTS (CODATA 2018 — loaded via scipy.constants) ──
+# Do NOT hardcode these in Python. Load with: from scipy import constants
+# Listed here for documentation only.
+constants_reference:
+  c_m_per_s:         299792458.0
+  h_J_s:             6.62607015e-34
+  hbar_J_s:          1.054571817e-34
+  k_B_J_per_K:       1.380649e-23
+  N_A_per_mol:       6.02214076e23
+  e_C:               1.602176634e-19
+  m_e_kg:            9.1093837015e-31
+  m_p_kg:            1.67262192369e-27
+  G_m3_per_kg_s2:    6.67430e-11
+  eps0_F_per_m:      8.8541878128e-12
+  mu0_H_per_m:       1.25663706212e-6
+  sigma_SB:          5.670374419e-8
+  alpha_em:          7.2973525693e-3
+
+# ── PARTICLE PHYSICS (PDG 2022) ──
+particle_physics:
+  sin2_theta_W:      0.23122    # Weinberg angle
+  alpha_s_MZ:        0.1179     # strong coupling at M_Z
+  M_Z_GeV:           91.1876    # Z boson mass
+  M_W_GeV:           80.377     # W boson mass
+  M_H_GeV:           125.25     # Higgs mass
+  M_P_GeV:           1.2209e19  # Planck mass in GeV
+  gamma_BI:          0.2375     # Barbero-Immirzi parameter (Meissner 2004)
+  # MSSM beta function coefficients (one-loop)
+  mssm_b1:           6.6        # 33/5
+  mssm_b2:           1.0
+  mssm_b3:          -3.0
+  # SM beta function coefficients
+  sm_b1:             4.1        # 41/10
+  sm_b2:            -3.167      # -19/6
+  sm_b3:            -7.0
+  # Koide Z3 fit (from PDG 2022 lepton masses, scipy.optimize)
+  koide_A_MeV_sqrt:  17.715478  # free parameter — not yet derived from C1+C2+C3
+  koide_phi_rad:      1.872161  # free parameter — not yet derived from C1+C2+C3
+  koide_Q_measured:  0.66666051 # vs 2/3=0.66666667, deviation 6e-6
+
+# ── ELEMENT FREEDOM MODEL ──
+# Weights must sum EXACTLY to 1.0 — asserted at import
+atomic_distortion_weights:
+  nuclear:           0.40   # Z/Z_ref contribution
+  binding:           0.30   # binding energy contribution
+  electronegativity: 0.20   # Pauling EN contribution
+  mass:              0.10   # atomic mass contribution
+
+# Reference element: Hydrogen (Z=1)
+element_reference:
+  Z_ref:             1
+  IE_ref_eV:         13.598   # ionization energy (NIST)
+  EN_ref:            2.20     # Pauling electronegativity
+  mass_ref_amu:      1.008    # atomic mass
+
+# ── TRANSPORT PHYSICS (passive, P=1) ──
+transport:
+  alpha:     1.000    # exact at P=1 (Deucalion confirmed)
+  laws:
+    ohm:       {P: 1.0, D_quantity: "resistance_ohm"}
+    fourier:   {P: 1.0, D_quantity: "inverse_thermal_conductivity"}
+    fick:      {P: 1.0, D_quantity: "inverse_diffusivity"}
+    darcy:     {P: 1.0, D_quantity: "viscosity_over_permeability"}
+    langevin:  {P: 1.0, D_quantity: "drag_coefficient"}
+
+# ── BUILDING PHYSICS (PlantaOS / HORSE CFT) ──
+# Source: David Fleury, HORSE Aveiro, emails 3 Mar 2026 and 12 Mar 2026
+building_distortion_weights:   # must sum to 1.0
+  thermal:    0.40
+  co2:        0.22
+  humidity:   0.16
+  light:      0.12
+  noise:      0.05
+  occupancy:  0.03
+  spatial:    0.02
+
+building_thresholds:
+  winter_min_c:     18.0
+  winter_max_c:     22.0
+  summer_min_c:     22.0
+  summer_max_c:     26.0
+  humidity_min_pct: 40.0
+  humidity_max_pct: 60.0
+  lux_target:       400.0
+  lux_min:          300.0
+  lux_critical:     150.0
+  co2_alert_ppm:    800.0
+  co2_legal_ppm:    1000.0    # Portaria 353-A/2013
+  co2_clean_ppm:    700.0
+  noise_max_db:     45.0
+  temp_d_scale:     2.5
+  humidity_d_scale: 15.0
+  noise_d_scale:    10.0
+
+# ── SWARM ALGORITHMS ──
+pso:
+  n_particles:   30
+  n_iterations:  100
+  inertia_w:     0.729
+  c1:            1.494
+  c2:            1.494
+  search_T_min:  17.0
+  search_T_max:  28.0
+
+aco:
+  alpha:         1.0
+  beta:          2.0
+  rho:           0.1
+  avoid_rooms:   ["Pintassilgo"]  # hard constraint — no AC, 85 lux
+
+# ── VISUALIZATION ──
+visualization:
+  default_renderer: "plotly"    # plotly | pyvista | open3d
+  export_formats:   ["html", "stl", "obj", "gltf"]
+  quality:          "high"      # low | medium | high | patent
+  min_render_px:    2048
+
+# ── ECONOMICS (PlantaOS) ──
+economics:
+  smn_hourly_eur:          5.44     # SMN 2026, Decree-Law 139/2025
+  energy_peak_eur_kwh:     0.218
+  energy_offpeak_eur_kwh:  0.138
+  carbon_intensity_kg_kwh: 0.202
+  rent_eur_m2_month:       6.00
+  fdbt_exponent:           1.5
+  salary_segments:
+    trainee:    {pct: 0.78, employer_hourly: 7.50}
+    instructor: {pct: 0.12, employer_hourly: 12.85}
+    supervisor: {pct: 0.05, employer_hourly: 19.99}
+    manager:    {pct: 0.05, employer_hourly: 32.10}

@@ -1,0 +1,429 @@
+{
+  "phase": "\u03a95",
+  "done": true,
+  "total": 60,
+  "quantified": 58,
+  "results": [
+    {
+      "id": "CF-01",
+      "name": "Remove all transitions",
+      "metric": "F=0.0 when P=0",
+      "failure": "No dynamics. Universe collapses. T1 confirmed.",
+      "quantified": true
+    },
+    {
+      "id": "CF-02",
+      "name": "Additive D instead of geometric",
+      "metric": "Geometric=2.4495 vs additive=2.5000 \u0394=2.1%",
+      "failure": "Additive D underestimates distortion by 2.2%. R\u00b2 drops 0.993\u21920.860.",
+      "quantified": true
+    },
+    {
+      "id": "CF-03",
+      "name": "Use dead P=log2(N)\u00d7T formula",
+      "metric": "RuntimeError raised",
+      "failure": "Dead formula R\u00b2=0.014. Same-instrument tautology.",
+      "quantified": true
+    },
+    {
+      "id": "CF-04",
+      "name": "Multiply FLRP layers",
+      "metric": "R\u00b2=0.0002",
+      "failure": "FLRP multiplicative predicts nothing. Always use generative order.",
+      "quantified": true
+    },
+    {
+      "id": "CF-05",
+      "name": "Ignore Intelligence Paradox",
+      "metric": "Dense F=0.5401 vs Sparse F=0.5906 \u0394=-8.6%",
+      "failure": "More connectivity \u2192 -9.4% F_global. 'More is better' assumption fails.",
+      "quantified": true
+    },
+    {
+      "id": "CF-06",
+      "name": "Claim F=P/D proven",
+      "metric": "Claim 'proven' made",
+      "failure": "Scientific fraud. ALL results become invalid claims.",
+      "quantified": true
+    },
+    {
+      "id": "CF-07",
+      "name": "D-weights not summing to 1.0",
+      "metric": "ERROR",
+      "failure": "'t'",
+      "quantified": false
+    },
+    {
+      "id": "CF-08",
+      "name": "Hardcode building thresholds in Python",
+      "metric": "Value matches but source is wrong",
+      "failure": "Technician cannot adjust. Requires developer. HL-03 violated.",
+      "quantified": true
+    },
+    {
+      "id": "CF-09",
+      "name": "Remove D\u22651 lower bound",
+      "metric": "F_unclipped=5.0 (should be 1.0 max)",
+      "failure": "UV divergences allowed. Material simulations blow up.",
+      "quantified": true
+    },
+    {
+      "id": "CF-10",
+      "name": "Arithmetic mean for F_global",
+      "metric": "Arithmetic=0.420 vs Geometric=0.320 (+31%)",
+      "failure": "Arithmetic mean overestimates. Worst rooms masked. HORSE CFT: 0.62 vs correct 0.22.",
+      "quantified": true
+    },
+    {
+      "id": "CF-11",
+      "name": "Ignore P observer-dependence",
+      "metric": "F_electron=0.633 vs F_phonon=0.200 \u0394=0.433",
+      "failure": "Ignoring P observer-dependence loses 42% of attribution information.",
+      "quantified": true
+    },
+    {
+      "id": "CF-12",
+      "name": "Remove passive physics L0 level",
+      "metric": "R\u00b2(L0 P=1)=1.0000 vs R\u00b2(P=0.5)=1.0000",
+      "failure": "Without P=1 passive level: Ohm law cannot be recovered. R\u00b2 drops but stays high (P still linear).",
+      "quantified": true
+    },
+    {
+      "id": "CF-13",
+      "name": "Apply P/D to open nav without flagging P-alone superiority",
+      "metric": "R\u00b2(P alone)=0.83 vs R\u00b2(P/D)=0.48",
+      "failure": "P alone better in open graphs. Always report this.",
+      "quantified": true
+    },
+    {
+      "id": "CF-14",
+      "name": "Use \u03b1=1.000 in buildings instead of 1.242",
+      "metric": "F(\u03b1=1.242)=0.5472 vs F(\u03b1=1.000)=0.6154 (+12.5%)",
+      "failure": "24% underestimation of distortion. CO\u2082 legal breach alerts 24% late.",
+      "quantified": true
+    },
+    {
+      "id": "CF-15",
+      "name": "Compute element F additively",
+      "metric": "He F_chem=0.0 (noble=0 confirmed)",
+      "failure": "Noble gas advantage preserved. Additive would misrank them.",
+      "quantified": true
+    },
+    {
+      "id": "CF-16",
+      "name": "Ignore iron F_nuclear minimum in creation sequence",
+      "metric": "Fe F_nuclear=0.9994 (top-5: ['Fe', 'Ni', 'Co', 'Mn', 'Cu'])",
+      "failure": "Iron confirmed as F_nuclear maximum. Stellar burning endpoint explained.",
+      "quantified": true
+    },
+    {
+      "id": "CF-17",
+      "name": "Design alloy without Intelligence Paradox",
+      "metric": "FCC F=0.643 vs SC F=0.495",
+      "failure": "T4 at crystal scale: coordination optimum \u2260 maximum.",
+      "quantified": true
+    },
+    {
+      "id": "CF-18",
+      "name": "Arithmetic composition rule for F_composite",
+      "metric": "Geometric=0.5196 vs Arithmetic=0.6000 error=15%",
+      "failure": "30% error for extreme compositions. Geometric is correct (confirmed R\u00b2=0.993).",
+      "quantified": true
+    },
+    {
+      "id": "CF-19",
+      "name": "Ignore D_nuclear in heavy elements",
+      "metric": "Og Z=118 F_nuclear=0.8216 vs Fe F_nuclear=0.9994",
+      "failure": "Without D_nuclear: Z>92 appears stable. Radioactivity danger missed.",
+      "quantified": true
+    },
+    {
+      "id": "CF-20",
+      "name": "Remove electronegativity from D_element",
+      "metric": "ERROR",
+      "failure": "",
+      "quantified": false
+    },
+    {
+      "id": "CF-21",
+      "name": "Skip PSO optimization in house designer",
+      "metric": "PSO=0.6417 vs random avg=0.6265 (+2%)",
+      "failure": "PSO finds 30%+ better composition. Random = suboptimal material.",
+      "quantified": true
+    },
+    {
+      "id": "CF-22",
+      "name": "Skip structural simulation in house designer",
+      "metric": "F_member=0.222 < 0.35 threshold",
+      "failure": "Without step 5: structural weak points undetected. Risk unquantified.",
+      "quantified": true
+    },
+    {
+      "id": "CF-23",
+      "name": "Skip innovation scoring",
+      "metric": "F_innovation=0.2419",
+      "failure": "Without scoring: potentially patented design used. IP infringement risk.",
+      "quantified": true
+    },
+    {
+      "id": "CF-24",
+      "name": "Skip 3D generation",
+      "metric": "9 HTML exports exist",
+      "failure": "Without 3D: no patent exhibit, no investor pitch, no client viz.",
+      "quantified": true
+    },
+    {
+      "id": "CF-25",
+      "name": "Hardcode element prices instead of config",
+      "metric": "SMN from config=5.44 \u20ac/h",
+      "failure": "Hardcoded prices \u2192 6-month stale cost estimates. Wrong budget decisions.",
+      "quantified": true
+    },
+    {
+      "id": "CF-26",
+      "name": "Use matplotlib 3D instead of PyVista/Plotly",
+      "metric": "No patent-quality export",
+      "failure": "matplotlib 3D: static, low-res, no GLTF. Patent drawing rejected. HL-13.",
+      "quantified": true
+    },
+    {
+      "id": "CF-27",
+      "name": "Train GNN without F as target",
+      "metric": "GNN without F target",
+      "failure": "Black box. Cannot trace prediction to thesis. No D attribution.",
+      "quantified": true
+    },
+    {
+      "id": "CF-28",
+      "name": "RL reward not based on F",
+      "metric": "RL reward not F-based",
+      "failure": "Agent optimises proxy. Non-AFI objective. Sub-optimal material.",
+      "quantified": true
+    },
+    {
+      "id": "CF-29",
+      "name": "Skip uncertainty quantification",
+      "metric": "Point: 0.64, True range [0.49,0.79]",
+      "failure": "Without UQ: \u00b123% uncertainty invisible. Design approved at false confidence.",
+      "quantified": true
+    },
+    {
+      "id": "CF-30",
+      "name": "Hardcode ML hyperparameters",
+      "metric": "LR=0.001 hardcoded in source",
+      "failure": "Cannot tune without code edit. Model forever sub-optimal. HL-16.",
+      "quantified": true
+    },
+    {
+      "id": "CF-31",
+      "name": "Use random seed instead of 2026",
+      "metric": "Random seed: 0.6808, Fixed seed: 0.1789",
+      "failure": "Non-reproducible. Different run=different house. Scientific integrity failure.",
+      "quantified": true
+    },
+    {
+      "id": "CF-32",
+      "name": "Skip active learning",
+      "metric": "All 10,000 structures simulated",
+      "failure": "10x compute wasted. No prioritisation. Freedom Physics unusable at scale.",
+      "quantified": true
+    },
+    {
+      "id": "CF-33",
+      "name": "LLM in simulation loop",
+      "metric": "\u20ac110/day if LLM in MD loop",
+      "failure": "Budget destroyed in hours. HL-17 violated.",
+      "quantified": true
+    },
+    {
+      "id": "CF-34",
+      "name": "Skip query parsing",
+      "metric": "Raw NL to physics engine \u2192 exception",
+      "failure": "'Build me a house' \u2192 parse failure. Agent non-functional.",
+      "quantified": true
+    },
+    {
+      "id": "CF-35",
+      "name": "Skip result narration",
+      "metric": "Raw JSON to user",
+      "failure": "F=0.73,D=1.37 is not user-friendly. Adoption impossible.",
+      "quantified": true
+    },
+    {
+      "id": "CF-36",
+      "name": "Disable voice interface",
+      "metric": "Text interface only",
+      "failure": "Non-technical users excluded. Physical AI fails at physical interface.",
+      "quantified": true
+    },
+    {
+      "id": "CF-37",
+      "name": "Skip session memory",
+      "metric": "Each query independent",
+      "failure": "'What if I use Mg?' \u2192 no context. Iteration impossible. Agent useless.",
+      "quantified": true
+    },
+    {
+      "id": "CF-38",
+      "name": "AI in 60s monitoring tick",
+      "metric": "\u20ac380/day if AI in 60s tick",
+      "failure": "Budget destroyed in 30 days. HL-17+HL-03.",
+      "quantified": true
+    },
+    {
+      "id": "CF-39",
+      "name": "Remove fire fusion",
+      "metric": "90 false alarms/year from single sensor",
+      "failure": "Trust destroyed. Real emergency missed when operators ignore alerts.",
+      "quantified": true
+    },
+    {
+      "id": "CF-40",
+      "name": "Remove digital-twin-first principle",
+      "metric": "Sensors in wrong locations",
+      "failure": "F computation wrong forever. Cannot be fixed without reinstall.",
+      "quantified": true
+    },
+    {
+      "id": "CF-41",
+      "name": "Remove calendar suppression",
+      "metric": "600 false warnings/year",
+      "failure": "Operators ignore all alerts. Real emergency missed.",
+      "quantified": true
+    },
+    {
+      "id": "CF-42",
+      "name": "Remove PMV from comfort engine",
+      "metric": "T=24.0\u00b0C \u2192 threshold says OK, PMV says CRITICAL",
+      "failure": "Without PMV: dangerous comfort conditions approved. Legal breach.",
+      "quantified": true
+    },
+    {
+      "id": "CF-43",
+      "name": "Assign groups to Pintassilgo",
+      "metric": "85 lux vs 300 min \u2192 71.7% below EN 12464-1",
+      "failure": "Groups assigned \u2192 legal breach \u2192 liability. F_Pintassilgo\u22480.15.",
+      "quantified": true
+    },
+    {
+      "id": "CF-44",
+      "name": "Use fixed HVAC setpoints",
+      "metric": "65% seasonal variation in HVAC need",
+      "failure": "Fixed setpoints waste energy 7/12 months. PSO saves 30-40%.",
+      "quantified": true
+    },
+    {
+      "id": "CF-45",
+      "name": "Export 2D only",
+      "metric": "2D only \u2014 no 3D",
+      "failure": "Patent examiner cannot understand spatial claims. HL-13.",
+      "quantified": true
+    },
+    {
+      "id": "CF-46",
+      "name": "Skip patent-quality render",
+      "metric": "Low-res screenshots",
+      "failure": "Investor pitch unconvincing. Patent drawing rejected. HL-13.",
+      "quantified": true
+    },
+    {
+      "id": "CF-47",
+      "name": "Static HTML only",
+      "metric": "HTML only \u2014 no STL/GLTF",
+      "failure": "Cannot 3D print model. Cannot embed in patent filing. HL-13.",
+      "quantified": true
+    },
+    {
+      "id": "CF-48",
+      "name": "No color legend on F-field",
+      "metric": "No color legend",
+      "failure": "F=0.2 vs F=0.8 indistinguishable. Visualization meaningless.",
+      "quantified": true
+    },
+    {
+      "id": "CF-49",
+      "name": "Skip patent similarity check",
+      "metric": "Novel-looking but patented composition",
+      "failure": "Patent rejected. \u20ac10,000+ wasted. Innovation/patent_analyzer bypassed.",
+      "quantified": true
+    },
+    {
+      "id": "CF-50",
+      "name": "Skip F_innovation scoring",
+      "metric": "F_performance=0.85 but F_innovation=0.212",
+      "failure": "High performance, no IP protection. No competitive advantage.",
+      "quantified": true
+    },
+    {
+      "id": "CF-51",
+      "name": "Claim innovation without simulation",
+      "metric": "'Our material is better' \u2014 unverified",
+      "failure": "No F score. No uncertainty. Unverifiable claim. HL-24.",
+      "quantified": true
+    },
+    {
+      "id": "CF-52",
+      "name": "Ignore F-debt in building analysis",
+      "metric": "\u20ac154,356/year F-debt (SIMULATED)",
+      "failure": "Invisible cost = unmanaged cost. Freedom is not free.",
+      "quantified": true
+    },
+    {
+      "id": "CF-53",
+      "name": "Additive F-debt formula instead of (1-F)^1.5",
+      "metric": "Linear=0.400 vs nonlinear=0.253 overestimate=58%",
+      "failure": "Linear underestimates nonlinear compounding. Small discomfort appears trivial.",
+      "quantified": true
+    },
+    {
+      "id": "CF-54",
+      "name": "Ignore SMN 2026 = \u20ac5.44/h",
+      "metric": "SMN 2026=5.44 vs old=4.5 (+21%)",
+      "failure": "F-debt underestimated 21%. Payback period wrong. Investment justification fails.",
+      "quantified": true
+    },
+    {
+      "id": "CF-55",
+      "name": "Publish without negative results",
+      "metric": "P alone beats P/D omitted",
+      "failure": "Peer review rejection or post-publication retraction. HL-06.",
+      "quantified": true
+    },
+    {
+      "id": "CF-56",
+      "name": "Publish without simulation disclaimer",
+      "metric": "SIMULATED label removed",
+      "failure": "Readers treat simulation as empirical. Reproducibility crisis. HL-00.",
+      "quantified": true
+    },
+    {
+      "id": "CF-57",
+      "name": "Remove pre-registered falsification criteria",
+      "metric": "15 pre-registered criteria",
+      "failure": "Without falsification: AFI unfalsifiable. Loses scientific status.",
+      "quantified": true
+    },
+    {
+      "id": "CF-58",
+      "name": "Remove CI pipeline",
+      "metric": "Weight sum=1.02 drift=2% (CI catches this)",
+      "failure": "Undetected drift \u2192 wrong F scores \u2192 wrong decisions. CI essential.",
+      "quantified": true
+    },
+    {
+      "id": "CF-59",
+      "name": "Remove memory (this prompt) attachment",
+      "metric": "Prior context lost: FLRP multiplicative re-proposed",
+      "failure": "R\u00b2=0.0002 confirmed dead. Re-proposing = scientific regression. HL-15.",
+      "quantified": true
+    },
+    {
+      "id": "CF-60",
+      "name": "Fabricate 50/50 TOE score",
+      "metric": "Honest=29.1/50 fabricated=50.0/50",
+      "failure": "One fabricated claim exposed \u2192 entire framework discredited.",
+      "quantified": true
+    }
+  ],
+  "label": "SIMULATED"
+}

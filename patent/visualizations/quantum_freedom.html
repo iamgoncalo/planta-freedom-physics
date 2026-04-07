@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<title>Quantum Freedom Field — F=P/D SIMULATED</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>body{margin:0;background:#fff;font-family:sans-serif;padding:16px;}
+h3{font-size:14px;margin-bottom:2px;}
+.sub{font-size:11px;color:#6b7280;margin-bottom:12px;}
+</style></head><body>
+<h3>Quantum Freedom Field — Hydrogen Atom Orbitals as F=P/D</h3>
+<div class="sub">P = electron radial probability density. D = nuclear Coulomb potential. F = P/D per orbital. Noble gas closed shells = maximum F_chemical=0 (minimum bonding distortion). SIMULATED · seed=2026</div>
+<canvas id="c" height="140"></canvas>
+<script>
+const D=[{"r": 0.1, "P_1s": 0.00819, "D_nuc": 50, "F_1s": 8e-05, "F_2p": 0.0}, {"r": 0.25, "P_1s": 0.03791, "D_nuc": 16.0, "F_1s": 0.00237, "F_2p": 2e-05}, {"r": 0.4, "P_1s": 0.07189, "D_nuc": 6.25, "F_1s": 0.0115, "F_2p": 0.00027}, {"r": 0.55, "P_1s": 0.10069, "D_nuc": 3.3058, "F_1s": 0.03046, "F_2p": 0.0016}, {"r": 0.7, "P_1s": 0.12083, "D_nuc": 2.0408, "F_1s": 0.05921, "F_2p": 0.00584}, {"r": 0.85, "P_1s": 0.13199, "D_nuc": 1.3841, "F_1s": 0.09536, "F_2p": 0.01612}, {"r": 1.0, "P_1s": 0.13534, "D_nuc": 1.0, "F_1s": 0.13534, "F_2p": 0.03679}, {"r": 1.15, "P_1s": 0.13259, "D_nuc": 0.7561, "F_1s": 0.17535, "F_2p": 0.07324}, {"r": 1.3, "P_1s": 0.12552, "D_nuc": 0.5917, "F_1s": 0.21213, "F_2p": 0.13155}, {"r": 1.45, "P_1s": 0.11569, "D_nuc": 0.4756, "F_1s": 0.24323, "F_2p": 0.21801}, {"r": 1.6, "P_1s": 0.10435, "D_nuc": 0.3906, "F_1s": 0.26714, "F_2p": 0.33873}, {"r": 1.75, "P_1s": 0.09248, "D_nuc": 0.3265, "F_1s": 0.28322, "F_2p": 0.49913}, {"r": 1.9, "P_1s": 0.08076, "D_nuc": 0.277, "F_1s": 0.29154, "F_2p": 0.70366}, {"r": 2.05, "P_1s": 0.06965, "D_nuc": 0.238, "F_1s": 0.29269, "F_2p": 0.95548}, {"r": 2.2, "P_1s": 0.05942, "D_nuc": 0.2066, "F_1s": 0.2876, "F_2p": 1.0}, {"r": 2.35, "P_1s": 0.05023, "D_nuc": 0.1811, "F_1s": 0.27739, "F_2p": 1.0}, {"r": 2.5, "P_1s": 0.04211, "D_nuc": 0.16, "F_1s": 0.2632, "F_2p": 1.0}, {"r": 2.65, "P_1s": 0.03505, "D_nuc": 0.1424, "F_1s": 0.24616, "F_2p": 1.0}, {"r": 2.8, "P_1s": 0.02899, "D_nuc": 0.1276, "F_1s": 0.22729, "F_2p": 1.0}, {"r": 2.95, "P_1s": 0.02384, "D_nuc": 0.1149, "F_1s": 0.20747, "F_2p": 1.0}, {"r": 3.1, "P_1s": 0.0195, "D_nuc": 0.1041, "F_1s": 0.18742, "F_2p": 1.0}, {"r": 3.25, "P_1s": 0.01588, "D_nuc": 0.0947, "F_1s": 0.16773, "F_2p": 1.0}, {"r": 3.4, "P_1s": 0.01288, "D_nuc": 0.0865, "F_1s": 0.14884, "F_2p": 1.0}, {"r": 3.55, "P_1s": 0.0104, "D_nuc": 0.0793, "F_1s": 0.13105, "F_2p": 1.0}, {"r": 3.7, "P_1s": 0.00837, "D_nuc": 0.073, "F_1s": 0.11456, "F_2p": 1.0}, {"r": 3.85, "P_1s": 0.00671, "D_nuc": 0.0675, "F_1s": 0.09949, "F_2p": 1.0}, {"r": 4.0, "P_1s": 0.00537, "D_nuc": 0.0625, "F_1s": 0.08588, "F_2p": 1.0}, {"r": 4.15, "P_1s": 0.00428, "D_nuc": 0.0581, "F_1s": 0.07371, "F_2p": 1.0}, {"r": 4.3, "P_1s": 0.0034, "D_nuc": 0.0541, "F_1s": 0.06294, "F_2p": 1.0}, {"r": 4.45, "P_1s": 0.0027, "D_nuc": 0.0505, "F_1s": 0.05348, "F_2p": 1.0}, {"r": 4.6, "P_1s": 0.00214, "D_nuc": 0.0473, "F_1s": 0.04524, "F_2p": 1.0}, {"r": 4.75, "P_1s": 0.00169, "D_nuc": 0.0443, "F_1s": 0.0381, "F_2p": 1.0}, {"r": 4.9, "P_1s": 0.00133, "D_nuc": 0.0416, "F_1s": 0.03197, "F_2p": 1.0}, {"r": 5.05, "P_1s": 0.00105, "D_nuc": 0.0392, "F_1s": 0.02672, "F_2p": 1.0}, {"r": 5.2, "P_1s": 0.00082, "D_nuc": 0.037, "F_1s": 0.02225, "F_2p": 1.0}, {"r": 5.35, "P_1s": 0.00065, "D_nuc": 0.0349, "F_1s": 0.01847, "F_2p": 1.0}, {"r": 5.5, "P_1s": 0.00051, "D_nuc": 0.0331, "F_1s": 0.01528, "F_2p": 1.0}, {"r": 5.65, "P_1s": 0.00039, "D_nuc": 0.0313, "F_1s": 0.01261, "F_2p": 1.0}, {"r": 5.8, "P_1s": 0.00031, "D_nuc": 0.0297, "F_1s": 0.01037, "F_2p": 1.0}, {"r": 5.95, "P_1s": 0.00024, "D_nuc": 0.0282, "F_1s": 0.00851, "F_2p": 1.0}];
+const labels=D.map(o=>o.r.toFixed(1));
+new Chart(document.getElementById('c'),{type:'line',
+  data:{labels,datasets:[
+    {label:'P_1s (perception)',data:D.map(o=>o.P_1s),borderColor:'#2563eb',
+      backgroundColor:'rgba(37,99,235,0.05)',fill:true,borderWidth:2,pointRadius:0,tension:0.4},
+    {label:'D_nuclear (Coulomb)',data:D.map(o=>Math.min(o.D_nuc,0.5)),borderColor:'#dc2626',
+      borderWidth:2,pointRadius:0,borderDash:[6,4],tension:0.2},
+    {label:'F_1s = P/D (Freedom)',data:D.map(o=>o.F_1s),borderColor:'#16a34a',
+      backgroundColor:'rgba(22,163,74,0.08)',fill:true,borderWidth:2,pointRadius:0,tension:0.3},
+  ]},
+  options:{responsive:true,
+    plugins:{legend:{display:true,position:'bottom'},
+      title:{display:true,text:'Hydrogen 1s: F=P/D where P=radial density, D=Coulomb potential (normalised a₀=1)'}},
+    scales:{
+      y:{min:0,max:0.5,title:{display:true,text:'Value (normalised)'}},
+      x:{title:{display:true,text:'Radial distance r (Bohr radii a₀)'}}}}});
+</script></body></html>

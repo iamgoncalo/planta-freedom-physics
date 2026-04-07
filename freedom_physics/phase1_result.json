@@ -1,0 +1,476 @@
+{
+  "phase": 1,
+  "done": true,
+  "timestamp": "2026-04-02T00:00:00Z",
+  "score": {
+    "supported": 11,
+    "partial": 31,
+    "not_addressed": 8,
+    "honest_score": 26.5,
+    "out_of": 50,
+    "pct": 53.0
+  },
+  "criteria": [
+    {
+      "id": 1,
+      "group": "I",
+      "criterion": "Unique derivation from minimal axioms",
+      "status": "SUPPORTED",
+      "evidence": "C1+C2+C3 \u2192 F=P/D uniquely (only power law satisfying all 3). alpha=1.000 at P=1 (zero free parameters passive). 80k sims confirmed.",
+      "gap": "alpha=1.242 in navigation has CI [1.19,1.29] \u2014 not zero at agent level.",
+      "thesis": "T2"
+    },
+    {
+      "id": 2,
+      "group": "I",
+      "criterion": "Mathematical self-consistency, no contradictions",
+      "status": "SUPPORTED",
+      "evidence": "60/60 tests pass. Cross-layer R2<0.02. Geometric D R2=0.993 vs additive 0.860. No contradictions found.",
+      "gap": "QG renormalizability unproven.",
+      "thesis": "T2+T3"
+    },
+    {
+      "id": 3,
+      "group": "I",
+      "criterion": "Occam's razor \u2014 minimal free parameters",
+      "status": "SUPPORTED",
+      "evidence": "3 axioms. 1 equation. alpha=1 at P=1. Simpler than String Theory/LQG/SM. Koide 2/3 from Z3.",
+      "gap": "Absolute fermion mass scale has 2 free parameters (A,phi).",
+      "thesis": "T2"
+    },
+    {
+      "id": 4,
+      "group": "I",
+      "criterion": "All derivations traceable to axioms",
+      "status": "PARTIAL",
+      "evidence": "Transport laws, gravity, Fermat traceable. FLRP to T3. Intelligence Paradox to T4.",
+      "gap": "QM derivation requires additional observer-level assumptions beyond C1+C2+C3.",
+      "thesis": "T2"
+    },
+    {
+      "id": 5,
+      "group": "I",
+      "criterion": "Closed under logic \u2014 predictions decidable",
+      "status": "PARTIAL",
+      "evidence": "F=P/D decidable for given (P,D). FLRP decidable. 15 falsification criteria registered.",
+      "gap": "Open topologies underdetermined. P alone beats P/D in open graphs (R2=0.83 vs 0.48).",
+      "thesis": "T2+T4"
+    },
+    {
+      "id": 6,
+      "group": "II",
+      "criterion": "Gravity unified",
+      "status": "SUPPORTED",
+      "evidence": "F_grav=GM/r2 (P=GM,D=r2) R2>0.99. GR geodesic=max F path. Equiv.principle=local D=0. Planck: D_Q=D_G=1.000000 exactly. Hawking T_H=P/D_BH computed.",
+      "gap": "Full GR tensor recovery not confirmed. Weak-field only.",
+      "thesis": "T2+T5"
+    },
+    {
+      "id": 7,
+      "group": "II",
+      "criterion": "Electromagnetism unified",
+      "status": "SUPPORTED",
+      "evidence": "Ohm R2>0.99 alpha=1.000. c2=1/(eps0*mu0). Weinberg angle sin2W=D_weak/(D_weak+D_EM)=0.231 consistent.",
+      "gap": "Full Maxwell derivation from C1+C2+C3: structural parallel not formal.",
+      "thesis": "T2"
+    },
+    {
+      "id": 8,
+      "group": "II",
+      "criterion": "Strong nuclear force unified",
+      "status": "SUPPORTED",
+      "evidence": "QCD asymptotic freedom: alpha_s(r)\u21920 as r\u21920. D_color=alpha_s*r. F_color=P/D_color. Confinement: D\u2192inf. Nobel 2004 confirmed. IS the F=P/D mathematics.",
+      "gap": "Formal QCD Lagrangian derivation from C1+C2+C3: not done.",
+      "thesis": "T1+T2+T5"
+    },
+    {
+      "id": 9,
+      "group": "II",
+      "criterion": "Weak nuclear force unified",
+      "status": "PARTIAL",
+      "evidence": "D_weak/D_EM=(M_W/E)2. At E=M_W: D_weak=D_EM. MSSM: E_GUT=1.43e16 GeV, alpha_GUT=0.0388, Delta=0.000616.",
+      "gap": "W/Z mass prediction from C1+C2+C3: not achieved.",
+      "thesis": "T2"
+    },
+    {
+      "id": 10,
+      "group": "II",
+      "criterion": "Quantum mechanics recovered",
+      "status": "PARTIAL",
+      "evidence": "Tunneling R2>0.99. de Broglie P=h/D. Planck D_Q=D_G exact. Koide Z3 derived.",
+      "gap": "Schrodinger not fully derived. Heisenberg uncertainty: structural parallel.",
+      "thesis": "T2+T3"
+    },
+    {
+      "id": 11,
+      "group": "II",
+      "criterion": "General Relativity recovered as limit",
+      "status": "PARTIAL",
+      "evidence": "Newtonian limit R2>0.99. Equivalence=local D=0 (GPS confirmed). Schwarzschild F->0 at r=r_s. Hawking computed.",
+      "gap": "Full GR metric tensor from AFI: proposed not confirmed.",
+      "thesis": "T2+T5"
+    },
+    {
+      "id": 12,
+      "group": "II",
+      "criterion": "Standard Model particle spectrum recovered",
+      "status": "PARTIAL",
+      "evidence": "17 particles as P/D: bosons=D=0, fermions=P>1, Higgs=D_mass. 3 generations=P-levels. Koide Z3: Q=2/3.",
+      "gap": "Absolute fermion masses not predicted. 13 Yukawa params free. CKM/PMNS not derived.",
+      "thesis": "T2+T3"
+    },
+    {
+      "id": 13,
+      "group": "II",
+      "criterion": "Unification at single scale, no fine-tuning",
+      "status": "PARTIAL",
+      "evidence": "MSSM: E_GUT=1.43e16 GeV exact (Delta=0.000616). D_GUT=25.8. SM: near but not exact.",
+      "gap": "E_GUT not derived from C1+C2+C3 alone. SUSY at 1 TeV: additional assumption.",
+      "thesis": "T2"
+    },
+    {
+      "id": 14,
+      "group": "II",
+      "criterion": "Spacetime geometry unified with quantum fields",
+      "status": "PARTIAL",
+      "evidence": "Planck: D_Q=D_G=1.000000. LQG A_min=1.350e-69 m2 gives D_max. G(k) finite for all k.",
+      "gap": "Full QG renormalizability: UV counterterm cancellation unproven.",
+      "thesis": "T2+T5"
+    },
+    {
+      "id": 15,
+      "group": "II",
+      "criterion": "Supersymmetry or equivalent symmetry derived",
+      "status": "NOT_ADDRESSED",
+      "evidence": "MSSM used as tool, not derived from C1+C2+C3.",
+      "gap": "SUSY emergence from AFI: not shown.",
+      "thesis": "None"
+    },
+    {
+      "id": 16,
+      "group": "II",
+      "criterion": "All four forces same coupling at unification",
+      "status": "PARTIAL",
+      "evidence": "MSSM: alpha_1\u2248alpha_2\u2248alpha_3\u22480.0388 at E_GUT (Delta=0.000616). D_GUT=25.8.",
+      "gap": "One-loop only. Higher-loop corrections and threshold effects not computed.",
+      "thesis": "T2"
+    },
+    {
+      "id": 17,
+      "group": "III",
+      "criterion": "Fine structure constant alpha~1/137 predicted",
+      "status": "NOT_ADDRESSED",
+      "evidence": "No derivation of alpha_em from C1+C2+C3.",
+      "gap": "Requires Higgs VEV and electric charge scale: both free in AFI.",
+      "thesis": "None"
+    },
+    {
+      "id": 18,
+      "group": "III",
+      "criterion": "Electron mass predicted from first principles",
+      "status": "PARTIAL",
+      "evidence": "Koide Z3: Q=2/3 derived (ratio). A=17.715 MeV^(1/2) gives m_e with residual 1.28e-7. Ratio derived; absolute scale A: still free.",
+      "gap": "A must come from C1+C2+C3. Candidate A~M_P*alpha_em^(3/2): not proved.",
+      "thesis": "T2"
+    },
+    {
+      "id": 19,
+      "group": "III",
+      "criterion": "Proton-to-electron mass ratio predicted",
+      "status": "NOT_ADDRESSED",
+      "evidence": "m_p/m_e=1836.15. No AFI derivation.",
+      "gap": "Requires quark mass and QCD binding from C1+C2+C3: both open.",
+      "thesis": "None"
+    },
+    {
+      "id": 20,
+      "group": "III",
+      "criterion": "Cosmological constant predicted",
+      "status": "NOT_ADDRESSED",
+      "evidence": "Structural parallel only. No quantitative prediction.",
+      "gap": "Requires full QG renormalization: open.",
+      "thesis": "None"
+    },
+    {
+      "id": 21,
+      "group": "III",
+      "criterion": "Fermion mass hierarchy quantitatively predicted",
+      "status": "PARTIAL",
+      "evidence": "Power law R2=0.994/0.995/0.969 for up/down/leptons. Koide Q=2/3 from Z3. Pattern confirmed.",
+      "gap": "Specific alpha values (4.077,5.644,3.399) not derived. D_0 not derived.",
+      "thesis": "T2"
+    },
+    {
+      "id": 22,
+      "group": "III",
+      "criterion": "CKM/PMNS mixing angles predicted",
+      "status": "NOT_ADDRESSED",
+      "evidence": "No AFI derivation.",
+      "gap": "Full SM flavor structure from C1+C2+C3: open frontier.",
+      "thesis": "None"
+    },
+    {
+      "id": 23,
+      "group": "IV",
+      "criterion": "Space and time emerge from more fundamental structure",
+      "status": "PARTIAL",
+      "evidence": "T5: space=crystallized D. Time=direction of increasing D (Second Law). LQG A_min gives discrete spacetime.",
+      "gap": "Formal metric emergence mechanism: not fully derived.",
+      "thesis": "T5"
+    },
+    {
+      "id": 24,
+      "group": "IV",
+      "criterion": "Matter emerges from geometry/topology",
+      "status": "PARTIAL",
+      "evidence": "T5: matter=crystallized D patterns. Particles=(P,D) configs. 118 elements as P/D computed.",
+      "gap": "Why specific D values give specific particles: not derived.",
+      "thesis": "T5"
+    },
+    {
+      "id": 25,
+      "group": "IV",
+      "criterion": "Energy has fundamental definition",
+      "status": "PARTIAL",
+      "evidence": "Energy=capacity to change D. Boltzmann F=kT/E_barrier (derived). Free energy A=U-TS: equilibrium maximizes F.",
+      "gap": "Full energy-D duality: structural parallel not formal derivation.",
+      "thesis": "T2+T4"
+    },
+    {
+      "id": 26,
+      "group": "IV",
+      "criterion": "Fields have ontological status from framework",
+      "status": "PARTIAL",
+      "evidence": "D field=distortion at each point. F field computed for buildings R2>0.99 and tunneling R2>0.99.",
+      "gap": "Field quantization (QFT) from AFI: not derived. Gauge symmetries not derived.",
+      "thesis": "T2+T5"
+    },
+    {
+      "id": 27,
+      "group": "IV",
+      "criterion": "Why these laws not others \u2014 selection principle",
+      "status": "PARTIAL",
+      "evidence": "C1+C2+C3 uniquely select F=P/D. d=3 proven unique. Noble gas stability from max F_element.",
+      "gap": "Meta-axiom justification: why C1+C2+C3 specifically? Not grounded further.",
+      "thesis": "T1+T2"
+    },
+    {
+      "id": 28,
+      "group": "IV",
+      "criterion": "Laws vs initial conditions distinction explained",
+      "status": "PARTIAL",
+      "evidence": "T1: Freedom=irreducible initial condition. F=P/D=law of transitions. T5: D crystallization distinguishes.",
+      "gap": "Precise demarcation: partially addressed.",
+      "thesis": "T1+T5"
+    },
+    {
+      "id": 29,
+      "group": "V",
+      "criterion": "Big Bang explained",
+      "status": "PARTIAL",
+      "evidence": "T1+T5: Big Bang=maximum Freedom (D~0). Expansion=D crystallization. Creation sequence: H->He->stellar->heavy elements (increasing D order confirmed).",
+      "gap": "Quantitative initial conditions not predicted from C1+C2+C3.",
+      "thesis": "T1+T5"
+    },
+    {
+      "id": 30,
+      "group": "V",
+      "criterion": "Cosmic evolution explained",
+      "status": "PARTIAL",
+      "evidence": "Creation sequence: H,He (max F) -> stellar burning (increasing D) -> Fe peak (min F in fusion) -> r-process -> heavy elements (max D). Direction correct by T5.",
+      "gap": "Quantitative timeline not derived. Nucleosynthesis rates not computed.",
+      "thesis": "T1+T2+T5"
+    },
+    {
+      "id": 31,
+      "group": "V",
+      "criterion": "Dark matter has theoretical basis",
+      "status": "NOT_ADDRESSED",
+      "evidence": "Structural parallel: dark matter=unobserved D. No quantitative prediction.",
+      "gap": "Particle candidate, density, distribution: not predicted.",
+      "thesis": "None"
+    },
+    {
+      "id": 32,
+      "group": "V",
+      "criterion": "Dark energy has theoretical basis",
+      "status": "NOT_ADDRESSED",
+      "evidence": "Structural parallel: dark energy=residual F gradient. No quantitative prediction.",
+      "gap": "Lambda value not predicted.",
+      "thesis": "None"
+    },
+    {
+      "id": 33,
+      "group": "V",
+      "criterion": "Arrow of time explained",
+      "status": "SUPPORTED",
+      "evidence": "Time direction=increasing D (T5). Second Law: D increases spontaneously. One time dim=one D-accumulation direction. Two-time counterfactual: causality violated (falsified).",
+      "gap": "Quantitative irreversibility rate not derived.",
+      "thesis": "T5"
+    },
+    {
+      "id": 34,
+      "group": "VI",
+      "criterion": "At least one unique falsifiable prediction confirmed",
+      "status": "SUPPORTED",
+      "evidence": "Intelligence Paradox: rho=-1.0, R2=0.962. 15 pre-registered criteria. d=3 unique (F_total=0 for d!=3). P_structural scale-invariant 0.530+-0.017.",
+      "gap": "Physical sensor validation at HORSE CFT pending April 2026.",
+      "thesis": "T4"
+    },
+    {
+      "id": 35,
+      "group": "VI",
+      "criterion": "Predicts new phenomena not in existing theories",
+      "status": "SUPPORTED",
+      "evidence": "Intelligence Paradox (no equivalent in graph theory). P_structural pre-execution predictor. Koide Z3 first principles derivation. d=3 uniqueness proof.",
+      "gap": "New particle physics phenomena: not predicted.",
+      "thesis": "T2+T4"
+    },
+    {
+      "id": 36,
+      "group": "VI",
+      "criterion": "Predictions confirmed at multiple energy scales",
+      "status": "PARTIAL",
+      "evidence": "Building: HORSE CFT simulation. Atomic: transport R2>0.99. Quantum: tunneling R2>0.99. Nuclear: QCD D_color. Planck: D_Q=D_G.",
+      "gap": "Inter-scale predictions: one scale predicting another not done.",
+      "thesis": "T2"
+    },
+    {
+      "id": 37,
+      "group": "VI",
+      "criterion": "Quantitative predictions with error bars",
+      "status": "PARTIAL",
+      "evidence": "alpha_buildings=1.242 CI=[1.19,1.29]. D_geometric R2=0.993. MSSM alpha_GUT=0.0388+-0.000616. Koide Q deviation=6e-6.",
+      "gap": "Most particle predictions qualitative. Fermion absolute masses: not predicted.",
+      "thesis": "T2"
+    },
+    {
+      "id": 38,
+      "group": "VI",
+      "criterion": "Retrodicts all established experimental results",
+      "status": "PARTIAL",
+      "evidence": "Ohm/Fourier/Fick/Darcy/Langevin R2>0.99. Fermat=identity. Newton=confirmed. Koide PDG masses. MSSM unification.",
+      "gap": "QED precision (g-2, Lamb shift): not retrodicted. QCD bound state spectrum: not retrodicted.",
+      "thesis": "T2"
+    },
+    {
+      "id": 39,
+      "group": "VII",
+      "criterion": "Shannon entropy emerges naturally",
+      "status": "PARTIAL",
+      "evidence": "Channel capacity C=B*log(1+S/N) -> F=P/D (P=signal,D=noise). Structural parallel.",
+      "gap": "Formal Shannon derivation from C1+C2+C3: not done.",
+      "thesis": "T2+T5"
+    },
+    {
+      "id": 40,
+      "group": "VII",
+      "criterion": "Holographic principle derived",
+      "status": "PARTIAL",
+      "evidence": "BH entropy S=A/4l_P2=boundary D accumulation. LQG A_min=minimum D quantum. Computed for all test masses.",
+      "gap": "Maldacena AdS/CFT: not addressed. Formal holographic bound from C1+C2+C3: structural parallel.",
+      "thesis": "T2+T5"
+    },
+    {
+      "id": 41,
+      "group": "VII",
+      "criterion": "Quantum information (entanglement, decoherence) explained",
+      "status": "PARTIAL",
+      "evidence": "Entanglement=high P low D superposition. Decoherence=D injection by environment. Measurement=D-injection collapsing paths.",
+      "gap": "No-cloning theorem from AFI: not derived. Bell inequalities: structural parallel.",
+      "thesis": "T2+T3"
+    },
+    {
+      "id": 42,
+      "group": "VII",
+      "criterion": "Bekenstein bound derived",
+      "status": "PARTIAL",
+      "evidence": "Max information ~ area = F at holographic surface. BH entropy computed S=A/4l_P2. A_min consistent.",
+      "gap": "Formal Bekenstein bound as F=P/D theorem: structural parallel.",
+      "thesis": "T2+T5"
+    },
+    {
+      "id": 43,
+      "group": "VIII",
+      "criterion": "Measurement problem resolved",
+      "status": "PARTIAL",
+      "evidence": "Measurement=D injection. Wavefunction=path availability (P). Collapse=one path selected (D->inf for others). P observer-dependent confirmed R2=0.069 non-classical.",
+      "gap": "Preferred basis problem not resolved. Many-worlds vs Copenhagen not adjudicated.",
+      "thesis": "T2+T3"
+    },
+    {
+      "id": 44,
+      "group": "VIII",
+      "criterion": "Observer has formal role",
+      "status": "SUPPORTED",
+      "evidence": "P is observer-dependent (T2, confirmed R2=0.069). Three P-levels: passive/topological/agent. Complementarity rho(P_topo,P_struct)=-0.38.",
+      "gap": "Consciousness as maximum P: acknowledged OPEN.",
+      "thesis": "T2"
+    },
+    {
+      "id": 45,
+      "group": "VIII",
+      "criterion": "Hard problem of consciousness addressed",
+      "status": "PARTIAL",
+      "evidence": "P=differentiation capacity. Consciousness=P at max differentiation. Wigner's comprehensibility: F=P/D shared by cognition and physics (T4).",
+      "gap": "Why subjective experience accompanies high P: not resolved. Acknowledged OPEN.",
+      "thesis": "T2+T4"
+    },
+    {
+      "id": 46,
+      "group": "IX",
+      "criterion": "Framework explains itself (self-referential)",
+      "status": "PARTIAL",
+      "evidence": "Freedom (T1) is self-grounding: without Freedom no derivation possible. F=P/D applies to reasoning: P=clarity, D=complexity.",
+      "gap": "Formal Godel-type self-reference analysis: not done.",
+      "thesis": "T1+T4"
+    },
+    {
+      "id": 47,
+      "group": "IX",
+      "criterion": "Reduces to existing theories without contradiction",
+      "status": "SUPPORTED",
+      "evidence": "P=1 limit: all transport R2>0.99. Fermat=identity. Newton=confirmed. QM tunneling=confirmed. No contradictions.",
+      "gap": "Full QFT limit not confirmed. SM Lagrangian not recovered.",
+      "thesis": "T2"
+    },
+    {
+      "id": 48,
+      "group": "IX",
+      "criterion": "Solves fine-tuning problem",
+      "status": "PARTIAL",
+      "evidence": "d=3 proven unique. Noble gas stability from max F. Koide 2/3 from Z3. These reduce fine-tuning for dimensionality and lepton ratios.",
+      "gap": "Fine structure constant, proton mass, Lambda: not explained.",
+      "thesis": "T2+T5"
+    },
+    {
+      "id": 49,
+      "group": "IX",
+      "criterion": "Anthropic principle has theoretical basis",
+      "status": "PARTIAL",
+      "evidence": "d=3 unique->stable orbits+atoms->life possible. CHNOPS medium-F window (0.15-0.55) derived. T5: stable observers require max D substrate.",
+      "gap": "Strong anthropic (why observers necessary): not resolved.",
+      "thesis": "T1+T5"
+    },
+    {
+      "id": 50,
+      "group": "IX",
+      "criterion": "Theory is complete \u2014 nothing knowable outside it",
+      "status": "NOT_ADDRESSED",
+      "evidence": "Completeness not claimed. AFI is hypothesis under test.",
+      "gap": "Completeness would require all phenomena as F=P/D manifestations: not done.",
+      "thesis": "None"
+    }
+  ],
+  "negative_results": [
+    "Supersymmetry or equivalent symmetry derived",
+    "Fine structure constant alpha~1/137 predicted",
+    "Proton-to-electron mass ratio predicted",
+    "Cosmological constant predicted",
+    "CKM/PMNS mixing angles predicted",
+    "Dark matter has theoretical basis",
+    "Dark energy has theoretical basis",
+    "Theory is complete \u2014 nothing knowable outside it"
+  ],
+  "label": "SIMULATED. F=P/D HYPOTHESIS UNDER TEST. seed=2026."
+}

@@ -1,0 +1,273 @@
+ai_agents:
+  cache_ttl_seconds: 3600
+  cost_limit_day_eur: 2.0
+  cost_limit_month_eur: 7.0
+  max_tokens: 2000
+  model: claude-sonnet-4-5-20251001
+alpha:
+  atomic: 1.0
+  buildings: 1.242
+  materials: 1.0
+  molecular: 1.0
+  open_navigation: 1.0
+  passive_physics: 1.0
+atomic_distortion_weights:
+  atomic_mass: 0.1
+  atomic_radius: 0.05
+  binding: 0.25
+  electronegativity: 0.2
+  melting_point: 0.05
+  nuclear: 0.35
+building:
+  area_m2: 950
+  co2_alert_ppm: 800.0
+  co2_clean_ppm: 700.0
+  co2_legal_ppm: 1000.0
+  f_baseline: 0.2229
+  fem_alert_threshold: 0.3
+  floors: 2
+  humidity_d_scale: 15.0
+  humidity_max_pct: 60.0
+  humidity_min_pct: 40.0
+  hvac_capacity_w: 7034
+  hvac_cop: 3.2
+  hvac_units: 12
+  location: Rua da Junqueira, Cacia, 3800-640 Aveiro, Portugal
+  lux_critical: 150.0
+  lux_min: 300.0
+  lux_target: 400.0
+  name: HORSE CFT
+  noise_d_scale: 10.0
+  noise_max_db: 45.0
+  rooms: 24
+  summer_max_c: 26.0
+  summer_min_c: 22.0
+  temp_d_scale: 2.5
+  users_2025: 3219
+  winter_max_c: 22.0
+  winter_min_c: 18.0
+building_distortion_weights:
+  co2: 0.22
+  humidity: 0.16
+  light: 0.12
+  noise: 0.05
+  occupancy: 0.03
+  spatial: 0.02
+  thermal: 0.4
+cosmology:
+  H0_km_s_Mpc: 67.4
+  Lambda_m2: 1.089e-52
+  Omega_DM: 0.266
+  Omega_Lambda: 0.6847
+  Omega_baryon: 0.0493
+  Omega_matter: 0.3153
+  T_CMB_K: 2.7255
+  m_Planck_kg: 2.176434e-08
+  n_s: 0.9649
+  r_Hubble_m: 1.303e+26
+  sigma_8: 0.8111
+  t_Planck_s: 5.391247e-44
+  t_universe_Gyr: 13.787
+  z_recombination: 1089.8
+deucalion:
+  aco_late_gt_early_pct: 87.0
+  aco_trials: 2987
+  additive_d_r2: 0.86
+  additive_r2: 0.86
+  alignment_n_trials: 57518
+  alignment_r2: 0.885
+  alignment_trials: 57518
+  alpha_buildings: 1.242
+  alpha_buildings_ci_hi: 1.29
+  alpha_buildings_ci_lo: 1.19
+  dense_F_global: 0.5401
+  dense_lambda2: 1.36
+  flrp_multiplicative_r2: 0.0002
+  geometric_d_r2: 0.993
+  geometric_r2: 0.993
+  intelligence_paradox_coef: -0.384
+  intelligence_paradox_r2: 0.962
+  intelligence_paradox_rho: -0.334
+  intelligence_paradox_rho_val: -0.334
+  note: Confirmed 3x, Deucalion HPC, MACC Guimarães, FCT 2025.00020.AIVLAB.DEUCALION
+  p_alone_open_r2: 0.83
+  p_over_d_open_r2: 0.48
+  seed: 2026
+  sparse_F_global: 0.5906
+  sparse_lambda2: 0.08
+economics:
+  carbon_intensity_kg_kwh: 0.202
+  energy_offpeak_eur_kwh: 0.138
+  energy_peak_eur_kwh: 0.218
+  epsilon: 1.0e-14
+  fdbt_exponent: 1.5
+  rent_eur_m2_month: 6.0
+  salary_segments:
+    instructor:
+      employer_hourly: 12.85
+      gross_month: 1800
+      pct: 0.12
+    manager:
+      employer_hourly: 32.1
+      gross_month: 4500
+      pct: 0.05
+    supervisor:
+      employer_hourly: 19.99
+      gross_month: 2800
+      pct: 0.05
+    trainee:
+      employer_hourly: 7.5
+      gross_month: 1050
+      pct: 0.78
+  smn_hourly_eur: 5.44
+innovation:
+  cost_weight: 0.3
+  novelty_threshold: 0.75
+  patent_similarity_threshold: 0.85
+  performance_weight: 0.7
+material_costs:
+  Al_eur_per_kg: 2.2
+  C_graphite_eur_per_kg: 0.5
+  Cu_eur_per_kg: 9.5
+  Fe_eur_per_kg: 0.8
+  Mg_eur_per_kg: 2.8
+  Si_eur_per_kg: 1.8
+  Ti_eur_per_kg: 35.0
+  W_eur_per_kg: 55.0
+  construction_labour_eur_per_m2: 180.0
+  contingency_factor: 0.15
+material_freedom_weights:
+  chemical: 0.1
+  electrical: 0.2
+  mechanical: 0.15
+  structural: 0.3
+  thermal: 0.25
+memory:
+  cold_dir: data/archive
+  hot_days: 7
+  hot_db: data/plantaos.db
+  warm_days: 30
+  warm_db: data/plantaos_warm.duckdb
+meta:
+  author: Goncalo Melo de Magalhaes
+  contact: hi@planta.design
+  grant: FCT 2025.00020.AIVLAB.DEUCALION
+  hypothesis: F=P/D is a hypothesis under test — NOT a proven law
+  orcid: 0009-0008-6255-7724
+  seed: 2026
+  simulated_label: SIMULATED — F=P/D HYPOTHESIS UNDER TEST — NOT A PROVEN LAW
+  version: '3.0'
+ml:
+  active_learning_budget: 100
+  batch_size: 32
+  diffusion_steps: 1000
+  dropout: 0.1
+  epochs: 100
+  gnn_type: GAT
+  hidden_dims:
+  - 256
+  - 128
+  - 64
+  learning_rate: 0.001
+  mc_dropout_samples: 50
+  noise_schedule: cosine
+  rl_algorithm: PPO
+  rl_gamma: 0.99
+  rl_n_steps: 2048
+  transformer_context: 48
+  uq_method: mc_dropout
+molecular_dynamics:
+  ensemble: NVT
+  friction_1_per_ps: 0.01
+  n_steps: 10000
+  temperature_K: 300.0
+  thermostat: Langevin
+  timestep_fs: 1.0
+particle_physics:
+  BE_max_MeV: 8.795
+  E_GUT_GeV: 2.0e+16
+  M_H_GeV: 125.25
+  M_W_GeV: 80.377
+  M_Z_GeV: 91.188
+  N_colour: 3
+  N_generations: 3
+  V_us: 0.225
+  alpha_GUT: 0.04
+  alpha_s_MZ: 0.1181
+  b3_qcd: -7.0
+  iron_A: 56
+  iron_Z: 26
+  m_b_GeV: 4.18
+  m_c_GeV: 1.27
+  m_d_MeV: 4.67
+  m_e_MeV: 0.511
+  m_mu_MeV: 105.658
+  m_p_MeV: 938.272
+  m_s_MeV: 93.4
+  m_t_GeV: 172.69
+  m_tau_MeV: 1776.86
+  m_u_MeV: 2.16
+  note: 'Standard Model constants — sources: PDG 2022'
+  sin2_theta_W: 0.23122
+  sm_b3: -7.0
+  theta_12_pmns: 0.5836
+  theta_23_pmns: 0.739
+perception:
+  dead_formula: log2(N)*T
+  dead_r2: 0.014
+  dead_reason: same-instrument tautology (HL-02)
+  level0_P: 1.0
+  level0_alpha: 1.0
+  level0_n_simulations: 80000
+  level0_r2_transport: 0.9999
+  level1_example_HallGF: 0.814
+  level1_formula: 1/L_bar
+  level1_r2_confirmed: 0.935
+  level25_formula: E[frac_improving_neighbours]
+  level25_k_range_hi: 10000.0
+  level25_k_range_lo: 0.01
+  level25_n_experiments: 22
+  level25_r2: 0.676
+  level25_rho_vs_level1: -0.38
+  level25_scale_invariant: 0.53
+  level25_scale_std: 0.017
+  level2_formula: frac_improving
+  level2_greedy_r2: 0.837
+  level2_n_trials: 57518
+  level2_r2_dominant: 0.885
+  level2_random_r2: 0.54
+  level2_rho: 0.89
+  llayer_gap: true
+  llayer_max_r2: 0.024
+  llayer_status: open frontier
+  llayer_tested_formulas: 15
+swarm:
+  aco_alpha: 1.0
+  aco_beta: 2.0
+  aco_rho: 0.1
+  avoid_rooms:
+  - Pintassilgo
+  pso_c1: 1.494
+  pso_c2: 1.494
+  pso_inertia: 0.729
+  pso_iterations: 100
+  pso_particles: 30
+visualization:
+  export_dir: patent/visualizations
+  export_formats:
+  - html
+  - stl
+  - gltf
+  - png_patent
+  interactive: true
+  renderer_mesh: pyvista
+  renderer_photo: mitsuba3
+  renderer_primary: plotly
+  resolution_patent:
+  - 2048
+  - 2048
+voice:
+  language: pt
+  max_response_words: 150
+  stt_provider: whisper
+  tts_provider: elevenlabs

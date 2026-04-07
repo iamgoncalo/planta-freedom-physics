@@ -1,0 +1,82 @@
+{
+  "phase": "\u03a97",
+  "done": true,
+  "agents": 4,
+  "queries": [
+    {
+      "agent": "material_agent",
+      "query": "Build me a house with C, Si, Al. 80m2. 10000 euros. Very robust.",
+      "elements": [
+        "C",
+        "Si",
+        "Al"
+      ],
+      "F_global": 0.5416,
+      "F_composite": 0.6417,
+      "cost_eur": 11556.5,
+      "F_innovation": 0.3226,
+      "summary": "F_global=0.5416, cost=\u20ac11,556, innovation=0.323",
+      "label": "SIMULATED. F=P/D HYPOTHESIS UNDER TEST."
+    },
+    {
+      "agent": "physics_agent",
+      "query": "Why does iron stop stars from burning?",
+      "derivation_type": "RECOVERED",
+      "thesis": "T2+T5",
+      "steps": [
+        "T5: Each element = specific D_nuclear crystallisation.",
+        "T2: F_nuclear = BE / BE_max (Fe-56 = maximum binding energy per nucleon = 8.795 MeV).",
+        "F_nuclear(Fe) = 0.9994 = maximum. F_nuclear(Ni) = 0.9978.",
+        "F_nuclear(U)  = 0.8631 = much lower (radioactive, decays toward higher F).",
+        "Stars fuse elements along increasing F_nuclear. At Fe: \u0394F_fusion < 0.",
+        "T2 Law 2: systems move toward higher F. Fusion beyond Fe does NOT increase F.",
+        "Therefore: stellar burning stops at Fe. Iron is the stellar Freedom minimum."
+      ],
+      "result": "Fe F_nuclear=0.9994 is local maximum. Stars stop here.",
+      "label": "SIMULATED. F=P/D HYPOTHESIS UNDER TEST."
+    },
+    {
+      "agent": "innovation_agent",
+      "query": "Is a carbon silicon aluminum composite beam novel?",
+      "elements": [
+        "C",
+        "Si",
+        "Al"
+      ],
+      "F_structural": 0.6262,
+      "F_thermal": 0.3962,
+      "novelty_proxy": 0.9252,
+      "F_innovation": 0.2296,
+      "novel": false,
+      "patent_action": "check prior art",
+      "label": "SIMULATED. F=P/D HYPOTHESIS UNDER TEST."
+    },
+    {
+      "agent": "building_agent",
+      "query": "Simulate HORSE CFT during a heatwave scenario",
+      "F_global_start": 0.4002,
+      "F_global_end": 0.2587,
+      "F_decline": 0.1415,
+      "alerts": [
+        "Room_4",
+        "Room_5",
+        "Room_6",
+        "Room_7",
+        "Room_8"
+      ],
+      "trajectory": [
+        0.4002,
+        0.3727,
+        0.3748,
+        0.3445,
+        0.3061,
+        0.2999,
+        0.2738,
+        0.2587
+      ],
+      "recommendation": "Activate HVAC pre-cooling at hour 3. Reduce occupancy hours 6-8.",
+      "label": "SIMULATED. F=P/D HYPOTHESIS UNDER TEST."
+    }
+  ],
+  "label": "SIMULATED. F=P/D HYPOTHESIS UNDER TEST."
+}

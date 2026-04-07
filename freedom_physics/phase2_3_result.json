@@ -1,0 +1,38 @@
+{
+  "phase2": {
+    "done": true,
+    "domains": 11,
+    "domain_types": {
+      "DERIVED": [
+        "D08"
+      ],
+      "RECOVERED": [
+        "D01",
+        "D03",
+        "D06"
+      ],
+      "STRUCTURAL_PARALLEL": [
+        "D02",
+        "D04",
+        "D05",
+        "D07",
+        "D09",
+        "D10",
+        "D11"
+      ],
+      "OPEN": []
+    }
+  },
+  "phase3": {
+    "done": true,
+    "elements": 118,
+    "noble_gases_F_chem_zero": true,
+    "iron_F_nuclear": 0.9994
+  },
+  "phase31": {
+    "done": true,
+    "stages": 8,
+    "key_insight": "Universe creates in order of increasing D. Decay reverses: high D \u2192 lower D (T2)."
+  },
+  "label": "SIMULATED. F=P/D HYPOTHESIS UNDER TEST. seed=2026."
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<title>Holographic Principle — SIMULATED</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>body{margin:0;padding:14px;background:#fff;font-family:sans-serif;}
+.title{font-size:15px;font-weight:500;margin-bottom:3px;}
+.sub{font-size:11px;color:#6b7280;margin-bottom:14px;}
+</style></head><body>
+<div class="title">V10: Holographic Principle — F_boundary > F_bulk (T4 Intelligence Paradox)</div>
+<div class="sub">T4: Information concentrates at boundary · F_surface systematically exceeds F_volume · Bekenstein bound as AFI consequence · SIMULATED · seed=2026</div>
+<div style="position:relative;height:300px;"><canvas id="c"></canvas></div>
+<script>
+var D=[{"size": 1, "F_b": 0.9323, "F_bulk": 0.6321}, {"size": 2, "F_b": 0.8161, "F_bulk": 0.3935}, {"size": 3, "F_b": 0.7433, "F_bulk": 0.2835}, {"size": 4, "F_b": 0.6967, "F_bulk": 0.2212}, {"size": 5, "F_b": 0.6648, "F_bulk": 0.1813}, {"size": 6, "F_b": 0.6417, "F_bulk": 0.1535}, {"size": 7, "F_b": 0.6243, "F_bulk": 0.1331}, {"size": 8, "F_b": 0.6106, "F_bulk": 0.1175}, {"size": 9, "F_b": 0.5996, "F_bulk": 0.1052}, {"size": 10, "F_b": 0.5906, "F_bulk": 0.0952}, {"size": 11, "F_b": 0.5831, "F_bulk": 0.0869}];
+new Chart(document.getElementById('c'),{type:'line',data:{
+  labels:D.map(d=>d.size+'×'),
+  datasets:[
+    {label:'F_boundary (surface)',data:D.map(d=>d.F_b),borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.08)',fill:true,borderWidth:2,pointRadius:4},
+    {label:'F_bulk (volume)',data:D.map(d=>d.F_bulk),borderColor:'#dc2626',backgroundColor:'rgba(220,38,38,0.05)',fill:true,borderWidth:2,pointRadius:4,borderDash:[5,3]},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom'}},
+    scales:{x:{title:{display:true,text:'Volume size (arbitrary units)'}},y:{min:0,max:1,title:{display:true,text:'F (freedom score)'}}}
+  }});
+</script></body></html>

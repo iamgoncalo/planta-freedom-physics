@@ -1,0 +1,1772 @@
+[
+  {
+    "Z": 1,
+    "symbol": "H",
+    "P_element": 1.0,
+    "D_element": 1000.0,
+    "F_element": 0.0,
+    "F_electrical": 0.0,
+    "F_thermal": 0.0004,
+    "F_chemical": 0.5528,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 2,
+    "symbol": "He",
+    "P_element": 1.0,
+    "D_element": 1000.0,
+    "F_element": 0.0,
+    "F_electrical": 0.0,
+    "F_thermal": 0.0004,
+    "F_chemical": 0.0,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 3,
+    "symbol": "Li",
+    "P_element": 0.884,
+    "D_element": 1.6495,
+    "F_element": 0.6063,
+    "F_electrical": 0.1698,
+    "F_thermal": 0.1981,
+    "F_chemical": 0.0596,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 4,
+    "symbol": "Be",
+    "P_element": 0.6877,
+    "D_element": 1.3608,
+    "F_element": 0.7348,
+    "F_electrical": 0.3968,
+    "F_thermal": 0.4662,
+    "F_chemical": 0.1274,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 5,
+    "symbol": "B",
+    "P_element": 0.6349,
+    "D_element": 1.3581,
+    "F_element": 0.7363,
+    "F_electrical": 0.0,
+    "F_thermal": 0.0639,
+    "F_chemical": 0.1892,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 6,
+    "symbol": "C",
+    "P_element": 0.6423,
+    "D_element": 1.1452,
+    "F_element": 0.8732,
+    "F_electrical": 0.0022,
+    "F_thermal": 0.3263,
+    "F_chemical": 0.2579,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 7,
+    "symbol": "N",
+    "P_element": 0.9997,
+    "D_element": 1.1764,
+    "F_element": 0.85,
+    "F_electrical": 0.0,
+    "F_thermal": 0.0001,
+    "F_chemical": 0.3157,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 8,
+    "symbol": "O",
+    "P_element": 0.9996,
+    "D_element": 1.1027,
+    "F_element": 0.9069,
+    "F_electrical": 0.0,
+    "F_thermal": 0.0001,
+    "F_chemical": 0.367,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 9,
+    "symbol": "F",
+    "P_element": 0.9996,
+    "D_element": 1.1306,
+    "F_element": 0.8845,
+    "F_electrical": 0.0,
+    "F_thermal": 0.0001,
+    "F_chemical": 0.4366,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 10,
+    "symbol": "Ne",
+    "P_element": 0.9998,
+    "D_element": 1.095,
+    "F_element": 0.9132,
+    "F_electrical": 0.0,
+    "F_thermal": 0.0001,
+    "F_chemical": 0.0,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 11,
+    "symbol": "Na",
+    "P_element": 0.8074,
+    "D_element": 1.0843,
+    "F_element": 0.9222,
+    "F_electrical": 0.3333,
+    "F_thermal": 0.331,
+    "F_chemical": 0.0436,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 12,
+    "symbol": "Mg",
+    "P_element": 0.7005,
+    "D_element": 1.0646,
+    "F_element": 0.9393,
+    "F_electrical": 0.3556,
+    "F_thermal": 0.3636,
+    "F_chemical": 0.0724,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 13,
+    "symbol": "Al",
+    "P_element": 0.6012,
+    "D_element": 1.0557,
+    "F_element": 0.9472,
+    "F_electrical": 0.5984,
+    "F_thermal": 0.5524,
+    "F_chemical": 0.1036,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 14,
+    "symbol": "Si",
+    "P_element": 0.6359,
+    "D_element": 1.0411,
+    "F_element": 0.9605,
+    "F_electrical": 0.0,
+    "F_thermal": 0.345,
+    "F_chemical": 0.1333,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 15,
+    "symbol": "P",
+    "P_element": 0.6906,
+    "D_element": 1.037,
+    "F_element": 0.9643,
+    "F_electrical": 0.0,
+    "F_thermal": 0.0006,
+    "F_chemical": 0.1594,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 16,
+    "symbol": "S",
+    "P_element": 0.6632,
+    "D_element": 1.0354,
+    "F_element": 0.9658,
+    "F_electrical": 0.0,
+    "F_thermal": 0.0006,
+    "F_chemical": 0.1914,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 17,
+    "symbol": "Cl",
+    "P_element": 0.9992,
+    "D_element": 1.0323,
+    "F_element": 0.9687,
+    "F_electrical": 0.0,
+    "F_thermal": 0.0,
+    "F_chemical": 0.2413,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 18,
+    "symbol": "Ar",
+    "P_element": 0.9996,
+    "D_element": 1.0314,
+    "F_element": 0.9695,
+    "F_electrical": 0.0,
+    "F_thermal": 0.0,
+    "F_chemical": 0.0,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 19,
+    "symbol": "K",
+    "P_element": 0.8252,
+    "D_element": 1.0285,
+    "F_element": 0.9723,
+    "F_electrical": 0.2206,
+    "F_thermal": 0.2389,
+    "F_chemical": 0.0315,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 20,
+    "symbol": "Ca",
+    "P_element": 0.7242,
+    "D_element": 1.0285,
+    "F_element": 0.9723,
+    "F_electrical": 0.4603,
+    "F_thermal": 0.4685,
+    "F_chemical": 0.0443,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 21,
+    "symbol": "Sc",
+    "P_element": 0.5766,
+    "D_element": 1.0309,
+    "F_element": 0.97,
+    "F_electrical": 0.0283,
+    "F_thermal": 0.0368,
+    "F_chemical": 0.0623,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 22,
+    "symbol": "Ti",
+    "P_element": 0.4745,
+    "D_element": 1.0325,
+    "F_element": 0.9685,
+    "F_electrical": 0.0378,
+    "F_thermal": 0.051,
+    "F_chemical": 0.075,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 23,
+    "symbol": "V",
+    "P_element": 0.3998,
+    "D_element": 1.0396,
+    "F_element": 0.9619,
+    "F_electrical": 0.0776,
+    "F_thermal": 0.0716,
+    "F_chemical": 0.083,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 24,
+    "symbol": "Cr",
+    "P_element": 0.3615,
+    "D_element": 1.0341,
+    "F_element": 0.967,
+    "F_electrical": 0.1229,
+    "F_thermal": 0.2189,
+    "F_chemical": 0.093,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 25,
+    "symbol": "Mn",
+    "P_element": 0.3527,
+    "D_element": 1.0034,
+    "F_element": 0.9966,
+    "F_electrical": 0.0098,
+    "F_thermal": 0.0182,
+    "F_chemical": 0.0869,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 26,
+    "symbol": "Fe",
+    "P_element": 0.3408,
+    "D_element": 1.0006,
+    "F_element": 0.9994,
+    "F_electrical": 0.1587,
+    "F_thermal": 0.1874,
+    "F_chemical": 0.108,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 27,
+    "symbol": "Co",
+    "P_element": 0.3138,
+    "D_element": 1.0031,
+    "F_element": 0.9969,
+    "F_electrical": 0.254,
+    "F_thermal": 0.2331,
+    "F_chemical": 0.1162,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 28,
+    "symbol": "Ni",
+    "P_element": 0.3136,
+    "D_element": 1.0022,
+    "F_element": 0.9978,
+    "F_electrical": 0.227,
+    "F_thermal": 0.2119,
+    "F_chemical": 0.12,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 29,
+    "symbol": "Cu",
+    "P_element": 0.3124,
+    "D_element": 1.005,
+    "F_element": 0.995,
+    "F_electrical": 0.946,
+    "F_thermal": 0.9347,
+    "F_chemical": 0.1121,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 30,
+    "symbol": "Zn",
+    "P_element": 0.3633,
+    "D_element": 1.0068,
+    "F_element": 0.9933,
+    "F_electrical": 0.2683,
+    "F_thermal": 0.2704,
+    "F_chemical": 0.1053,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 31,
+    "symbol": "Ga",
+    "P_element": 0.4078,
+    "D_element": 1.0144,
+    "F_element": 0.9858,
+    "F_electrical": 0.1127,
+    "F_thermal": 0.0946,
+    "F_chemical": 0.1156,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 32,
+    "symbol": "Ge",
+    "P_element": 0.4333,
+    "D_element": 1.0232,
+    "F_element": 0.9774,
+    "F_electrical": 0.0,
+    "F_thermal": 0.1396,
+    "F_chemical": 0.1283,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 33,
+    "symbol": "As",
+    "P_element": 0.4154,
+    "D_element": 1.0108,
+    "F_element": 0.9893,
+    "F_electrical": 0.0055,
+    "F_thermal": 0.117,
+    "F_chemical": 0.1427,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 34,
+    "symbol": "Se",
+    "P_element": 0.4584,
+    "D_element": 1.0156,
+    "F_element": 0.9847,
+    "F_electrical": 0.0,
+    "F_thermal": 0.0012,
+    "F_chemical": 0.1655,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 35,
+    "symbol": "Br",
+    "P_element": 0.5674,
+    "D_element": 1.0132,
+    "F_element": 0.9869,
+    "F_electrical": 0.0,
+    "F_thermal": 0.0003,
+    "F_chemical": 0.2022,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 36,
+    "symbol": "Kr",
+    "P_element": 0.9991,
+    "D_element": 1.0089,
+    "F_element": 0.9911,
+    "F_electrical": 0.0,
+    "F_thermal": 0.0,
+    "F_chemical": 0.0,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 37,
+    "symbol": "Rb",
+    "P_element": 0.7265,
+    "D_element": 1.0113,
+    "F_element": 0.9889,
+    "F_electrical": 0.1197,
+    "F_thermal": 0.1357,
+    "F_chemical": 0.029,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 38,
+    "symbol": "Sr",
+    "P_element": 0.6075,
+    "D_element": 1.0114,
+    "F_element": 0.9887,
+    "F_electrical": 0.0676,
+    "F_thermal": 0.0825,
+    "F_chemical": 0.0379,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 39,
+    "symbol": "Y",
+    "P_element": 0.4765,
+    "D_element": 1.0093,
+    "F_element": 0.9908,
+    "F_electrical": 0.0265,
+    "F_thermal": 0.0401,
+    "F_chemical": 0.05,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 40,
+    "symbol": "Zr",
+    "P_element": 0.3847,
+    "D_element": 1.0092,
+    "F_element": 0.9909,
+    "F_electrical": 0.0375,
+    "F_thermal": 0.0529,
+    "F_chemical": 0.0592,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 41,
+    "symbol": "Nb",
+    "P_element": 0.322,
+    "D_element": 1.0152,
+    "F_element": 0.985,
+    "F_electrical": 0.11,
+    "F_thermal": 0.1252,
+    "F_chemical": 0.076,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 42,
+    "symbol": "Mo",
+    "P_element": 0.2836,
+    "D_element": 1.0185,
+    "F_element": 0.9818,
+    "F_electrical": 0.2968,
+    "F_thermal": 0.3217,
+    "F_chemical": 0.1092,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 43,
+    "symbol": "Tc",
+    "P_element": 0.2614,
+    "D_element": 1.027,
+    "F_element": 0.9737,
+    "F_electrical": 0.1059,
+    "F_thermal": 0.1179,
+    "F_chemical": 0.0967,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 44,
+    "symbol": "Ru",
+    "P_element": 0.2476,
+    "D_element": 1.0098,
+    "F_element": 0.9903,
+    "F_electrical": 0.2175,
+    "F_thermal": 0.2727,
+    "F_chemical": 0.1127,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 45,
+    "symbol": "Rh",
+    "P_element": 0.2464,
+    "D_element": 1.0089,
+    "F_element": 0.9911,
+    "F_electrical": 0.3302,
+    "F_thermal": 0.3497,
+    "F_chemical": 0.1184,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 46,
+    "symbol": "Pd",
+    "P_element": 0.2529,
+    "D_element": 1.0381,
+    "F_element": 0.9633,
+    "F_electrical": 0.1511,
+    "F_thermal": 0.1674,
+    "F_chemical": 0.1166,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 47,
+    "symbol": "Ag",
+    "P_element": 0.2795,
+    "D_element": 1.0287,
+    "F_element": 0.9721,
+    "F_electrical": 1.0,
+    "F_thermal": 1.0,
+    "F_chemical": 0.1037,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 48,
+    "symbol": "Cd",
+    "P_element": 0.32,
+    "D_element": 1.029,
+    "F_element": 0.9718,
+    "F_electrical": 0.219,
+    "F_thermal": 0.2252,
+    "F_chemical": 0.0914,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 49,
+    "symbol": "In",
+    "P_element": 0.3576,
+    "D_element": 1.0405,
+    "F_element": 0.9611,
+    "F_electrical": 0.1905,
+    "F_thermal": 0.1907,
+    "F_chemical": 0.0976,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 50,
+    "symbol": "Sn",
+    "P_element": 0.3591,
+    "D_element": 1.0346,
+    "F_element": 0.9666,
+    "F_electrical": 0.1456,
+    "F_thermal": 0.1557,
+    "F_chemical": 0.1098,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 51,
+    "symbol": "Sb",
+    "P_element": 0.378,
+    "D_element": 1.0323,
+    "F_element": 0.9687,
+    "F_electrical": 0.0406,
+    "F_thermal": 0.0569,
+    "F_chemical": 0.1149,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 52,
+    "symbol": "Te",
+    "P_element": 0.3948,
+    "D_element": 1.0467,
+    "F_element": 0.9554,
+    "F_electrical": 0.0,
+    "F_thermal": 0.0055,
+    "F_chemical": 0.1185,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 53,
+    "symbol": "I",
+    "P_element": 0.4521,
+    "D_element": 1.0378,
+    "F_element": 0.9636,
+    "F_electrical": 0.0,
+    "F_thermal": 0.001,
+    "F_chemical": 0.1523,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 54,
+    "symbol": "Xe",
+    "P_element": 0.9986,
+    "D_element": 1.0465,
+    "F_element": 0.9555,
+    "F_electrical": 0.0,
+    "F_thermal": 0.0,
+    "F_chemical": 0.0,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 55,
+    "symbol": "Cs",
+    "P_element": 0.6841,
+    "D_element": 1.0485,
+    "F_element": 0.9537,
+    "F_electrical": 0.0776,
+    "F_thermal": 0.0837,
+    "F_chemical": 0.0252,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 56,
+    "symbol": "Ba",
+    "P_element": 0.5311,
+    "D_element": 1.0501,
+    "F_element": 0.9522,
+    "F_electrical": 0.046,
+    "F_thermal": 0.0429,
+    "F_chemical": 0.0322,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 57,
+    "symbol": "La",
+    "P_element": 0.3978,
+    "D_element": 1.0498,
+    "F_element": 0.9526,
+    "F_electrical": 0.026,
+    "F_thermal": 0.0312,
+    "F_chemical": 0.0414,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 58,
+    "symbol": "Ce",
+    "P_element": 0.3755,
+    "D_element": 1.0505,
+    "F_element": 0.9519,
+    "F_electrical": 0.0113,
+    "F_thermal": 0.0263,
+    "F_chemical": 0.0428,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 59,
+    "symbol": "Pr",
+    "P_element": 0.3754,
+    "D_element": 1.0515,
+    "F_element": 0.951,
+    "F_electrical": 0.0237,
+    "F_thermal": 0.0291,
+    "F_chemical": 0.0434,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 60,
+    "symbol": "Nd",
+    "P_element": 0.3674,
+    "D_element": 1.052,
+    "F_element": 0.9505,
+    "F_electrical": 0.0248,
+    "F_thermal": 0.0385,
+    "F_chemical": 0.0442,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 61,
+    "symbol": "Pm",
+    "P_element": 0.3591,
+    "D_element": 1.0525,
+    "F_element": 0.9501,
+    "F_electrical": 0.0317,
+    "F_thermal": 0.0417,
+    "F_chemical": 0.0442,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 62,
+    "symbol": "Sm",
+    "P_element": 0.3512,
+    "D_element": 1.0533,
+    "F_element": 0.9494,
+    "F_electrical": 0.0171,
+    "F_thermal": 0.031,
+    "F_chemical": 0.046,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 63,
+    "symbol": "Eu",
+    "P_element": 0.436,
+    "D_element": 1.0541,
+    "F_element": 0.9487,
+    "F_electrical": 0.0168,
+    "F_thermal": 0.0324,
+    "F_chemical": 0.0472,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 64,
+    "symbol": "Gd",
+    "P_element": 0.34,
+    "D_element": 1.0524,
+    "F_element": 0.9502,
+    "F_electrical": 0.0122,
+    "F_thermal": 0.0247,
+    "F_chemical": 0.0477,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 65,
+    "symbol": "Tb",
+    "P_element": 0.3309,
+    "D_element": 1.0528,
+    "F_element": 0.9499,
+    "F_electrical": 0.014,
+    "F_thermal": 0.0259,
+    "F_chemical": 0.0482,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 66,
+    "symbol": "Dy",
+    "P_element": 0.3225,
+    "D_element": 1.0529,
+    "F_element": 0.9497,
+    "F_electrical": 0.0168,
+    "F_thermal": 0.0249,
+    "F_chemical": 0.0495,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 67,
+    "symbol": "Ho",
+    "P_element": 0.3164,
+    "D_element": 1.0535,
+    "F_element": 0.9492,
+    "F_electrical": 0.0178,
+    "F_thermal": 0.0378,
+    "F_chemical": 0.0499,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 68,
+    "symbol": "Er",
+    "P_element": 0.3098,
+    "D_element": 1.0546,
+    "F_element": 0.9483,
+    "F_electrical": 0.0187,
+    "F_thermal": 0.0338,
+    "F_chemical": 0.0511,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 69,
+    "symbol": "Tm",
+    "P_element": 0.3039,
+    "D_element": 1.0553,
+    "F_element": 0.9476,
+    "F_electrical": 0.0237,
+    "F_thermal": 0.0394,
+    "F_chemical": 0.0512,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 70,
+    "symbol": "Yb",
+    "P_element": 0.3688,
+    "D_element": 1.0566,
+    "F_element": 0.9464,
+    "F_electrical": 0.0567,
+    "F_thermal": 0.0897,
+    "F_chemical": 0.0458,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 71,
+    "symbol": "Lu",
+    "P_element": 0.2926,
+    "D_element": 1.0556,
+    "F_element": 0.9474,
+    "F_electrical": 0.0287,
+    "F_thermal": 0.0382,
+    "F_chemical": 0.0529,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 72,
+    "symbol": "Hf",
+    "P_element": 0.2342,
+    "D_element": 1.103,
+    "F_element": 0.9067,
+    "F_electrical": 0.0529,
+    "F_thermal": 0.0536,
+    "F_chemical": 0.0579,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 73,
+    "symbol": "Ta",
+    "P_element": 0.1964,
+    "D_element": 1.0994,
+    "F_element": 0.9096,
+    "F_electrical": 0.124,
+    "F_thermal": 0.134,
+    "F_chemical": 0.0687,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 74,
+    "symbol": "W",
+    "P_element": 0.1738,
+    "D_element": 1.1077,
+    "F_element": 0.9028,
+    "F_electrical": 0.2841,
+    "F_thermal": 0.4033,
+    "F_chemical": 0.1135,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 75,
+    "symbol": "Re",
+    "P_element": 0.1622,
+    "D_element": 1.1091,
+    "F_element": 0.9016,
+    "F_electrical": 0.0883,
+    "F_thermal": 0.1119,
+    "F_chemical": 0.098,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 76,
+    "symbol": "Os",
+    "P_element": 0.1527,
+    "D_element": 1.1034,
+    "F_element": 0.9063,
+    "F_electrical": 0.1952,
+    "F_thermal": 0.2042,
+    "F_chemical": 0.119,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 77,
+    "symbol": "Ir",
+    "P_element": 0.1528,
+    "D_element": 1.101,
+    "F_element": 0.9082,
+    "F_electrical": 0.3111,
+    "F_thermal": 0.3427,
+    "F_chemical": 0.1215,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 78,
+    "symbol": "Pt",
+    "P_element": 0.1595,
+    "D_element": 1.1225,
+    "F_element": 0.8908,
+    "F_electrical": 0.1497,
+    "F_thermal": 0.1669,
+    "F_chemical": 0.1306,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 79,
+    "symbol": "Au",
+    "P_element": 0.1742,
+    "D_element": 1.111,
+    "F_element": 0.9001,
+    "F_electrical": 0.7175,
+    "F_thermal": 0.7413,
+    "F_chemical": 0.1455,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 80,
+    "symbol": "Hg",
+    "P_element": 0.2312,
+    "D_element": 1.1087,
+    "F_element": 0.902,
+    "F_electrical": 0.0165,
+    "F_thermal": 0.0193,
+    "F_chemical": 0.118,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 81,
+    "symbol": "Tl",
+    "P_element": 0.2557,
+    "D_element": 1.0881,
+    "F_element": 0.919,
+    "F_electrical": 0.0889,
+    "F_thermal": 0.1075,
+    "F_chemical": 0.087,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 82,
+    "symbol": "Pb",
+    "P_element": 0.2641,
+    "D_element": 1.1167,
+    "F_element": 0.8955,
+    "F_electrical": 0.0722,
+    "F_thermal": 0.0823,
+    "F_chemical": 0.1243,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 83,
+    "symbol": "Bi",
+    "P_element": 0.2939,
+    "D_element": 1.1207,
+    "F_element": 0.8923,
+    "F_electrical": 0.0138,
+    "F_thermal": 0.0186,
+    "F_chemical": 0.1063,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 84,
+    "symbol": "Po",
+    "P_element": 0.3068,
+    "D_element": 1.1227,
+    "F_element": 0.8907,
+    "F_electrical": 0.0378,
+    "F_thermal": 0.0466,
+    "F_chemical": 0.1113,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 85,
+    "symbol": "At",
+    "P_element": 0.3677,
+    "D_element": 1.1247,
+    "F_element": 0.8891,
+    "F_electrical": 0.0,
+    "F_thermal": 0.0047,
+    "F_chemical": 0.1142,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 86,
+    "symbol": "Rn",
+    "P_element": 0.9976,
+    "D_element": 1.1214,
+    "F_element": 0.8918,
+    "F_electrical": 0.0,
+    "F_thermal": 0.0,
+    "F_chemical": 0.0,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 87,
+    "symbol": "Fr",
+    "P_element": 0.5839,
+    "D_element": 1.1276,
+    "F_element": 0.8869,
+    "F_electrical": 0.0048,
+    "F_thermal": 0.035,
+    "F_chemical": 0.021,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 88,
+    "symbol": "Ra",
+    "P_element": 0.4253,
+    "D_element": 1.119,
+    "F_element": 0.8937,
+    "F_electrical": 0.0159,
+    "F_thermal": 0.0434,
+    "F_chemical": 0.0317,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 89,
+    "symbol": "Ac",
+    "P_element": 0.2878,
+    "D_element": 1.1205,
+    "F_element": 0.8924,
+    "F_electrical": 0.0054,
+    "F_thermal": 0.028,
+    "F_chemical": 0.0399,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 90,
+    "symbol": "Th",
+    "P_element": 0.2578,
+    "D_element": 1.1227,
+    "F_element": 0.8907,
+    "F_electrical": 0.1059,
+    "F_thermal": 0.1259,
+    "F_chemical": 0.0492,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 91,
+    "symbol": "Pa",
+    "P_element": 0.2094,
+    "D_element": 1.1244,
+    "F_element": 0.8894,
+    "F_electrical": 0.0883,
+    "F_thermal": 0.1096,
+    "F_chemical": 0.0584,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 92,
+    "symbol": "U",
+    "P_element": 0.176,
+    "D_element": 1.1586,
+    "F_element": 0.8631,
+    "F_electrical": 0.0571,
+    "F_thermal": 0.0641,
+    "F_chemical": 0.0548,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 93,
+    "symbol": "Np",
+    "P_element": 0.166,
+    "D_element": 1.1634,
+    "F_element": 0.8596,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0147,
+    "F_chemical": 0.0558,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 94,
+    "symbol": "Pu",
+    "P_element": 0.1704,
+    "D_element": 1.1634,
+    "F_element": 0.8596,
+    "F_electrical": 0.0099,
+    "F_thermal": 0.0157,
+    "F_chemical": 0.0533,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 95,
+    "symbol": "Am",
+    "P_element": 0.2294,
+    "D_element": 1.168,
+    "F_element": 0.8562,
+    "F_electrical": 0.0159,
+    "F_thermal": 0.0233,
+    "F_chemical": 0.0563,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 96,
+    "symbol": "Cm",
+    "P_element": 0.2315,
+    "D_element": 1.1695,
+    "F_element": 0.855,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0163,
+    "F_chemical": 0.0599,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 97,
+    "symbol": "Bk",
+    "P_element": 0.2158,
+    "D_element": 1.1711,
+    "F_element": 0.8539,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0233,
+    "F_chemical": 0.0603,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 98,
+    "symbol": "Cf",
+    "P_element": 0.2123,
+    "D_element": 1.1742,
+    "F_element": 0.8516,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0233,
+    "F_chemical": 0.0603,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 99,
+    "symbol": "Es",
+    "P_element": 0.2316,
+    "D_element": 1.1774,
+    "F_element": 0.8493,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0233,
+    "F_chemical": 0.0614,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 100,
+    "symbol": "Fm",
+    "P_element": 0.2252,
+    "D_element": 1.1805,
+    "F_element": 0.8471,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0233,
+    "F_chemical": 0.0606,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 101,
+    "symbol": "Md",
+    "P_element": 0.2252,
+    "D_element": 1.1837,
+    "F_element": 0.8448,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0233,
+    "F_chemical": 0.0585,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 102,
+    "symbol": "No",
+    "P_element": 0.2252,
+    "D_element": 1.1869,
+    "F_element": 0.8425,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0233,
+    "F_chemical": 0.0575,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 103,
+    "symbol": "Lr",
+    "P_element": 0.2252,
+    "D_element": 1.1901,
+    "F_element": 0.8403,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0233,
+    "F_chemical": 0.0629,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 104,
+    "symbol": "Rf",
+    "P_element": 0.1492,
+    "D_element": 1.1934,
+    "F_element": 0.838,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0536,
+    "F_chemical": 0.0645,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 105,
+    "symbol": "Db",
+    "P_element": 0.122,
+    "D_element": 1.1966,
+    "F_element": 0.8357,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0699,
+    "F_chemical": 0.068,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 106,
+    "symbol": "Sg",
+    "P_element": 0.1042,
+    "D_element": 1.1999,
+    "F_element": 0.8334,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0699,
+    "F_chemical": 0.0708,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 107,
+    "symbol": "Bh",
+    "P_element": 0.0989,
+    "D_element": 1.2031,
+    "F_element": 0.8312,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0699,
+    "F_chemical": 0.0718,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 108,
+    "symbol": "Hs",
+    "P_element": 0.0909,
+    "D_element": 1.2048,
+    "F_element": 0.83,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0699,
+    "F_chemical": 0.0756,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 109,
+    "symbol": "Mt",
+    "P_element": 0.0981,
+    "D_element": 1.2064,
+    "F_element": 0.8289,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0699,
+    "F_chemical": 0.0785,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 110,
+    "symbol": "Ds",
+    "P_element": 0.1047,
+    "D_element": 1.2081,
+    "F_element": 0.8277,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0699,
+    "F_chemical": 0.0791,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 111,
+    "symbol": "Rg",
+    "P_element": 0.1242,
+    "D_element": 1.2098,
+    "F_element": 0.8266,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0699,
+    "F_chemical": 0.0837,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 112,
+    "symbol": "Cn",
+    "P_element": 0.2252,
+    "D_element": 1.2114,
+    "F_element": 0.8255,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0699,
+    "F_chemical": 0.083,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 113,
+    "symbol": "Nh",
+    "P_element": 0.2028,
+    "D_element": 1.2131,
+    "F_element": 0.8243,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0699,
+    "F_chemical": 0.0745,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 114,
+    "symbol": "Fl",
+    "P_element": 0.2252,
+    "D_element": 1.2139,
+    "F_element": 0.8238,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0699,
+    "F_chemical": 0.0708,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 115,
+    "symbol": "Mc",
+    "P_element": 0.2316,
+    "D_element": 1.2148,
+    "F_element": 0.8232,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0699,
+    "F_chemical": 0.0625,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 116,
+    "symbol": "Lv",
+    "P_element": 0.2398,
+    "D_element": 1.2156,
+    "F_element": 0.8226,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0699,
+    "F_chemical": 0.0579,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 117,
+    "symbol": "Ts",
+    "P_element": 0.2252,
+    "D_element": 1.2165,
+    "F_element": 0.8221,
+    "F_electrical": 0.0132,
+    "F_thermal": 0.0699,
+    "F_chemical": 0.0614,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  {
+    "Z": 118,
+    "symbol": "Og",
+    "P_element": 0.2297,
+    "D_element": 1.2171,
+    "F_element": 0.8216,
+    "F_electrical": 0.0,
+    "F_thermal": 0.0699,
+    "F_chemical": 0.0,
+    "attribution": {
+      "dominant": "nuclear"
+    },
+    "thesis_trace": "T2+T5",
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  }
+]

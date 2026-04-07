@@ -1,0 +1,23 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<title>Particle D-mass hierarchy — SIMULATED</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>body{margin:0;padding:14px;background:#fff;font-family:sans-serif;}
+.title{font-size:15px;font-weight:500;margin-bottom:3px;}
+.sub{font-size:11px;color:#6b7280;margin-bottom:14px;}
+</style></head><body>
+<div class="title">V12: Particle mass hierarchy as D_mass levels (log scale)</div>
+<div class="sub">T2+T5 · D_mass = m/mₑ · Generation 1 (blue) low D · Generation 3 (red) high D · Top quark D=337,965 · SIMULATED</div>
+<div style="position:relative;height:300px;"><canvas id="c"></canvas></div>
+<script>
+var D=[{"name": "\u03bd\u2091", "type": "neutrino", "D": 0.001, "gen": 1}, {"name": "u", "type": "up quark", "D": 4.227, "gen": 1}, {"name": "e", "type": "electron", "D": 1.0, "gen": 1}, {"name": "d", "type": "down quark", "D": 9.139, "gen": 1}, {"name": "s", "type": "strange", "D": 182.779, "gen": 2}, {"name": "\u03bc", "type": "muon", "D": 206.849, "gen": 2}, {"name": "c", "type": "charm", "D": 2485.323, "gen": 2}, {"name": "\u03c4", "type": "tau", "D": 3477.495, "gen": 3}, {"name": "b", "type": "bottom", "D": 8180.039, "gen": 3}, {"name": "t", "type": "top", "D": 337964.775, "gen": 3}];
+var cols={1:'#2563eb',2:'#d97706',3:'#dc2626'};
+new Chart(document.getElementById('c'),{type:'bar',
+  data:{labels:D.map(p=>p.name),
+    datasets:[{label:'log₁₀(D_mass)',
+      data:D.map(p=>Math.max(Math.log10(p.D),-2)),
+      backgroundColor:D.map(p=>cols[p.gen]+'cc'),borderWidth:0,borderRadius:4}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{y:{title:{display:true,text:'log₁₀(D_mass = m/mₑ)'}}}
+  }});
+</script></body></html>

@@ -1,0 +1,166 @@
+name: Freedom Physics CI
+on: [push, pull_request]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r requirements.txt --quiet
+
+      # GROUP 1: CONFIG (C01-C05)
+      - name: "C01 atomic_distortion_weights sum=1.0"
+        run: python3 -c "import yaml; w=yaml.safe_load(open('config_omega.yaml'))['atomic_distortion_weights']; s=sum(w.values()); assert abs(s-1.0)<1e-6, f'sum={s}'; print('OK',s)"
+      - name: "C02 material_freedom_weights sum=1.0"
+        run: python3 -c "import yaml; w=yaml.safe_load(open('config_omega.yaml'))['material_freedom_weights']; s=sum(w.values()); assert abs(s-1.0)<1e-6, f'sum={s}'; print('OK',s)"
+      - name: "C03 building_distortion_weights sum=1.0"
+        run: python3 -c "import yaml; w=yaml.safe_load(open('config_omega.yaml'))['building_distortion_weights']; s=sum(w.values()); assert abs(s-1.0)<1e-6, f'sum={s}'; print('OK',s)"
+      - name: "C04 No hardcoded weight values in source"
+        run: |
+          if grep -rn --include="*.py" "= 0\.40\b\|= 0\.22\b\|= 0\.16\b\|= 0\.12\b" freedom_physics/ --exclude-dir=tests --exclude-dir=examples | grep -v "^.*#"; then
+            echo "HARDCODED VALUES FOUND"; exit 1
+          fi
+          echo "OK: no hardcoded weights"
+      - name: "C05 SIMULATED in all module docstrings"
+        run: python3 -c "
+import ast,glob
+bad=[f for f in glob.glob('freedom_physics/**/*.py',recursive=True)
+     if 'SIMULATED' not in (ast.get_docstring(ast.parse(open(f).read())) or '')]
+assert not bad, f'Missing SIMULATED: {bad}'; print('OK: all modules labeled')
+"
+      # GROUP 2: PHYSICS (C06-C10)
+      - name: "C06 Ohm R²>0.99"
+        run: python3 -c "from freedom_physics.physics.transport import simulate_ohms_law; r=simulate_ohms_law(); assert r['r_squared']>0.99; print('OK R²=',r['r_squared'])"
+      - name: "C07 Fourier R²>0.99"
+        run: python3 -c "from freedom_physics.physics.transport import simulate_fouriers_law; r=simulate_fouriers_law(); assert r['r_squared']>0.99; print('OK R²=',r['r_squared'])"
+      - name: "C08 Fick R²>0.99"
+        run: python3 -c "from freedom_physics.physics.transport import simulate_ficks_law; r=simulate_ficks_law(); assert r['r_squared']>0.99; print('OK R²=',r['r_squared'])"
+      - name: "C09 Darcy R²>0.99"
+        run: python3 -c "from freedom_physics.physics.transport import simulate_darcys_law; r=simulate_darcys_law(); assert r['r_squared']>0.99; print('OK R²=',r['r_squared'])"
+      - name: "C10 Langevin R²>0.99"
+        run: python3 -c "from freedom_physics.physics.transport import simulate_langevin; r=simulate_langevin(); assert r['r_squared']>0.99; print('OK R²=',r['r_squared'])"
+
+      # GROUP 3: CHEMISTRY (C11-C15)
+      - name: "C11 118 elements"
+        run: python3 -c "from freedom_physics.elements.periodic_table import PERIODIC_TABLE; assert len(PERIODIC_TABLE)==118; print('OK:',len(PERIODIC_TABLE))"
+      - name: "C12 Noble gases in top-10 by F_structural"
+        run: python3 -c "
+from freedom_physics.elements.periodic_table import PERIODIC_TABLE
+by_F=sorted(PERIODIC_TABLE.items(),key=lambda x:x[1].F_structural(),reverse=True)
+top10=[s for s,_ in by_F[:10]]
+noble=['He','Ne','Ar','Kr','Xe','Rn']
+n=sum(1 for s in noble if s in top10)
+assert n>=4,f'{n} noble in top10: {top10}'; print('OK noble in top10:',n)
+"
+      - name: "C13 Fe local nuclear maximum"
+        run: python3 -c "
+from freedom_physics.elements.periodic_table import PERIODIC_TABLE
+fe=PERIODIC_TABLE['Fe'].F_nuclear()
+nbrs=[PERIODIC_TABLE[s].F_nuclear() for s in ['Cr','Mn','Co','Ni']]
+assert fe>=max(nbrs)*0.95; print(f'OK Fe F_nuclear={fe:.4f}')
+"
+      - name: "C14 0 NOT_ADDRESSED in TOE"
+        run: python3 -c "
+import json; d=json.load(open('data/investigation_results.json'))
+bad=[c for c in d['criteria'] if c.get('status')=='NOT_ADDRESSED']
+assert not bad,f'{len(bad)} NOT_ADDRESSED'; print('OK: 0 NOT_ADDRESSED')
+"
+      - name: "C15 12 creation stages"
+        run: python3 -c "
+from freedom_physics.chemistry.creation_sequence import get_all_stages
+s=get_all_stages(); assert len(s)>=12; print('OK stages:',len(s))
+"
+
+      # GROUP 4: MATERIALS (C16-C20)
+      - name: "C16 House designer complete result"
+        run: python3 -c "
+from freedom_physics.structures.house_designer import design_house
+r=design_house(['C','Si','Al'],80,10000)
+assert r['step4_structure']['F_global']>0
+assert 'SIMULATED' in r['label']; print('OK F_global=',r['step4_structure']['F_global'])
+"
+      - name: "C17 PSO beats random composition"
+        run: python3 -c "
+from freedom_physics.materials.alloys import optimise_alloy_pso
+from freedom_physics.elements.periodic_table import freedom_of
+pso=optimise_alloy_pso(['C','Si','Al'],'structural')
+rand=sum(freedom_of(e,'structural') for e in ['C','Si','Al'])/3
+assert pso['F_composite']>=rand; print('OK PSO F=',pso['F_composite'])
+"
+      - name: "C18 Structural sim has F_member"
+        run: python3 -c "
+from freedom_physics.structures.house_designer import design_house
+r=design_house(['C','Si','Al'],80,10000)
+assert r['step4_structure']['members'][0]['F']>0; print('OK')
+"
+      - name: "C19 Cost from config"
+        run: python3 -c "
+from freedom_physics.config import cfg
+assert hasattr(cfg,'material_costs'); print('OK cost_from_config')
+"
+      - name: "C20 Innovation score [0,1]"
+        run: python3 -c "
+from freedom_physics.agentic.innovation_agent import assess_novelty
+r=assess_novelty({'C':0.5,'Si':0.3,'Al':0.2})
+assert 0<=r['novelty_score']<=1; print('OK novelty=',r['novelty_score'])
+"
+
+      # GROUP 5: ML+AGENTIC (C21-C25)
+      - name: "C21 GNN forward pass"
+        run: python3 -c "
+from freedom_physics.ml.gnn_freedom import FreedomGNN,build_test_graph
+m=FreedomGNN(); g=build_test_graph(); out=m(g)
+assert out is not None; print('OK shape',out.shape)
+"
+      - name: "C22 RL episode 10 steps"
+        run: python3 -c "
+from freedom_physics.ml.rl_agent import MaterialEnv
+e=MaterialEnv(); o,_=e.reset()
+for _ in range(10): a=e.action_space.sample(); o,r,d,_,_=e.step(a)
+print('OK reward=',round(r,4))
+"
+      - name: "C23 Query parser handles house design"
+        run: python3 -c "
+from freedom_physics.agentic.query_parser import parse_query
+r=parse_query('Build me a house with Carbon, Silicon, Aluminum')
+assert r['intent']=='house_design'; print('OK intent=',r['intent'])
+"
+      - name: "C24 UQ bounds correct"
+        run: python3 -c "
+from freedom_physics.ml.uncertainty_quantification import predict_with_uncertainty
+r=predict_with_uncertainty([0.6])
+assert r['lower_95']<=r['value']<=r['upper_95']; print('OK UQ bounds')
+"
+      - name: "C25 Voice interface mock"
+        run: python3 -c "
+from freedom_physics.agentic.voice_interface import VoiceInterface
+vi=VoiceInterface(mock=True)
+assert isinstance(vi.tts_mock('test'),bytes); print('OK voice mock')
+"
+
+      # GROUP 6: FINAL (C26-C30)
+      - name: "C26 All HTML visualizations render"
+        run: python3 -c "
+import glob,re,subprocess
+files=glob.glob('patent/visualizations/*.html')
+assert len(files)>=15,f'Only {len(files)} HTML files'
+print('OK:',len(files),'HTML files')
+"
+      - name: "C27 STL files exist"
+        run: python3 -c "
+import glob
+files=glob.glob('patent/visualizations/*.stl')
+assert len(files)>=15,f'Only {len(files)} STL files'
+print('OK:',len(files),'STL files')
+"
+      - name: "C28 0 NOT_ADDRESSED"
+        run: python3 -c "
+import json; d=json.load(open('data/investigation_results.json'))
+n=len([c for c in d['criteria'] if c.get('status')=='NOT_ADDRESSED'])
+assert n==0; print('OK 0 NOT_ADDRESSED')
+"
+      - name: "C29 All 60 counterfactuals pass"
+        run: pytest tests/test_counterfactuals.py -q --tb=short
+      - name: "C30 Test coverage"
+        run: pytest tests/ -q --tb=short

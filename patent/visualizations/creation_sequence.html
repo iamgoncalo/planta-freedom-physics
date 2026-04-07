@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<title>Elemental Creation Sequence — F=P/D SIMULATED</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>body{margin:0;background:#fff;font-family:sans-serif;padding:16px;}
+h3{font-size:14px;margin-bottom:4px;}
+.sub{font-size:11px;color:#6b7280;margin-bottom:12px;}
+canvas{max-width:100%!important;}</style></head><body>
+<h3>Elemental Creation Sequence as Freedom Crystallisation</h3>
+<div class="sub">T1+T2+T5: Universe creates in order of increasing D (decreasing F). Decay reverses. SIMULATED · seed=2026</div>
+<canvas id="c" height="120"></canvas>
+<canvas id="c2" height="120"></canvas>
+<script>
+const D=[{"stage": 0, "epoch": "Vacuum", "elements": [], "D_avg": 0.0, "F_avg": 1.0, "age_Gyr": 0.0, "color": "#6366f1"}, {"stage": 1, "epoch": "Big Bang", "elements": ["H", "He", "Li"], "age_Gyr": 0.0003, "color": "#f59e0b", "F_avg": 0.2021, "D_avg": 2.0, "F_list": [0.0, 0.0, 0.6062535531552018], "syms_found": ["H", "He", "Li"]}, {"stage": 2, "epoch": "Low-mass stars", "elements": ["C", "N", "O", "Ne", "Mg"], "age_Gyr": 5.0, "color": "#f97316", "F_avg": 0.8965, "D_avg": 8.6, "F_list": [0.8732234223990903, 0.8500284252416146, 0.9068789084707221, 0.913246162592382, 0.9392836839113131], "syms_found": ["C", "N", "O", "Ne", "Mg"]}, {"stage": 3, "epoch": "Fe peak", "elements": ["Fe", "Ni", "Co"], "age_Gyr": 9.0, "color": "#dc2626", "F_avg": 0.9981, "D_avg": 27.0, "F_list": [0.9994314951677088, 0.9978396816372939, 0.9969300739056283], "syms_found": ["Fe", "Ni", "Co"]}, {"stage": 4, "epoch": "Supernovae r-process", "elements": ["Sr", "Ba", "Xe", "I"], "age_Gyr": 10.0, "color": "#7c3aed", "F_avg": 0.965, "D_avg": 50.25, "F_list": [0.9887436043206367, 0.9522455940875497, 0.9555429221148379, 0.9636156907333712], "syms_found": ["Sr", "Ba", "Xe", "I"]}, {"stage": 5, "epoch": "s-process AGB", "elements": ["Pb", "Bi", "Au", "Pt"], "age_Gyr": 11.0, "color": "#0891b2", "F_avg": 0.8947, "D_avg": 80.5, "F_list": [0.8955088118249006, 0.8923251847640705, 0.9000568504832291, 0.8908470722001137], "syms_found": ["Pb", "Bi", "Au", "Pt"]}, {"stage": 6, "epoch": "Neutron star mergers", "elements": ["Th", "U"], "age_Gyr": 12.0, "color": "#64748b", "F_avg": 0.8769, "D_avg": 91.0, "F_list": [0.8907333712336555, 0.8631040363843093], "syms_found": ["Th", "U"]}, {"stage": 7, "epoch": "Synthetic", "elements": ["Og", "Ts"], "age_Gyr": 13.8, "color": "#374151", "F_avg": 0.8218, "D_avg": 117.5, "F_list": [0.8216031836270609, 0.8220579874928937], "syms_found": ["Og", "Ts"]}];
+const labels=D.map(s=>s.epoch);
+const F_vals=D.map(s=>s.F_avg);
+const D_vals=D.map(s=>s.D_avg);
+const colors=D.map(s=>s.color);
+new Chart(document.getElementById('c'),{type:'bar',data:{labels,datasets:[{
+  label:'F_nuclear (Freedom)',data:F_vals,backgroundColor:colors,borderWidth:0}]},
+  options:{responsive:true,plugins:{legend:{display:false},title:{display:true,text:'F_nuclear per creation stage (decreasing = increasing D crystallisation)'}},
+  scales:{y:{min:0,max:1,title:{display:true,text:'F_nuclear'}}}}});
+new Chart(document.getElementById('c2'),{type:'bar',data:{labels,datasets:[{
+  label:'D_proxy (Z/Z_ref)',data:D_vals,backgroundColor:colors,borderWidth:0}]},
+  options:{responsive:true,plugins:{legend:{display:false},title:{display:true,text:'D proxy (atomic number) per stage — T5: D crystallises over cosmic time'}},
+  scales:{y:{title:{display:true,text:'D proxy'}}}}});
+</script></body></html>
