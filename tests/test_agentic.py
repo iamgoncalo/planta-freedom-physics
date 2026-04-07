@@ -2,7 +2,7 @@
 tests/test_agentic.py — Agentic module tests.
 """
 import sys, pytest
-sys.path.insert(0,'/home/claude/afi'); sys.path.insert(1,'/home/claude/lof')
+sys.path.insert(0, '.'); 
 
 from freedom_physics.agentic.query_parser import parse_query
 from freedom_physics.agentic.result_narrator import narrate_result

@@ -2,7 +2,7 @@
 tests/test_innovation.py — Innovation module tests.
 """
 import sys, pytest
-sys.path.insert(0,'/home/claude/afi'); sys.path.insert(1,'/home/claude/lof')
+sys.path.insert(0, '.'); 
 
 from freedom_physics.innovation.innovation_scorer import score_innovation, full_innovation_report
 from freedom_physics.chemistry.creation_sequence import get_all_stages, get_stellar_F_nuclear, get_stage_by_element

@@ -5,7 +5,7 @@ Zero hardcodes: ALL constants from scipy.constants or config_omega.yaml.
 """
 import sys, math, pytest
 import scipy.constants as SC
-sys.path.insert(0,'/home/claude/afi'); sys.path.insert(1,'/home/claude/lof')
+sys.path.insert(0, '.'); 
 from freedom_physics.toe.planta_toe_100 import run_all_100, ALL_100
 from freedom_physics.config import cfg
 

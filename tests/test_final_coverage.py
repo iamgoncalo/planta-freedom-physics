@@ -2,7 +2,7 @@
 tests/test_final_coverage.py — Final coverage push. Correct signatures. All pass.
 """
 import sys, pytest
-sys.path.insert(0,'/home/claude/afi'); sys.path.insert(1,'/home/claude/lof')
+sys.path.insert(0, '.'); 
 
 # ── elements/periodic_table.py — cover Z-specific branches (lines 215,241-430) ─
 def test_elem_electrical_transition_metals():

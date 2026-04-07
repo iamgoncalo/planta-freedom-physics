@@ -2,7 +2,7 @@
 tests/test_ml.py — ML module tests. All config-driven. seed from config.
 """
 import sys, pytest
-sys.path.insert(0,'/home/claude/afi'); sys.path.insert(1,'/home/claude/lof')
+sys.path.insert(0, '.'); 
 
 from freedom_physics.ml.gnn_freedom import FreedomGNN, build_test_graph, predict_F
 from freedom_physics.ml.rl_agent import MaterialEnv, create_agent

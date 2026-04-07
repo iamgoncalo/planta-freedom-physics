@@ -4,7 +4,7 @@ Primary: planta_toe_100.py (100-criterion, zero hardcodes).
 Legacy: derive_all.py (50-criterion).
 """
 import sys, math, pytest
-sys.path.insert(0,'/home/claude/afi'); sys.path.insert(1,'/home/claude/lof')
+sys.path.insert(0, '.'); 
 from freedom_physics.config import cfg
 
 # 100-criterion engine

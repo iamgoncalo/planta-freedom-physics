@@ -3,7 +3,7 @@ tests/test_coverage_boost.py — Coverage boost tests for uncovered modules.
 Exercises all 0%/low% modules to reach ≥90% total coverage.
 """
 import sys, pytest
-sys.path.insert(0,'/home/claude/afi'); sys.path.insert(1,'/home/claude/lof')
+sys.path.insert(0, '.'); 
 
 # ── agentic/freedom_agent.py ──────────────────────────────────────────────────
 def test_freedom_agent_house():
