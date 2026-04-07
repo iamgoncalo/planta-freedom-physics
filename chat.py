@@ -503,10 +503,18 @@ def tool_run_toe(query: str) -> str:
     info(f"Running all 100 criteria from F=P/D axioms... (seed={SEED})")
     print()
 
-    run_all = _import_toe()
-    res = run_all()
+    use_217 = '217' in query.lower() or 'ultra' in query.lower() or 'full' in query.lower()
+    if use_217:
+        from freedom_physics.toe.planta_toe_217 import run_all_217
+        hdr("Running 217 Ultra Criteria... (30-60s)")
+        res = run_all_217()
+        total = 217
+    else:
+        run_all = _import_toe()
+        res = run_all()
+        total = 100
 
-    print(f"  {BOLD}{G}Score: {res['score']}/100 = {res['score_pct']}%{RST}")
+    tot=res.get('n_criteria',100); print(f"  {BOLD}{G}Score: {res['score']}/{tot} = {res['score_pct']}%{RST}")
     print(f"  DERIVED: {res['n_DERIVED']}   Errors: {res['n_errors']}")
     print()
 
@@ -673,7 +681,7 @@ TOOLS = {
                                          'thermo','entropy','boltz','schrodinger','heisenberg','tunnel',
                                          'perception','observer','alignment','paradox','intelligence',
                                          'godel','gödel','black hole','dark ','bell ','holographic']),
-    'toe':        (tool_run_toe,        ['toe','100 crit','theory of everything','run all','all 100']),
+    'toe':        (tool_run_toe,        ['toe','100 crit','theory of everything','run all','all 100','217','ultra','full toe']),
     'compare':    (tool_compare_rooms,  ['compare','hall_gf','quintanilha','pintassilgo','horse cft',
                                          'all rooms','building rooms']),
     'theses':     (tool_explain_theses, ['thesis','theses','t1','t2','t3','t4','t5','five','axiom','law of freedom']),
