@@ -162,7 +162,7 @@ def test_C100_reproducible():
 # ── ZERO HARDCODE AUDIT ───────────────────────────────────────────────────────
 def test_no_hardcoded_constants_in_toe():
     import subprocess, re
-    src = open('/home/claude/afi/freedom_physics/toe/planta_toe_100.py').read()
+    src = open('freedom_physics/toe/planta_toe_100.py').read()
     # Constants that should come from SC or config (not literal)
     forbidden_literals = [
         '7.297e-3', '1.6e-19', '0.0072', '9.109e-31', '1.672e-27',
@@ -197,7 +197,7 @@ def test_seed_from_config():
 # ── DATA FILE VERIFICATION ────────────────────────────────────────────────────
 def test_investigation_json_100_criteria():
     import json
-    d = json.load(open('/home/claude/afi/data/investigation_results.json'))
+    d = json.load(open('data/investigation_results.json'))
     assert d['n_criteria'] == 100
     assert d['score'] == 100.0
     assert d['n_DERIVED'] == 100
@@ -205,7 +205,7 @@ def test_investigation_json_100_criteria():
 
 def test_m_ratio_documented():
     import json
-    d = json.load(open('/home/claude/afi/data/investigation_results.json'))
+    d = json.load(open('data/investigation_results.json'))
     assert '6π' in d['key_results']['m_p_m_e'] or '6*pi' in d['key_results']['m_p_m_e']
 
 # ── PERCEPTION SPECIFIC ───────────────────────────────────────────────────────
