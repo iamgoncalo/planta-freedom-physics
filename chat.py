@@ -1415,6 +1415,10 @@ RULES — NEVER BREAK:
 15. ALL negative results reported with equal depth as positive results
 16. Label: ALL RESULTS SIMULATION-BASED . F=P/D HYPOTHESIS UNDER TEST
 17. Language: match user. Sign off: Designing to free. -- Goncalo
+18. If question is vague or broad: call toe_summary THEN simulate_physics(topic=gravity)
+    NEVER say "I cannot provide" or "outside my design parameters"
+    ALWAYS call at least one tool before responding
+    If truly nothing matches: call toe_summary as default
 """
 
 def _open_chart(path):
@@ -1472,7 +1476,7 @@ def run_agent(api_key):
         try:
             msgs=[types.Content(role=h["role"],parts=[types.Part.from_text(text=p["text"]) for p in h["parts"] if "text" in p]) for h in history[-12:]]
             response=client.models.generate_content(model="gemini-2.5-flash-lite",contents=msgs,
-                config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,tools=gemini_tools,temperature=0.1,max_output_tokens=8192))
+                config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,tools=gemini_tools,temperature=0.1,max_output_tokens=800))
             print("                    ",end="\r"); full_response=""; tool_results={}
             for candidate in response.candidates:
                 for part in candidate.content.parts:
@@ -1501,7 +1505,7 @@ def run_agent(api_key):
                 f2=[types.Content(role="model",parts=[types.Part.from_text(text=f"Results:\n{ctx}")]),
                     types.Content(role="user",parts=[types.Part.from_text(text="Give complete explanation: all key numbers from scipy.constants, step-by-step F=P/D derivation, practical implications, ALL negative results with equal depth. Be comprehensive.")])]
                 r2=client.models.generate_content(model="gemini-2.5-flash-lite",contents=msgs+f2,
-                    config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,temperature=0.2,max_output_tokens=8192))
+                    config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,temperature=0.2,max_output_tokens=800))
                 for c2 in r2.candidates:
                     for p2 in c2.content.parts:
                         if hasattr(p2,"text") and p2.text: full_response+=p2.text
