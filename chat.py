@@ -887,6 +887,7 @@ def _md_element(symbol, T_K, P_GPa=0.0):
 # TOOLS
 # ═══════════════════════════════════════════════════════════════════════════
 
+
 def tool_analyse_element(symbol: str = "Fe") -> str:
     sym = str(symbol or "Fe").strip().capitalize()
     el  = _elem(sym)
@@ -1061,6 +1062,7 @@ def tool_design_house(budget_eur_per_m2=300.0, area_m2=80.0, style="modular",
         "label":LABEL}, default=str)
 
 
+
 def tool_planta_smart_homes(query: str = "tell me about Planta Smart Homes") -> str:
     import re
     q    = str(query or "planta 20m2")
@@ -1127,6 +1129,7 @@ def tool_generate_patent(invention_description: str = "smart building system usi
 
 def tool_toe_summary():
     return json.dumps(_toe_full())
+
 
 
 def tool_visualise(chart_type: str = "physics",
