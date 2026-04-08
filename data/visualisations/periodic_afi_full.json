@@ -1,0 +1,465 @@
+{
+  "report": {
+    "title": "Periodic Table \u00d7 AFI \u2014 118 Elements \u00d7 5 Theses",
+    "version": "4.0",
+    "author": "Goncalo Melo de Magalhaes",
+    "orcid": "0009-0008-6255-7724",
+    "grant": "FCT 2025.00020.AIVLAB.DEUCALION",
+    "seed": 2026,
+    "Law_of_Freedom": {
+      "equation": "F = P / D  (hypothesis under test)",
+      "alpha_passive": 1.0,
+      "alpha_buildings": 1.242,
+      "R2_geometric_D": 0.993,
+      "R2_additive_D": 0.86,
+      "confirmed": "3x Deucalion HPC, seed=2026",
+      "source": "SC.constants NIST 2018 + mendeleev + config PDG 2022"
+    },
+    "verification": {
+      "checks": [
+        {
+          "check": "All_118_processed",
+          "PASS": true,
+          "detail": "n=118"
+        },
+        {
+          "check": "T1_F_positive_all",
+          "PASS": true,
+          "detail": "min F=0.0132"
+        },
+        {
+          "check": "T1_all_pass",
+          "PASS": true,
+          "detail": ""
+        },
+        {
+          "check": "T2_F_PD_consistent",
+          "PASS": true,
+          "detail": "max_err=0.5556%"
+        },
+        {
+          "check": "T2_noble_gas_max_F_chem",
+          "PASS": true,
+          "detail": "noble=0.956 > non-noble=0.841"
+        },
+        {
+          "check": "Weights_sum_1_0",
+          "PASS": true,
+          "detail": "sum=1.0"
+        },
+        {
+          "check": "T3_Jensen_Dgeom_le_Dadd",
+          "PASS": true,
+          "detail": "D_geo<=D_add proven by Jensen theorem for all 118. Geometric D fundamentally != additive."
+        },
+        {
+          "check": "T3_block_assigned",
+          "PASS": true,
+          "detail": ""
+        },
+        {
+          "check": "T4_d_block_lower_F",
+          "PASS": true,
+          "detail": "d=0.1790 < s=0.3084"
+        },
+        {
+          "check": "T4_block_hierarchy_sFgt_dF_gt_fF",
+          "PASS": true,
+          "detail": "s=0.3084>d=0.1790>f=0.0645: T4 paradox \u2014 complexity reduces Freedom"
+        },
+        {
+          "check": "T5_mp_me_6pi5",
+          "PASS": true,
+          "detail": "6*pi^5=1836.11811 vs SC=1836.15267 err=0.0019%"
+        },
+        {
+          "check": "T5_iron_group_max_F_nuclear",
+          "PASS": true,
+          "detail": "Fe-group=0.9990 > others=0.6398"
+        },
+        {
+          "check": "T5_Bohr_radius_exact",
+          "PASS": true,
+          "detail": "err=0.000000%"
+        },
+        {
+          "check": "Zero_hardcodes_SC",
+          "PASS": true,
+          "detail": "All constants: SC.c, SC.h, SC.hbar, SC.k, SC.G, SC.m_e, SC.m_p, SC.N_A, SC.e, SC.fine_structure, SC.physical_constants"
+        },
+        {
+          "check": "Seed_2026",
+          "PASS": true,
+          "detail": "seed=2026"
+        },
+        {
+          "check": "H_more_free_than_Og",
+          "PASS": true,
+          "detail": "H=0.1834 > Og=0.0272"
+        },
+        {
+          "check": "No_processing_errors",
+          "PASS": true,
+          "detail": "errors=[]"
+        },
+        {
+          "check": "F_never_exceeds_1",
+          "PASS": true,
+          "detail": ""
+        },
+        {
+          "check": "D_always_ge_1",
+          "PASS": true,
+          "detail": ""
+        },
+        {
+          "check": "Period1_higher_F_than_Period7",
+          "PASS": true,
+          "detail": "p1=0.1549 > p7=0.0238"
+        }
+      ],
+      "n_pass": 20,
+      "n_total": 20,
+      "score_pct": 100.0,
+      "ALL_PASS": true,
+      "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+    },
+    "n_elements": 118,
+    "n_errors": 0,
+    "top10_by_F": [
+      {
+        "Z": 13,
+        "symbol": "Al",
+        "F": 0.7078
+      },
+      {
+        "Z": 12,
+        "symbol": "Mg",
+        "F": 0.6704
+      },
+      {
+        "Z": 11,
+        "symbol": "Na",
+        "F": 0.6546
+      },
+      {
+        "Z": 14,
+        "symbol": "Si",
+        "F": 0.6114
+      },
+      {
+        "Z": 4,
+        "symbol": "Be",
+        "F": 0.5665
+      },
+      {
+        "Z": 3,
+        "symbol": "Li",
+        "F": 0.5282
+      },
+      {
+        "Z": 19,
+        "symbol": "K",
+        "F": 0.5003
+      },
+      {
+        "Z": 37,
+        "symbol": "Rb",
+        "F": 0.4266
+      },
+      {
+        "Z": 29,
+        "symbol": "Cu",
+        "F": 0.4171
+      },
+      {
+        "Z": 26,
+        "symbol": "Fe",
+        "F": 0.4145
+      }
+    ],
+    "bottom10_by_F": [
+      {
+        "Z": 111,
+        "symbol": "Rg",
+        "F": 0.0189
+      },
+      {
+        "Z": 106,
+        "symbol": "Sg",
+        "F": 0.0185
+      },
+      {
+        "Z": 110,
+        "symbol": "Ds",
+        "F": 0.0183
+      },
+      {
+        "Z": 107,
+        "symbol": "Bh",
+        "F": 0.0182
+      },
+      {
+        "Z": 109,
+        "symbol": "Mt",
+        "F": 0.018
+      },
+      {
+        "Z": 94,
+        "symbol": "Pu",
+        "F": 0.0178
+      },
+      {
+        "Z": 108,
+        "symbol": "Hs",
+        "F": 0.0178
+      },
+      {
+        "Z": 93,
+        "symbol": "Np",
+        "F": 0.0175
+      },
+      {
+        "Z": 89,
+        "symbol": "Ac",
+        "F": 0.0174
+      },
+      {
+        "Z": 91,
+        "symbol": "Pa",
+        "F": 0.0132
+      }
+    ],
+    "top10_nuclear_F": [
+      {
+        "Z": 18,
+        "symbol": "Ar",
+        "F_nuc": 0.999
+      },
+      {
+        "Z": 21,
+        "symbol": "Sc",
+        "F_nuc": 0.999
+      },
+      {
+        "Z": 22,
+        "symbol": "Ti",
+        "F_nuc": 0.999
+      },
+      {
+        "Z": 23,
+        "symbol": "V",
+        "F_nuc": 0.999
+      },
+      {
+        "Z": 24,
+        "symbol": "Cr",
+        "F_nuc": 0.999
+      },
+      {
+        "Z": 25,
+        "symbol": "Mn",
+        "F_nuc": 0.999
+      },
+      {
+        "Z": 26,
+        "symbol": "Fe",
+        "F_nuc": 0.999
+      },
+      {
+        "Z": 27,
+        "symbol": "Co",
+        "F_nuc": 0.999
+      },
+      {
+        "Z": 28,
+        "symbol": "Ni",
+        "F_nuc": 0.999
+      },
+      {
+        "Z": 29,
+        "symbol": "Cu",
+        "F_nuc": 0.999
+      }
+    ],
+    "most_distorted": [
+      {
+        "Z": 91,
+        "symbol": "Pa",
+        "D": 20.4056
+      },
+      {
+        "Z": 84,
+        "symbol": "Po",
+        "D": 17.9197
+      },
+      {
+        "Z": 89,
+        "symbol": "Ac",
+        "D": 17.8921
+      },
+      {
+        "Z": 76,
+        "symbol": "Os",
+        "D": 17.6407
+      },
+      {
+        "Z": 108,
+        "symbol": "Hs",
+        "D": 16.306
+      },
+      {
+        "Z": 109,
+        "symbol": "Mt",
+        "D": 16.0326
+      },
+      {
+        "Z": 107,
+        "symbol": "Bh",
+        "D": 16.0068
+      },
+      {
+        "Z": 106,
+        "symbol": "Sg",
+        "D": 15.8213
+      },
+      {
+        "Z": 110,
+        "symbol": "Ds",
+        "D": 15.8032
+      },
+      {
+        "Z": 105,
+        "symbol": "Db",
+        "D": 15.2687
+      }
+    ],
+    "block_F_means": {
+      "s": 0.3084,
+      "p": 0.1604,
+      "d": 0.179,
+      "f": 0.0645
+    },
+    "T5_derivations": {
+      "mp_me_6pi5": "6*pi^5=1836.11811 vs SC=1836.15267 (err=0.0019%)",
+      "c_from_em": "1/sqrt(eps0*mu0)=299792458m/s (err=0.000%)",
+      "Bohr_radius": "hbar/(me*c*alpha)=5.2918e-11m (err=0.0000%)"
+    },
+    "negative_results": [
+      "P alone R^2=0.83 > P/D R^2=0.48 in open navigation (always reported)",
+      "FLRP multiplicative R^2=0.0002 \u2014 DEAD (raises RuntimeError)",
+      "Additive D R^2=0.860 < geometric R^2=0.993 (3x confirmed)",
+      "alpha=1.242 CI[1.19,1.29] in buildings \u2014 not 1.000"
+    ],
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  },
+  "verification": {
+    "checks": [
+      {
+        "check": "All_118_processed",
+        "PASS": true,
+        "detail": "n=118"
+      },
+      {
+        "check": "T1_F_positive_all",
+        "PASS": true,
+        "detail": "min F=0.0132"
+      },
+      {
+        "check": "T1_all_pass",
+        "PASS": true,
+        "detail": ""
+      },
+      {
+        "check": "T2_F_PD_consistent",
+        "PASS": true,
+        "detail": "max_err=0.5556%"
+      },
+      {
+        "check": "T2_noble_gas_max_F_chem",
+        "PASS": true,
+        "detail": "noble=0.956 > non-noble=0.841"
+      },
+      {
+        "check": "Weights_sum_1_0",
+        "PASS": true,
+        "detail": "sum=1.0"
+      },
+      {
+        "check": "T3_Jensen_Dgeom_le_Dadd",
+        "PASS": true,
+        "detail": "D_geo<=D_add proven by Jensen theorem for all 118. Geometric D fundamentally != additive."
+      },
+      {
+        "check": "T3_block_assigned",
+        "PASS": true,
+        "detail": ""
+      },
+      {
+        "check": "T4_d_block_lower_F",
+        "PASS": true,
+        "detail": "d=0.1790 < s=0.3084"
+      },
+      {
+        "check": "T4_block_hierarchy_sFgt_dF_gt_fF",
+        "PASS": true,
+        "detail": "s=0.3084>d=0.1790>f=0.0645: T4 paradox \u2014 complexity reduces Freedom"
+      },
+      {
+        "check": "T5_mp_me_6pi5",
+        "PASS": true,
+        "detail": "6*pi^5=1836.11811 vs SC=1836.15267 err=0.0019%"
+      },
+      {
+        "check": "T5_iron_group_max_F_nuclear",
+        "PASS": true,
+        "detail": "Fe-group=0.9990 > others=0.6398"
+      },
+      {
+        "check": "T5_Bohr_radius_exact",
+        "PASS": true,
+        "detail": "err=0.000000%"
+      },
+      {
+        "check": "Zero_hardcodes_SC",
+        "PASS": true,
+        "detail": "All constants: SC.c, SC.h, SC.hbar, SC.k, SC.G, SC.m_e, SC.m_p, SC.N_A, SC.e, SC.fine_structure, SC.physical_constants"
+      },
+      {
+        "check": "Seed_2026",
+        "PASS": true,
+        "detail": "seed=2026"
+      },
+      {
+        "check": "H_more_free_than_Og",
+        "PASS": true,
+        "detail": "H=0.1834 > Og=0.0272"
+      },
+      {
+        "check": "No_processing_errors",
+        "PASS": true,
+        "detail": "errors=[]"
+      },
+      {
+        "check": "F_never_exceeds_1",
+        "PASS": true,
+        "detail": ""
+      },
+      {
+        "check": "D_always_ge_1",
+        "PASS": true,
+        "detail": ""
+      },
+      {
+        "check": "Period1_higher_F_than_Period7",
+        "PASS": true,
+        "detail": "p1=0.1549 > p7=0.0238"
+      }
+    ],
+    "n_pass": 20,
+    "n_total": 20,
+    "score_pct": 100.0,
+    "ALL_PASS": true,
+    "label": "SIMULATED \u2014 F=P/D HYPOTHESIS UNDER TEST \u2014 NOT A PROVEN LAW"
+  }
+}

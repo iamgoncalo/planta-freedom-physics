@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FreedomWaterHome version="3.0" status="SIMULATED" seed="2026"
+  hypothesis="F=P/D is a hypothesis under empirical test — never a proven law">
+  <constants source="NIST-CODATA-2018">
+    <c id="cp_water"       value="4186.0"/>
+    <c id="rho_water"      value="1000.0"/>
+    <c id="k_water"        value="0.598"/>
+    <c id="L_fus"          value="334000.0"/>
+    <c id="L_vap"          value="2257000.0"/>
+    <c id="mu_water"       value="0.001002"/>
+    <c id="sigma_water"    value="0.07275"/>
+    <c id="T_freeze"       value="273.15"/>
+    <c id="T_boil"         value="373.15"/>
+    <c id="K_bulk"         value="2.2e9"/>
+    <c id="steam_ratio"    value="1700.0"/>
+    <c id="c_sound_water"  value="1480.0"/>
+    <c id="Z_water"        value="1.48e6"/>
+    <c id="Z_air"          value="415.0"/>
+    <c id="HVL_neutron"    value="0.10"/>
+    <c id="mu_gamma_1MeV"  value="0.0706"/>
+    <c id="rho_pure_water" value="18200000.0"/>
+    <c id="rho_treat_water" value="10000.0"/>
+    <c id="epsilon_water"  value="80.0"/>
+    <c id="g"              value="9.80665"/>
+    <c id="kB"             value="1.380649e-23"/>
+    <c id="R_gas"          value="8.314462"/>
+    <c id="h_planck"       value="6.62607e-34"/>
+    <c id="c_light"        value="299792458.0"/>
+    <c id="sigma_SB"       value="5.67037e-8"/>
+    <c id="rho_air"        value="1.225"/>
+    <c id="c_sound_air"    value="343.0"/>
+  </constants>
+  <geometry>
+    <floor_area_m2>30.0</floor_area_m2>
+    <ceiling_height_m>2.5</ceiling_height_m>
+  </geometry>
+  <water_geometry>
+    <wall_water_thickness_m>0.20</wall_water_thickness_m>
+    <floor_water_thickness_m>0.10</floor_water_thickness_m>
+    <ceiling_water_thickness_m>0.05</ceiling_water_thickness_m>
+  </water_geometry>
+  <body_systems>
+    <system id="skeleton">
+      <component id="ribs">
+        <tensile_strength_MPa>355</tensile_strength_MPa>
+        <spacing_m>1.5</spacing_m>
+      </component>
+    </system>
+    <system id="insulation">
+      <component id="vip">
+        <R_value_m2KW>6.0</R_value_m2KW>
+        <thickness_m>0.04</thickness_m>
+        <density_kg_m3>200</density_kg_m3>
+      </component>
+    </system>
+    <system id="respiratory">
+      <component id="ventilation">
+        <ach>6.0</ach>
+        <hepa_efficiency>0.9997</hepa_efficiency>
+        <co2_alert_ppm>800</co2_alert_ppm>
+        <co2_legal_ppm>1000</co2_legal_ppm>
+        <uv_c_decay_rate_per_h>0.63</uv_c_decay_rate_per_h>
+        <isolation_pressure_pa>-12.5</isolation_pressure_pa>
+      </component>
+    </system>
+    <system id="filtration">
+      <legionella_control>
+        <temperature_kill_c>55</temperature_kill_c>
+        <temperature_suppress_c>20</temperature_suppress_c>
+        <optimal_growth_c>37</optimal_growth_c>
+        <legionella_sigma_c>10</legionella_sigma_c>
+        <recirculation_max_h>4</recirculation_max_h>
+      </legionella_control>
+      <component id="uvc_steriliser">
+        <wavelength_nm>265</wavelength_nm>
+        <lethal_dose_mJ_cm2>40</lethal_dose_mJ_cm2>
+        <target_log_reduction>4</target_log_reduction>
+      </component>
+      <component id="chlorine_dosing">
+        <residual_min_mg_L>0.2</residual_min_mg_L>
+        <residual_max_mg_L>1.0</residual_max_mg_L>
+      </component>
+    </system>
+    <system id="skin">
+      <component id="hdpe_membrane">
+        <thickness_m>0.003</thickness_m>
+        <tensile_strength_MPa>25</tensile_strength_MPa>
+        <puncture_resistance_N>500</puncture_resistance_N>
+        <uv_lifetime_years>50</uv_lifetime_years>
+        <density_kg_m3>950</density_kg_m3>
+      </component>
+      <component id="emp_mesh">
+        <attenuation_dB>40</attenuation_dB>
+      </component>
+    </system>
+    <system id="energy">
+      <component id="solar_panels">
+        <area_m2>6.0</area_m2>
+        <efficiency_pct>20</efficiency_pct>
+        <peak_sun_hours_portugal>4.0</peak_sun_hours_portugal>
+        <pv_temp_gamma>-0.004</pv_temp_gamma>
+      </component>
+      <component id="battery">
+        <capacity_kWh>5.0</capacity_kWh>
+        <cycles_min>3000</cycles_min>
+      </component>
+      <component id="base_load">
+        <power_kW>0.15</power_kW>
+      </component>
+    </system>
+    <system id="foundation">
+      <component id="raft_foundation">
+        <depth_m>0.35</depth_m>
+        <anchor_bolts>6</anchor_bolts>
+        <area_m2>30</area_m2>
+        <cost_eur_m2>25</cost_eur_m2>
+      </component>
+    </system>
+    <system id="acoustic">
+      <component id="water_wall_acoustic">
+        <target_dB>45</target_dB>
+      </component>
+      <component id="TLD_seismic">
+        <fill_ratio_optimal>0.15</fill_ratio_optimal>
+        <damping_ratio_xi>0.20</damping_ratio_xi>
+      </component>
+    </system>
+    <system id="immune">
+      <seal_time_s>180</seal_time_s>
+      <n_defence_layers>6</n_defence_layers>
+      <nbc_filter_efficiency>0.9999</nbc_filter_efficiency>
+    </system>
+    <system id="drainage">
+      <component id="condensation_collector">
+        <recovery_factor>0.85</recovery_factor>
+      </component>
+      <component id="flood_drainage">
+        <GM_m>0.75</GM_m>
+      </component>
+    </system>
+    <system id="thermoregulation">
+      <component id="water_thermal_battery">
+        <thermal_mass_MJ_K>64.69</thermal_mass_MJ_K>
+        <external_temp_design_C>50.0</external_temp_design_C>
+        <RH_portugal_extreme_pct>15.0</RH_portugal_extreme_pct>
+      </component>
+    </system>
+    <system id="circulatory">
+      <component id="pump">
+        <MTBF_h>100000</MTBF_h>
+        <capacity_L_min>65</capacity_L_min>
+      </component>
+      <component id="piping">
+        <diameter_mm>25</diameter_mm>
+      </component>
+    </system>
+    <system id="intelligence">
+      <component id="afi_weights">
+        <weight channel="thermal">0.40</weight>
+        <weight channel="co2">0.22</weight>
+        <weight channel="humidity">0.16</weight>
+        <weight channel="light">0.12</weight>
+        <weight channel="noise">0.05</weight>
+        <weight channel="occupancy">0.03</weight>
+        <weight channel="spatial">0.02</weight>
+      </component>
+    </system>
+    <system id="feedback">
+      <component id="pso">
+        <n_particles>30</n_particles>
+        <n_iterations>100</n_iterations>
+        <inertia_w>0.729</inertia_w>
+        <c1>1.494</c1>
+        <c2>1.494</c2>
+      </component>
+      <component id="aco">
+        <alpha>1.0</alpha>
+        <beta>2.0</beta>
+        <rho>0.1</rho>
+      </component>
+    </system>
+  </body_systems>
+  <afi_framework>
+    <hypothesis>F = P / D — hypothesis under empirical test — never a proven law</hypothesis>
+    <deucalion_R2_geometric>0.993</deucalion_R2_geometric>
+    <deucalion_R2_additive>0.860</deucalion_R2_additive>
+    <alpha_buildings>1.242</alpha_buildings>
+    <seed>2026</seed>
+    <weights sum_validation="must_equal_1.0">
+      <w channel="thermal">0.40</w>
+      <w channel="co2">0.22</w>
+      <w channel="humidity">0.16</w>
+      <w channel="light">0.12</w>
+      <w channel="noise">0.05</w>
+      <w channel="occupancy">0.03</w>
+      <w channel="spatial">0.02</w>
+    </weights>
+  </afi_framework>
+  <bom currency="EUR" year="2026">
+    <item id="water"         unit_cost_eur_m3="1.50"     volume_m3="15.454"/>
+    <item id="hdpe_membrane" unit_cost_eur_m2="8.00"     area_m2="169.544"/>
+    <item id="vip"           unit_cost_eur_m2="30.00"    area_m2="84.772"/>
+    <item id="frame"         unit_cost_eur_unit="350.00" units="5"/>
+    <item id="ribs"          total_eur="400.00"/>
+    <item id="systems"       total_eur="1700.00"/>
+    <item id="foundation"    unit_cost_eur_m2="25.00"    area_m2="30.0"/>
+    <item id="labour"        rate_eur_h="20.00"          hours="8"/>
+    <contingency_factor>1.08</contingency_factor>
+    <budget_eur>10000.00</budget_eur>
+  </bom>
+  <scenarios>
+    <scenario id="STR-EQ-01"        ><threshold metric="safety_factor"      operator="gte">2.0</threshold></scenario>
+    <scenario id="STR-WND-01"       ><threshold metric="overturning_ratio"   operator="gte">1.5</threshold></scenario>
+    <scenario id="STR-SN-01"        ><threshold metric="safety_factor"       operator="gte">3.0</threshold></scenario>
+    <scenario id="STR-TORN-01"      ><threshold metric="penetration_SF"      operator="gte">1.0</threshold></scenario>
+    <scenario id="TH-01"            ><threshold metric="hours"               operator="gte">72.0</threshold></scenario>
+    <scenario id="TH-02"            ><threshold metric="hours"               operator="gte">24.0</threshold></scenario>
+    <scenario id="TH-03"            ><threshold metric="T_internal_C"        operator="lte">28.0</threshold></scenario>
+    <scenario id="WI-01"            ><threshold metric="pct_lost"            operator="lte">5.0</threshold></scenario>
+    <scenario id="BIO-01"           ><threshold metric="risk_score"          operator="lte">0.05</threshold></scenario>
+    <scenario id="WMF-01"           ><threshold metric="pct_mass_water"      operator="gte">90.0</threshold></scenario>
+    <scenario id="EL-01"            ><threshold metric="mA_leakage"          operator="lte">15.0</threshold></scenario>
+    <scenario id="EL-02"            ><threshold metric="survival_fraction"   operator="gte">0.80</threshold></scenario>
+    <scenario id="LIG-01"           ><threshold metric="V_step_potential"    operator="lte">500.0</threshold></scenario>
+    <scenario id="NUC-01"           ><threshold metric="kPa_internal"        operator="lte">35.0</threshold></scenario>
+    <scenario id="PAN-01"           ><threshold metric="min_to_1pct_quanta"  operator="lte">60.0</threshold></scenario>
+    <scenario id="FI-01"            ><threshold metric="L_min"               operator="gte">300.0</threshold></scenario>
+    <scenario id="FI-02"            ><threshold metric="minutes_survival"    operator="gte">10.0</threshold></scenario>
+    <scenario id="FL-01"            ><threshold metric="GM_m"                operator="gte">0.30</threshold></scenario>
+    <scenario id="CBRN-01"          ><threshold metric="hours_air"           operator="gte">12.0</threshold></scenario>
+    <scenario id="COOK-01"          ><threshold metric="ppm_CO"              operator="lte">35.0</threshold></scenario>
+    <scenario id="CHILD-01"         ><threshold metric="m2_exposed_water"    operator="lte">0.0</threshold></scenario>
+    <scenario id="PET-01"           ><threshold metric="ppm_CO2"             operator="lte">800.0</threshold></scenario>
+    <scenario id="PWR-01"           ><threshold metric="hours_autonomy"      operator="gte">72.0</threshold></scenario>
+    <scenario id="AFI-01"           ><threshold metric="F_score"             operator="gte">0.70</threshold></scenario>
+    <scenario id="PRV-01"           ><threshold metric="dB_TL"               operator="gte">45.0</threshold></scenario>
+    <scenario id="COST-01"          ><threshold metric="EUR"                 operator="lte">10000.0</threshold></scenario>
+    <scenario id="MED-01"           ><threshold metric="m_door_width"        operator="gte">0.90</threshold></scenario>
+    <scenario id="OCC-solo"         ><threshold metric="F_score"             operator="gte">0.56</threshold></scenario>
+    <scenario id="OCC-couple"       ><threshold metric="F_score"             operator="gte">0.56</threshold></scenario>
+    <scenario id="OCC-family-small" ><threshold metric="F_score"             operator="gte">0.56</threshold></scenario>
+    <scenario id="OCC-family-large" ><threshold metric="F_score"             operator="gte">0.56</threshold></scenario>
+    <scenario id="OCC-extended"     ><threshold metric="F_score"             operator="gte">0.56</threshold></scenario>
+    <scenario id="OCC-community-30" ><threshold metric="modules"             operator="gte">1</threshold></scenario>
+    <scenario id="OCC-community-100"><threshold metric="modules"             operator="gte">1</threshold></scenario>
+  </scenarios>
+</FreedomWaterHome>
