@@ -1123,8 +1123,23 @@ def tool_find_best_elements(use_case: str = "combined", n: int = 10,
     top = results[:n]
     for i,r in enumerate(top,1): r["rank"] = i
     summary = " | ".join(f"{r['symbol']}={r['F_score']}" for r in top[:5])
+    # Compact table — Gemini reads this directly (65KB JSON is too large)
+    table_lines = ["ELEMENT DATA — copy exact prices and values from here:"]
+    for t in top:
+        p = t.get("price_eur_kg") or t.get("price_per_kg_eur", 0)
+        table_lines.append(
+            f"#{t['rank']} {t['symbol']} {t['name']} | "
+            f"F={t['F_score']} F_struct={t.get('F_structural',0)} "
+            f"F_thermal={t.get('F_thermal',0)} F_building={t.get('F_building',0)} "
+            f"density={t.get('density',t.get('density_g_cm3',0))}g/cm3 "
+            f"melt={t.get('melting_K',0)}K price=EUR{p}/kg "
+            f"{t.get('lattice','?')} {t.get('phase_300K','?')} "
+            f"{t.get('electron_config','?')} | {t.get('description','')[:70]}"
+        )
+    compact = "\n".join(table_lines)
     return json.dumps({"use_case":use_case,"n_analysed":118,"n_shown":len(top),
-        "top5_summary":summary,"top_elements":top,"label":LABEL}, default=str)
+        "top5_summary":summary,"compact_table":compact,"top_elements":top,
+        "label":LABEL}, default=str)
 
 
 def tool_simulate_element(symbol: str = "Fe", temperature_K=300.0, pressure_GPa=0.0):
@@ -1593,7 +1608,18 @@ def run_agent(api_key):
                             except Exception as ex: tool_results[tn]=json.dumps({"error":str(ex)}); print(f"  {Y_}err: {ex}{RST}")
                     elif hasattr(part,"text") and part.text: full_response+=part.text
             if tool_results and not full_response:
-                ctx="\n\n".join(f"[{n}]:\n{r}" for n,r in tool_results.items())
+                # Strip full element arrays to reduce context size — use compact_table instead
+                def _slim(name, raw):
+                    try:
+                        d = json.loads(raw)
+                        if "IMPORTANT_READ_THIS" in d:
+                            return d["IMPORTANT_READ_THIS"]
+                        if "top_elements" in d and len(d["top_elements"]) > 10:
+                            d2 = {k:v for k,v in d.items() if k != "top_elements"}
+                            return json.dumps(d2)
+                    except: pass
+                    return raw
+                ctx="\n\n".join(f"[{n}]:\n{_slim(n,r)}" for n,r in tool_results.items())
                 f2=[types.Content(role="model",parts=[types.Part.from_text(text=f"Results:\n{ctx}")]),
                     types.Content(role="user",parts=[types.Part.from_text(text=
                         "Reply using ONLY the data from the tool results above. "
