@@ -1375,7 +1375,7 @@ def run_agent(api_key):
         print(f"{DIM}  thinking...{RST}",end="\r"); history.append({"role":"user","parts":[{"text":query}]})
         try:
             msgs=[types.Content(role=h["role"],parts=[types.Part.from_text(text=p["text"]) for p in h["parts"] if "text" in p]) for h in history[-12:]]
-            response=client.models.generate_content(model="gemini-2.0-flash",contents=msgs,
+            response=client.models.generate_content(model="gemini-2.5-flash",contents=msgs,
                 config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,tools=gemini_tools,temperature=0.1,max_output_tokens=8192))
             print("                    ",end="\r"); full_response=""; tool_results={}
             for candidate in response.candidates:
@@ -1404,7 +1404,7 @@ def run_agent(api_key):
                 ctx="\n\n".join(f"[{n}]:\n{r[:5000]}" for n,r in tool_results.items())
                 f2=[types.Content(role="model",parts=[types.Part.from_text(text=f"Results:\n{ctx}")]),
                     types.Content(role="user",parts=[types.Part.from_text(text="Give complete explanation: all key numbers from scipy.constants, step-by-step F=P/D derivation, practical implications, ALL negative results with equal depth. Be comprehensive.")])]
-                r2=client.models.generate_content(model="gemini-2.0-flash",contents=msgs+f2,
+                r2=client.models.generate_content(model="gemini-2.5-flash",contents=msgs+f2,
                     config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,temperature=0.2,max_output_tokens=8192))
                 for c2 in r2.candidates:
                     for p2 in c2.content.parts:
