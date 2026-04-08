@@ -8,6 +8,11 @@ ALL RESULTS SIMULATION-BASED · F=P/D HYPOTHESIS UNDER TEST
 """
 from __future__ import annotations
 import sys,os,math,json,argparse,textwrap,warnings,platform,subprocess
+try:
+    from toe_300 import evaluate_all as _toe_300_eval
+    _TOE300_OK = True
+except Exception:
+    _TOE300_OK = False
 warnings.filterwarnings("ignore")
 import numpy as np
 from scipy import constants as SC, integrate
@@ -1540,6 +1545,37 @@ def _toe_predictions():
 def tool_toe_predictions():
     """3 risky predictions with numbers, experiments, falsification + honest limitations."""
     return json.dumps(_toe_predictions(), default=str)
+
+def tool_toe_300(section: str = "all", status_filter: str = "all"):
+    """Evaluate all 300 TOE criteria. section: I/II/III/IV/V/VI/VII/VIII/all. status_filter: PASS/PARTIAL/FAIL/PENDING/all."""
+    if not _TOE300_OK:
+        return json.dumps({"error": "toe_300.py not loaded"})
+    r = _toe_300_eval()
+    sec = str(section or "all").upper().strip()
+    flt = str(status_filter or "all").upper().strip()
+    # Filter criteria
+    crit = r["criteria"]
+    if sec != "ALL":
+        crit = {k: v for k,v in crit.items() if v["section"] == sec}
+    if flt != "ALL":
+        crit = {k: v for k,v in crit.items() if v["status"].startswith(flt)}
+    # Return summary + filtered criteria
+    return json.dumps({
+        "total_criteria": r["total_criteria"],
+        "score_PASS": r["score_PASS"],
+        "score_PARTIAL": r["score_PARTIAL"],
+        "score_FAIL": r["score_FAIL"],
+        "score_PENDING": r["score_PENDING"],
+        "score_ADDRESSED": r["score_ADDRESSED"],
+        "sections": r["sections"],
+        "honest_fail_items": r["honest_fail_items"],
+        "path_to_improvement": r["path_to_100pct_pass"],
+        "filter_applied": f"section={sec} status={flt}",
+        "criteria_shown": len(crit),
+        "criteria": crit,
+        "label": LABEL,
+    }, default=str)
+
 
 
 
