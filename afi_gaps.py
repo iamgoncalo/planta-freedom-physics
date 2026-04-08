@@ -422,13 +422,17 @@ def simulate_temporal_feedback(
         # ── Differential equations ────────────────────────────────────────
         # CO2 mass balance: dC/dt = (n*g - Q*(C - C_out)*1e6) / V
         C_frac   = C * 1e-6
-        dC_dt    = (n * g_CO2_per_person - Q_vent * (C_frac - C_outdoor)) / room_volume_m3
+        if Q_vent < 1e-9:  # sealed room — pure accumulation
+            dC_dt = n * g_CO2_per_person / room_volume_m3
+        else:
+            dC_dt = (n * g_CO2_per_person - Q_vent * (C_frac - C_outdoor)) / room_volume_m3
         C_new    = max(C_outdoor*1e6, C + dC_dt * dt_sec * 1e6)
         # Thermal: dT/dt = (Q_solar + n*Q_met - U*A*(T-T_out) - Q_vent*rho*Cp*(T-T_out)) / (m*Cp)
         Q_in     = Q_solar_W + n * Q_metabolic_W
         T_K      = T + 273.15
         Q_loss   = U_fabric * A_fabric * max(0, T_K - T_outdoor_K)
-        dT_dt    = (Q_in - Q_loss) / (m_air * Cp_air)
+        Q_vent_loss = Q_vent * rho_air * Cp_air * max(0, T_K - T_outdoor_K) if Q_vent > 1e-9 else 0.0
+        dT_dt    = (Q_in - Q_loss - Q_vent_loss) / (m_air * Cp_air)
         T_new    = T + dT_dt * dt_sec
         # RH: simplified coupling with T (psychrometric)
         # RH changes with T via saturation pressure ratio
@@ -478,7 +482,7 @@ def simulate_temporal_feedback(
         dF_dt_est.append(dF)
     # Lyapunov-like divergence: std of dF/dt (chaotic signature)
     lyapunov_proxy = float(np.std(dF_dt_est)) if dF_dt_est else 0.0
-    co2_tau = room_volume_m3 / Q_vent / 60.0  # minutes to 63% equilibrium
+    co2_tau = (room_volume_m3 / Q_vent / 60.0) if Q_vent > 0 else float("inf")  # inf when sealed
     return {
         "simulation_params": {"n_agents":n_agents,"duration_min":duration_min,"ACH":ACH,"room_volume_m3":room_volume_m3,"seed":SEED},
         "trajectory": trajectory,
