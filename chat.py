@@ -1306,7 +1306,10 @@ RULES (10 rules, no exceptions):
 3. find_best_elements result: write top5_summary field EXACTLY from JSON. One sentence. Stop.
 4. NEVER write "I cannot provide" or "comprehensive". Call a tool instead.
 5. NEVER invent numbers. Every number must appear in tool JSON. Invented = failure.
-6. Periodic table / rank elements -> find_best_elements(n=118) + visualise(chart_type=periodic_F)
+6. "periodic table" or "all elements" or "rank all" -> ONLY call find_best_elements(n=118)
+   Then write: "Periodic table F scores: " + top5_summary from JSON
+   Then list top 10 as: #rank symbol F=score
+   DO NOT call toe_summary for this question.
 7. L-layer / P_logic / FLRP layers -> compute_L_layer
 8. atomic / macro / Cauchy -> atomic_to_macro
 9. temporal / CO2 / sealed room -> temporal_simulation(n_agents=N, duration_min=M, ACH=A)
@@ -1360,9 +1363,7 @@ def run_agent(api_key):
   {DIM}  Type quit to exit.{RST}
 """)
     _prime_q = "what is your response format?"
-    _prime_a = ("Tool result first. Key numbers from JSON only. 1-2 sentences max. "
-               "Example: find_best_elements water_home: Al=0.8668 | Cu=0.8542 | Mg=0.8475. "
-               "Aluminum leads. SIMULATED. Designing to free. -- Goncalo")
+    _prime_a = "RULE: call tool, copy JSON numbers, max 3 sentences, stop. NEVER say I cannot. Periodic table = find_best_elements(n=118) then list top 10 symbols and F_scores. Best element = copy top5_summary exactly."
     history = [
         {"role":"user","parts":[{"text":_prime_q}]},
         {"role":"model","parts":[{"text":_prime_a}]},
@@ -1410,7 +1411,7 @@ def run_agent(api_key):
                     for p2 in c2.content.parts:
                         if hasattr(p2,"text") and p2.text: full_response+=p2.text
             if not full_response: full_response="Simulation complete."
-            print(); print(f"{B_}{chr(45)*64}{RST}"); print(f"  {BOLD}Planta Freedom Physics AI v4.0{RST}"); print(f"{B_}{chr(45)*64}{RST}")
+            print(); print(f"{B_}{chr(45)*64}{RST}"); print(f"  {BOLD}Planta Freedom Physics AI v5.0{RST}"); print(f"{B_}{chr(45)*64}{RST}")
             for line in full_response.split("\n"):
                 w_=textwrap.fill(line,width=82,subsequent_indent="  ") if len(line)>82 else line
                 for term,col in [("F=P/D",G_),("DERIVED",G_),("CRITICAL",R_),("SIMULATED",DIM)]:
@@ -1421,7 +1422,7 @@ def run_agent(api_key):
         except Exception as e: print(f"  {R_}Error: {e}{RST}")
 
 if __name__=="__main__":
-    p=argparse.ArgumentParser(description="Planta Freedom Physics v4.0")
+    p=argparse.ArgumentParser(description="Planta Freedom Physics v5.0")
     p.add_argument("--key","-k",default=os.environ.get("GEMINI_API_KEY",""))
     args=p.parse_args()
     if not args.key:
