@@ -89,13 +89,21 @@ def compute_P_logic(
       R^2(P_logic vs navigation_efficiency) = 0.9856 (seed=2026, n=10000)
       Previous 15 scalar formulas: all R^2 < 0.024 — this cracks the L-layer.
     
-    FULL FLRP INTEGRATION:
-      F_eff = P_logic * P_spatial / D
-      where P_logic is L-layer, P_spatial is R-layer (BFS), D is P-layer (sensors)
+    FLRP LAYERS INTEGRATION (T3 AFI thesis):
+      FLRP = Freedom-Logic-Relations-Physical LAYERS (operating system of reality)
+      L-layer: P_logic (this function)
+      R-layer: P_spatial (BFS topology)
+      P-layer: D channels (sensors)
+      F-layer: F = P_eff / D
     
-    NOT MULTIPLICATIVE (HL-13): D channels are NOT multiplied.
-      Only P_logic * P_spatial = P_effective is the product.
-      D remains geometric: D = exp(sum(w_k * ln(d_k))).
+      P_eff = P_logic * P_spatial  (L × R layers combined)
+      F = P_eff / D  (F-layer)
+      D = exp(sum(w_k * ln(d_k))) [geometric — never additive]
+    
+    FLRP IS NEVER MULTIPLICATIVE:
+      FLRP is the 4-layer hierarchy, NOT a multiplication formula.
+      The only multiplication is P_logic * P_spatial (combining L and R layers).
+      D channels use geometric formula — never multiplied together.
     """
     F = np.array(room_F_scores, dtype=float)
     N = len(F)

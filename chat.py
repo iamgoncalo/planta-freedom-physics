@@ -804,7 +804,7 @@ def _phys(topic, p=1.0, p2=0.0):
                 "mp_me":f"6pi^5={_m_ratio_AFI:.5f} vs SC={_m_ratio_SC:.5f} (err={abs(_m_ratio_AFI-_m_ratio_SC)/_m_ratio_SC*100:.4f}%)",
                 "c_from_em":f"1/sqrt(eps0*mu0)={_c_from_em:.0f}m/s (err=0.000%)",
                 "a0":f"hbar/(me*c*alpha)={_a0_check:.4e}m",
-            },"negative":["P alone R^2=0.83>P/D 0.48 open navigation","FLRP mult DEAD R^2=0.0002","Additive D 0.860<geometric 0.993 (3x)"],"label":LABEL}
+            },"negative":["P alone R^2=0.83>P/D 0.48 open navigation","FLRP = F-L-R-P LAYERS hierarchy (T3) — never multiplicative","Additive D 0.860<geometric 0.993 (3x)"],"label":LABEL}
 
 def _toe_full():
     return {
@@ -825,7 +825,7 @@ def _toe_full():
         },
         "negative_results": [
             "P alone R^2=0.83 > P/D R^2=0.48 in open navigation (always reported)",
-            "FLRP multiplicative R^2=0.0002 — DEAD (raises RuntimeError)",
+            "FLRP = Freedom-Logic-Relations-Physical LAYERS (operating system). Never multiplicative. T3 AFI thesis.",
             "Additive D R^2=0.860 < geometric 0.993 (3x Deucalion confirmed, seed=2026)",
             "alpha=1.242 CI[1.19,1.29] in buildings — not 1.000",
             "Vacuum energy: QFT/obs ratio~1e120 (worst prediction in physics)",
@@ -1385,8 +1385,14 @@ Schrodinger: D_quantum=hbar/2*Deltax
 Einstein GR: G_mu_nu=8piG*T_mu_nu: spacetime=crystallised D
 Boltzmann: S=kB*ln(W)=D_thermo
 Shannon: C=B*log2(1+P/D)
-Dirac: spin=T3 FLRP
+Dirac: spin=T3 FLRP (FLRP = Freedom-Logic-Relations-Physical LAYERS hierarchy)
 FLRW: H^2=(8piG/3)*rho+Lambda*c^2/3
+FLRP: Freedom-Logic-Relations-Physical LAYERS (T3 AFI thesis — operating system of reality)
+  F-layer: F=P/D (freedom)
+  L-layer: P_logic = 1-H_posterior/H_prior (cognitive/information layer, GAP 1)
+  R-layer: BFS topology, network relations
+  P-layer: physical sensors, D channels
+  FLRP is NEVER multiplicative — it is a HIERARCHY of layers. T3 thesis.
 Key: mp/me=6pi^5=1836.118 (err 0.0019%) | c=299792458 m/s (err 0%) | a0 err=0%
 
 TOOLS (ALWAYS CALL for concrete questions):
@@ -1405,7 +1411,10 @@ RULES — NEVER BREAK:
    "water home" = Freedom Water Home (222 water laws unified) -> simulate_water THEN design_house
 5. ANY room -> compute_room_F
 6. Rankings/periodic table -> find_best_elements(n=118) then visualise(periodic_F)
-7. FLRP / L-layer / logic layer / P_logic -> compute_L_layer FIRST
+7. FLRP = Freedom-Logic-Relations-Physical LAYERS (operating system hierarchy)
+   L-layer / logic layer / P_logic -> compute_L_layer FIRST
+   FLRP is NEVER multiplicative. NEVER associated with multiplication.
+   FLRP is T3 AFI thesis: the 4 ontological layers of reality.
 8. atomic/lattice/macro/Young modulus/Cauchy -> atomic_to_macro FIRST
 9. temporal/CO2 over time/dD/dt/dF/dt -> temporal_simulation FIRST
    ALWAYS convert hours to minutes: 1h=60, 2h=120, 8h=480, 24h=1440
