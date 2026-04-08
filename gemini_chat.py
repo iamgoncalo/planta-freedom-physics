@@ -451,9 +451,219 @@ def tool_compute_room_F(temp_c: float = 20.0, co2_ppm: float = 650,
 
 # ─── TOOL 5: Physics simulation ──────────────────────────────────────────────
 def tool_simulate_physics(topic: str, parameter: float = 1.0) -> str:
-    """Run Freedom Physics simulations: gravity, quantum, thermodynamics, transport, etc."""
+    """Simulate ANY physics topic through Freedom Physics: big bang, gravity, quantum,
+    dark matter, dark energy, consciousness, evolution, thermodynamics, transport,
+    black holes, particle physics, cosmology, neutrinos, Higgs, information theory, etc.
+    Returns step-by-step derivation with real numbers from scipy.constants and config."""
     t = topic.lower()
-    if any(w in t for w in ['gravity','graviton','schwarzschild','black hole','orbital']):
+
+    # ── COSMOLOGY ─────────────────────────────────────────────────────────────
+    if any(w in t for w in ['big bang','big_bang','before big','origin universe',
+                             'inflation','initial','singularity','planck epoch',
+                             'what was before','beginning of','baryogenesis']):
+        H0 = float(cfg.cosmology.H0_km_s_Mpc) * 1e3 / 3.085677581491367e22
+        T_CMB = float(cfg.cosmology.T_CMB_K)
+        OL = float(cfg.cosmology.Omega_Lambda)
+        Om = float(cfg.cosmology.Omega_matter)
+        t_univ = float(cfg.cosmology.t_universe_Gyr) * 3.156e16  # seconds
+        T_PL = SC.physical_constants['Planck time'][0]
+        M_PL = SC.physical_constants['Planck mass'][0]
+        E_PL = M_PL * SC.c**2
+        # Hawking radiation of a Planck-mass BH at t=0
+        T_Planck_BH = SC.hbar * SC.c**3 / (8*math.pi*SC.G*M_PL*SC.k)
+        # CMB Planck spectrum peak
+        nu_peak = 2.821 * SC.k * T_CMB / SC.h
+        # Baryon-photon ratio (config + SC)
+        Omega_b = float(cfg.cosmology.Omega_baryon)
+        rho_crit = 3*H0**2/(8*math.pi*SC.G)
+        rho_b = Omega_b * rho_crit
+        n_b = rho_b / (SC.m_p * SC.c**2) * SC.c**2  # baryon number density
+        n_gamma = 2*SC.physical_constants['Stefan-Boltzmann constant'][0]*T_CMB**3 / (
+            SC.k * 0.9 * SC.c**3) * 1e-9  # approximate photon density
+        return json.dumps({
+            'topic': 'Big Bang & Cosmology in Freedom Physics (T1+T5)',
+            'AFI_derivation': {
+                'T1': 'Big Bang = T1: D(0)=1_minimum, F(0)=1_maximum. Freedom irreducible.',
+                'T5': 'Matter = crystallised D. Big Bang = onset of D crystallisation.',
+                'before_big_bang': 'Before T1: F=1, D=1. Pure Freedom state. No time, no space.',
+                'what_triggered': 'T1→T5 transition: D crystallisation cascades from quantum vacuum.',
+            },
+            'key_numbers_from_SC_and_config': {
+                'Planck_time_s': float(T_PL),
+                'Planck_mass_kg': float(M_PL),
+                'Planck_energy_J': float(E_PL),
+                'Planck_energy_GeV': float(E_PL / SC.e / 1e9),
+                'T_CMB_now_K': T_CMB,
+                'CMB_peak_frequency_GHz': round(nu_peak/1e9, 2),
+                'H0_km_s_Mpc': float(cfg.cosmology.H0_km_s_Mpc),
+                'H0_SI': float(H0),
+                'age_universe_Gyr': float(cfg.cosmology.t_universe_Gyr),
+                'Omega_Lambda_dark_energy': OL,
+                'Omega_matter': Om,
+                'Omega_DM': float(cfg.cosmology.Omega_DM),
+                'Omega_baryon': float(Omega_b),
+                'rho_critical_kg_m3': float(rho_crit),
+            },
+            'cosmic_timeline': {
+                't=0': 'Planck epoch: D=1, F=1. Temperature~1.4e32 K.',
+                't=1e-43s': 'Planck time: quantum gravity era ends. D begins crystallising.',
+                't=1e-36s': 'GUT epoch: strong force separates. D_strong crystallises.',
+                't=1e-12s': 'Electroweak symmetry breaking: Higgs field D_Higgs≠0.',
+                't=1e-6s': 'Quark-hadron transition: quarks confine into protons/neutrons.',
+                't=3min': 'BBN: light elements form. He-4 F_nuclear=max.',
+                't=380000yr': f'CMB decouples: T={T_CMB*1100:.0f}K→{T_CMB:.4f}K today.',
+                't=13.787Gyr': 'Now: F_cosmic still evolving. D_dark_energy drives acceleration.',
+            },
+            'F_evolution': {
+                'F_Planck': 1.0,
+                'F_now_Omega_Lambda': OL,
+                'F_increase_explanation': 'F increases as D_local decreases (structure forms)',
+                'dark_energy_role': f'Omega_Lambda={OL}: residual T1 Freedom drives acceleration',
+            },
+            'm_ratio_prediction': {
+                'value_AFI': round(6*math.pi**5, 5),
+                'value_SC': round(SC.m_p/SC.m_e, 5),
+                'error_pct': round(abs(6*math.pi**5 - SC.m_p/SC.m_e)/(SC.m_p/SC.m_e)*100, 4),
+                'meaning': '6π⁵ = 3 quark colours × 2 spins × π⁴ orbital = T5 crystallised D ratio',
+            },
+            'sources': 'scipy.constants NIST 2018 + config_omega.yaml Planck 2018',
+            'label': LABEL,
+        })
+
+    elif any(w in t for w in ['dark matter','dark_matter','missing mass',
+                               'galaxy rotation','wimps','axion']):
+        OD = float(cfg.cosmology.Omega_DM); Ob = float(cfg.cosmology.Omega_baryon)
+        H0 = float(cfg.cosmology.H0_km_s_Mpc) * 1e3 / 3.085677581491367e22
+        rho_crit = 3*H0**2/(8*math.pi*SC.G)
+        rho_DM = OD * rho_crit
+        return json.dumps({
+            'topic': 'Dark Matter in Freedom Physics (T5)',
+            'AFI_derivation': 'DM = D_gravitational without D_electromagnetic. Distortion without EM coupling.',
+            'Omega_DM': OD, 'Omega_baryon': Ob, 'DM_to_baryon_ratio': round(OD/Ob, 3),
+            'rho_DM_kg_m3': float(rho_DM),
+            'galaxy_rotation': 'D_grav halo: P/D = const → flat rotation curves (v=const)',
+            'why_invisible': 'D_EM=0: no photon coupling → invisible. Only D_grav.',
+            'prediction': 'DM particle: D_mass but F_EM=1 (no EM distortion). Mass from config.',
+            'sources': 'config_omega.yaml Planck 2018', 'label': LABEL,
+        })
+
+    elif any(w in t for w in ['dark energy','accelerat','lambda','cosmological constant',
+                               'expansion','hubble tension']):
+        OL = float(cfg.cosmology.Omega_Lambda)
+        H0 = float(cfg.cosmology.H0_km_s_Mpc) * 1e3 / 3.085677581491367e22
+        Lambda = 3*OL*H0**2/SC.c**2
+        Lambda_config = float(cfg.cosmology.Lambda_m2)
+        error = abs(Lambda-Lambda_config)/Lambda_config*100
+        return json.dumps({
+            'topic': 'Dark Energy in Freedom Physics (T1+T5)',
+            'AFI_derivation': 'DE = residual T1 Freedom. F_vacuum = Omega_Lambda = constant.',
+            'w_equation_of_state': -1,
+            'Omega_Lambda': OL, 'Lambda_predicted_m2': float(Lambda),
+            'Lambda_config_m2': float(Lambda_config), 'error_pct': round(error, 2),
+            'Hubble_tension': 'D_local ≠ D_CMB: scale-dependent D crystallisation explains tension.',
+            'H0_local_est': 73.0, 'H0_CMB': float(cfg.cosmology.H0_km_s_Mpc),
+            'formula': 'Λ = 3Ω_Λ H₀²/c² (SC.c, config H0, Omega_Lambda)',
+            'label': LABEL,
+        })
+
+    elif any(w in t for w in ['consciousness','aware','qualia','hard problem',
+                               'what is mind','sentient','subjective']):
+        return json.dumps({
+            'topic': 'Consciousness in Freedom Physics (T4+IIT)',
+            'AFI_derivation': {
+                'formula': 'Φ = P_integrated / D_partition = F_consciousness',
+                'IIT_mapping': 'IIT phi maps exactly to AFI: Φ = F_consciousness',
+                'hard_problem': 'Dissolved: subjectivity = observer-dependent P. D is objective for all.',
+                'qualia': 'Qualia = unique F-signature of observer state. Each state 1-to-1 with F.',
+                'free_will': 'F>0 always (T1): genuine degrees of freedom exist. Neither full determinism nor chaos.',
+            },
+            'perception_levels': {
+                'L0': 'P=1 passive R²=1.0000', 'L1': 'P=BFS R²=0.935',
+                'L2': f'P=frac_improving R²={float(cfg.perception.level2_r2_dominant)} DOMINANT',
+                'L25': f'P_structural R²={float(cfg.perception.level25_r2)} scale-invariant',
+            },
+            'intelligence_paradox': f'ρ={float(cfg.deucalion.intelligence_paradox_rho)}: dense brains not necessarily more conscious',
+            'label': LABEL,
+        })
+
+    elif any(w in t for w in ['evolution','darwin','natural selection','fitness',
+                               'survival','species','life','living']):
+        rg_loc = np.random.default_rng(SEED)
+        pop = rg_loc.uniform(0,1,500)
+        for _ in range(100):
+            med = np.median(pop); surv = pop[pop>med]
+            if len(surv)==0: break
+            pop = np.clip(surv + rg_loc.normal(0,0.05,len(surv)), 0, 1)
+        return json.dumps({
+            'topic': 'Evolution in Freedom Physics (T2 Law 2 + T4)',
+            'AFI_derivation': 'Evolution = T2 Law 2: only dF/dt>0 variants survive.',
+            'fitness': 'Fitness = F. Selection = F-gradient ascent. Mutation = P exploration.',
+            'simulation': {
+                'initial_F_mean': 0.5, 'final_F_mean': round(float(pop.mean()),4),
+                'generations': 100, 'improvement': round(float(pop.mean()-0.5),4),
+            },
+            'key_results': {
+                'Kleiber_law': 'Metabolic rate ∝ mass^(3/4): P_vascular∝M^(3/4), D∝M. F_met=constant.',
+                'Cambrian': 'Cambrian explosion = D phase transition: F bifurcation → body plan diversity.',
+                'DNA_code': '64 codons / 20 amino acids = D_redundancy = 3.2 (robustness).',
+            },
+            'label': LABEL,
+        })
+
+    elif any(w in t for w in ['higgs','boson','standard model','particle','quark',
+                               'lepton','neutrino','electroweak','strong force','weak force']):
+        M_Z = float(cfg.particle_physics.M_Z_GeV)
+        M_W = float(cfg.particle_physics.M_W_GeV)
+        M_H = float(cfg.particle_physics.M_H_GeV)
+        sin2_theta = float(cfg.particle_physics.sin2_theta_W)
+        cos_theta = math.sqrt(1 - sin2_theta)
+        mW_mZ_pred = cos_theta
+        mW_mZ_actual = M_W/M_Z
+        error = abs(mW_mZ_pred - mW_mZ_actual)/mW_mZ_actual*100
+        return json.dumps({
+            'topic': 'Particle Physics in Freedom Physics (T3+T5)',
+            'AFI_derivation': 'Particles = crystallised D levels. Mass = D × m_Planck (T5).',
+            'masses_GeV_from_config': {
+                'M_W': M_W, 'M_Z': M_Z, 'M_H': M_H,
+            },
+            'mW_mZ_from_AFI': {
+                'formula': 'cos(θ_W) = M_W/M_Z',
+                'predicted': round(mW_mZ_pred, 5),
+                'actual': round(mW_mZ_actual, 5),
+                'error_pct': round(error, 3),
+            },
+            'm_ratio': {
+                'value': round(6*math.pi**5, 5), 'SC': round(SC.m_p/SC.m_e, 5),
+                'formula': '6π⁵ = 3 colours × 2 spins × π⁴',
+                'error_pct': round(abs(6*math.pi**5-SC.m_p/SC.m_e)/(SC.m_p/SC.m_e)*100,4),
+            },
+            'generations': {'N': int(cfg.particle_physics.N_generations), 'why': 'N=3 = optimal FLRP recursion = optimal F (T3)'},
+            'fine_structure': float(SC.fine_structure),
+            'label': LABEL,
+        })
+
+    elif any(w in t for w in ['information','shannon','entropy bit','holographic',
+                               'computer','turing','complexity','kolmogorov']):
+        rg_loc = np.random.default_rng(SEED)
+        p = rg_loc.dirichlet(np.ones(10), 100)
+        H = float(-np.sum(p*np.log2(p+1e-14), axis=1).mean())
+        D_erasure = SC.k * 300 * math.log(2)  # Landauer at 300K (not a fundamental const)
+        return json.dumps({
+            'topic': 'Information Theory in Freedom Physics (T2+T4)',
+            'Shannon_H_mean': round(H, 4),
+            'H_as_D': 'H = D_information. Shannon entropy = Distortion. F_channel = 1 - H/H_max.',
+            'capacity': 'C = B·log₂(1+P/D): Shannon capacity IS F=P/D for communication.',
+            'Landauer_J': float(D_erasure),
+            'Landauer_meaning': 'Erasing 1 bit costs k_B·T·ln2 (SC.k). D_erasure ≥ 0.',
+            'holographic': 'F_boundary > F_bulk: D_bulk∝r³ > D_bdy∝r². Holographic from T4+T5.',
+            'Kolmogorov': 'K = D_information: random=max D=min F. Regular=min D=max F.',
+            'Church_Turing': 'Computation = F-trajectory in D-landscape. Universal Turing = F≥0.',
+            'label': LABEL,
+        })
+
+    # ── GRAVITY ────────────────────────────────────────────────────────────────
+    elif any(w in t for w in ['gravity','graviton','schwarzschild','black hole',
+                               'orbital','einstein','general relativ','spacetime']):
         M = parameter * 2e30  # solar masses
         r_s = 2*SC.G*M/SC.c**2
         r = np.linspace(r_s*1.01, r_s*100, 300)
@@ -738,8 +948,14 @@ TOOLS_DEF = {
     },
     'simulate_physics': {
         'fn': tool_simulate_physics,
-        'desc': 'Simulate physics topics through Freedom Physics: gravity, quantum, thermodynamics, transport, black holes, etc.',
-        'params': {'topic': 'physics topic to simulate', 'parameter': 'numerical parameter (mass in solar masses, resistance in ohms, etc.)'},
+        'desc': ('Simulate ANY physics or science topic through Freedom Physics F=P/D: '
+                 'big bang, before big bang, dark matter, dark energy, consciousness, evolution, '
+                 'gravity, black holes, quantum mechanics, thermodynamics, particle physics, '
+                 'Higgs boson, neutrinos, information theory, holographic principle, '
+                 'Hubble tension, cosmological constant, standard model, etc. '
+                 'Returns real numbers from scipy.constants and config_omega.yaml.'),
+        'params': {'topic': 'FULL physics topic name (be specific: big bang, dark matter, consciousness, Higgs, etc.)',
+                   'parameter': 'optional numerical parameter (mass in solar masses, temperature in K, etc.)'},
     },
     'visualise': {
         'fn': tool_visualise,
@@ -820,6 +1036,18 @@ def _parse_tool_call(text: str):
     except Exception:
         args = {}
     return tool_name, args
+
+
+def _open_chart(path: str):
+    """Open chart PNG automatically on Mac/Linux/Windows."""
+    try:
+        import subprocess, platform
+        sys_name = platform.system()
+        if sys_name == 'Darwin':   subprocess.Popen(['open', path])
+        elif sys_name == 'Linux':  subprocess.Popen(['xdg-open', path])
+        elif sys_name == 'Windows': subprocess.Popen(['start', path], shell=True)
+    except Exception:
+        pass  # Silently skip if opener not available
 
 
 def run_agent(api_key: str):
@@ -909,7 +1137,7 @@ def run_agent(api_key: str):
                 ))
 
             response = client.models.generate_content(
-                model='gemini-2.5-flash-lite',
+                model='gemini-2.0-flash',
                 contents=msgs,
                 config=types.GenerateContentConfig(
                     system_instruction=SYSTEM_PROMPT,
@@ -947,6 +1175,7 @@ def run_agent(api_key: str):
                                     vis_data = json.loads(vis_result)
                                     if vis_data.get('saved'):
                                         print(f"  {G}📊 Chart saved:{RST} {vis_data['path']}")
+                                        _open_chart(vis_data['path'])
                                         tool_results['visualise'] = vis_result
 
                                 elif tool_name == 'find_best_elements':
@@ -956,12 +1185,14 @@ def run_agent(api_key: str):
                                     vis_data = json.loads(vis_result)
                                     if vis_data.get('saved'):
                                         print(f"  {G}📊 Chart saved:{RST} {vis_data['path']}")
+                                        _open_chart(vis_data['path'])
 
                                 elif tool_name == 'compute_room_F':
                                     vis_result = tool_visualise('room_D', 'Room_F_attribution', result_json)
                                     vis_data = json.loads(vis_result)
                                     if vis_data.get('saved'):
                                         print(f"  {G}📊 Chart saved:{RST} {vis_data['path']}")
+                                        _open_chart(vis_data['path'])
 
                             except Exception as e:
                                 tool_results[tool_name] = json.dumps({'error': str(e)})
@@ -985,7 +1216,7 @@ def run_agent(api_key: str):
                     )]),
                 ]
                 response2 = client.models.generate_content(
-                    model='gemini-2.5-flash-lite',
+                    model='gemini-2.0-flash',
                     contents=followup_msgs,
                     config=types.GenerateContentConfig(
                         system_instruction=SYSTEM_PROMPT,
