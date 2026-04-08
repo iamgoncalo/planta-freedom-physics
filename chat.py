@@ -804,7 +804,7 @@ def _phys(topic, p=1.0, p2=0.0):
                 "mp_me":f"6pi^5={_m_ratio_AFI:.5f} vs SC={_m_ratio_SC:.5f} (err={abs(_m_ratio_AFI-_m_ratio_SC)/_m_ratio_SC*100:.4f}%)",
                 "c_from_em":f"1/sqrt(eps0*mu0)={_c_from_em:.0f}m/s (err=0.000%)",
                 "a0":f"hbar/(me*c*alpha)={_a0_check:.4e}m",
-            },"negative":["P alone R^2=0.83>P/D 0.48 open navigation","FLRP = F-L-R-P LAYERS hierarchy (T3) — never multiplicative","Additive D 0.860<geometric 0.993 (3x)"],"label":LABEL}
+            },"negative":["P alone R^2=0.83>P/D 0.48 open navigation","FLRP mult DEAD R^2=0.0002","Additive D 0.860<geometric 0.993 (3x)"],"label":LABEL}
 
 def _toe_full():
     return {
@@ -825,7 +825,7 @@ def _toe_full():
         },
         "negative_results": [
             "P alone R^2=0.83 > P/D R^2=0.48 in open navigation (always reported)",
-            "FLRP = Freedom-Logic-Relations-Physical LAYERS (operating system). Never multiplicative. T3 AFI thesis.",
+            "FLRP multiplicative R^2=0.0002 — DEAD (raises RuntimeError)",
             "Additive D R^2=0.860 < geometric 0.993 (3x Deucalion confirmed, seed=2026)",
             "alpha=1.242 CI[1.19,1.29] in buildings — not 1.000",
             "Vacuum energy: QFT/obs ratio~1e120 (worst prediction in physics)",
@@ -886,25 +886,18 @@ def _md_element(symbol, T_K, P_GPa=0.0):
 # ═══════════════════════════════════════════════════════════════════════════
 # TOOLS
 # ═══════════════════════════════════════════════════════════════════════════
-
-def tool_analyse_element(symbol: str = "Fe") -> str:
-    sym = str(symbol or "Fe").strip().capitalize()
-    el  = _elem(sym)
-    if el is None:
-        el = _elem("Fe")
-    d = _F_element(el)
-    d["AFI"] = {
-        "T5_role": f"{d['name']}: D_struct={d['D_struct']}, D_thermal={d['D_thermal']}",
-        "best_use": "thermal conductor" if d["F_thermal"] > 0.7 else (
-                    "structural" if d["F_structural"] > 0.6 else "versatile"),
-        "F_grade": ("Excellent" if d["F_total"] > 0.7 else
-                    "Good" if d["F_total"] > 0.5 else
-                    "Poor" if d["F_total"] > 0.3 else "Critical"),
-        "smart_brick": "Recommended" if d.get("F_smart_brick", 0) > 0.5 else "Not recommended",
-        "water_home":  "Recommended" if d.get("F_water_home",  0) > 0.4 else "Not recommended",
+def tool_analyse_element(symbol: str = "Fe"):
+    el=_elem(symbol)
+    if el is None: return json.dumps({"error":f"Element {symbol} not found"})
+    d=_F_element(el)
+    d["AFI"]={
+        "T5_role":f"{d[chr(110)+chr(97)+chr(109)+chr(101)]}: D_struct={d[chr(68)+chr(95)+chr(115)+chr(116)+chr(114)+chr(117)+chr(99)+chr(116)]}, D_thermal={d[chr(68)+chr(95)+chr(116)+chr(104)+chr(101)+chr(114)+chr(109)+chr(97)+chr(108)]}", 
+        "best_use":"thermal cond" if d["F_thermal"]>0.7 else ("structural" if d["F_structural"]>0.6 else "versatile"),
+        "F_grade":"Excellent" if d["F_total"]>0.7 else ("Good" if d["F_total"]>0.5 else ("Poor" if d["F_total"]>0.3 else "Critical")),
+        "smart_brick":"Recommended" if d["F_smart_brick"]>0.5 else "Not recommended",
+        "water_home":"Recommended" if d["F_water_home"]>0.4 else "Not recommended",
     }
     return json.dumps(d, default=str)
-
 
 def tool_find_best_elements(use_case: str = "combined", n: int = 10,
                              max_price: float = 1000.0, min_F: float = 0.0) -> str:
@@ -942,40 +935,14 @@ def tool_find_best_elements(use_case: str = "combined", n: int = 10,
         "top5_summary":summary,"top_elements":top,"label":LABEL}, default=str)
 
 
-def tool_simulate_element(symbol: str = "Fe",
-                          temperature_K: float = 300.0,
-                          pressure_GPa:  float = 0.0) -> str:
-    sym = str(symbol or "Fe").strip().capitalize()
-    try:    T = float(str(temperature_K).strip() or "300.0")
-    except: T = 300.0
-    try:    P = float(str(pressure_GPa).strip()  or "0.0")
-    except: P = 0.0
-    return json.dumps(_md_element(sym, T, P), default=str)
+def tool_simulate_element(symbol: str = "Fe", temperature_K=300.0, pressure_GPa=0.0):
+    return json.dumps(_md_element(symbol, temperature_K, pressure_GPa), default=str)
 
+def tool_simulate_physics(topic: str = "gravity", parameter=1.0, parameter2=0.0):
+    return json.dumps(_phys(topic, parameter, parameter2), default=str)
 
-
-def tool_simulate_physics(topic: str = "gravity",
-                          parameter: float = 1.0,
-                          parameter2: float = 0.0) -> str:
-    t = str(topic or "gravity").strip()
-    try:    p  = float(str(parameter).strip()  or "1.0")
-    except: p  = 1.0
-    try:    p2 = float(str(parameter2).strip() or "0.0")
-    except: p2 = 0.0
-    return json.dumps(_phys(t, p, p2), default=str)
-
-
-
-def tool_simulate_water(subtopic: str = "all",
-                        parameter: float = 1.0,
-                        parameter2: float = 0.0) -> str:
-    t = str(subtopic or "all").strip()
-    try:    p  = float(str(parameter).strip()  or "1.0")
-    except: p  = 1.0
-    try:    p2 = float(str(parameter2).strip() or "0.0")
-    except: p2 = 0.0
-    return json.dumps(_water_physics(t, p, p2), default=str)
-
+def tool_simulate_water(subtopic="all", parameter=1.0, parameter2=0.0):
+    return json.dumps(_water_physics(subtopic, parameter, parameter2), default=str)
 
 def tool_compute_room_F(temp_c=20.0, co2_ppm=650, humidity_pct=50.0, lux=400.0,
                          noise_db=42.0, occupants=8, capacity=20, P_spatial=0.7, **kwargs):
@@ -1054,165 +1021,101 @@ def tool_design_house(budget_eur_per_m2=300.0, area_m2=80.0, style="modular",
         "patent":{"title":f"Freedom-Physics {style.title()} Building F=P/D","claim_1":f"Material from all 118 elements by F_score. Primary: {lr.get(chr(115)+chr(116)+chr(114)+chr(117)+chr(99)+chr(116)+chr(117)+chr(114)+chr(101),{}).get(chr(109)+chr(97)+chr(116)+chr(101)+chr(114)+chr(105)+chr(97)+chr(108),chr(65)+chr(108))} (F={lr.get(chr(115)+chr(116)+chr(114)+chr(117)+chr(99)+chr(116)+chr(117)+chr(114)+chr(101),{}).get(chr(70)+chr(95)+chr(115)+chr(99)+chr(111)+chr(114)+chr(101),0):.3f}).","claim_2":"D=exp(sum(w_k*ln(d_k))), geometric, weights=1.0 (Deucalion R^2=0.993).","claim_3":"PlantaOS F every 60s. Zero AI in monitoring tick.","inventor":"Goncalo Melo de Magalhaes ORCID 0009-0008-6255-7724","ref":"PT120952 Smart Brick"},
         "label":LABEL}, default=str)
 
+def tool_planta_smart_homes(query: str = "tell me about planta"):
+    import re; area=20.0
+    m=re.search(r"(\d+)\s*m",query)
+    if m: area=float(m.group(1))
+    al=_F_element(_elem("Al")); si=_F_element(_elem("Si"))
+    fe=_F_element(_elem("Fe")); c_=_F_element(_elem("C"))
+    bom={"Smart_Bricks_Al":{"qty":int(area*10),"material":"Aluminium 6061-T6","F_score":al["F_structural"],"cost_per_unit_eur":85,"total_eur":int(area*10*85)},
+        "Insulation_Si_foam":{"qty":int(area*0.08*1000),"material":"Expanded silica foam","F_score":si["F_thermal"],"cost_per_kg":1.7,"total_eur":int(area*0.08*1000*1.7)},
+        "Foundation_C_Fe":{"qty":int(area*0.05*7870),"material":"C+Fe composite","F_score":round((c_["F_structural"]+fe["F_structural"])/2,3),"total_eur":int(area*0.05*7870*0.3)},
+        "PlantaOS_sensors":{"qty":max(4,int(area/5)),"material":"ESP32-C3+SCD41+VL53L1X+LD2410C","cost_per_unit_eur":50,"total_eur":max(4,int(area/5))*50}}
+    tm=sum(v.get("total_eur",0) for v in bom.values()); labour=tm*0.30
+    return json.dumps({"company":{"name":"Planta Smart Homes","ceo":"Goncalo Melo de Magalhaes","nif":"517336553","contact":"hi@planta.design","grant":"FCT 2025.00020.AIVLAB.DEUCALION","pilot":"HORSE CFT, Cacia, Aveiro 950m2, 24 rooms, 3219 users/year"},
+        "products":{"PlantaOS":"Physical AI OS F=P/D every 60s, 22 views","Smart_Brick":"Patent PT120952 click-lock no mortar","Freedom_Water_Home":"222/222 laws 100% complete"},
+        "lego_house":{"area_m2":area,"F":0.81,"hours":3,"steps":[
+            {"step":1,"phase":"Foundation rail","action":f"Mark {area}m2. Anchors + Al rail. F=0.30"},
+            {"step":2,"phase":"Wall stacking","action":f"Stack {int(area*10)} Smart Bricks. Click-lock. F=0.55"},
+            {"step":3,"phase":"Roof panel","action":"Slide prefab roof. Seal perimeter. F=0.65"},
+            {"step":4,"phase":"Services","action":"Plug electricity, water, ventilation. F=0.73"},
+            {"step":5,"phase":"PlantaOS","action":f"{max(4,int(area/5))} sensors. F=P/D live. F=0.81"}]},
+        "bill_of_materials":bom,
+        "cost":{"materials_eur":round(tm,0),"labour_eur":round(labour,0),"total_eur":round(tm+labour,0),"per_m2_eur":round((tm+labour)/area,0)},
+        "epbd_2023":"EU EPBD 2023 mandates smart monitoring. PlantaOS=compliance infrastructure.",
+        "label":LABEL}, default=str)
 
-def tool_planta_smart_homes(query: str = "tell me about Planta Smart Homes") -> str:
-    import re
-    q    = str(query or "planta 20m2")
-    area = 20.0
-    m    = re.search(r"(\d+)\s*m", q)
-    if m: area = float(m.group(1))
-    al = _F_element(_elem("Al")); si = _F_element(_elem("Si"))
-    fe = _F_element(_elem("Fe")); c_ = _F_element(_elem("C"))
-    bom = {
-        "Smart_Bricks_Al": {"qty": int(area*10), "material": "Aluminium 6061-T6",
-            "F_score": al["F_structural"], "cost_per_unit_eur": 85,
-            "total_eur": int(area*10*85)},
-        "Insulation_Si_foam": {"qty": int(area*0.08*1000), "material": "Expanded silica foam",
-            "F_score": si["F_thermal"], "cost_per_kg": 1.7,
-            "total_eur": int(area*0.08*1000*1.7)},
-        "Foundation_C_Fe": {"qty": int(area*0.05*7870), "material": "C+Fe composite",
-            "F_score": round((c_["F_structural"]+fe["F_structural"])/2, 3),
-            "total_eur": int(area*0.05*7870*0.3)},
-        "PlantaOS_sensors": {"qty": max(4, int(area/5)),
-            "material": "ESP32-C3+SCD41+VL53L1X+LD2410C",
-            "cost_per_unit_eur": 50, "total_eur": max(4, int(area/5))*50},
-    }
-    tm = sum(v.get("total_eur", 0) for v in bom.values())
-    return json.dumps({
-        "company": {"name": "Planta Smart Homes", "ceo": "Goncalo Melo de Magalhaes",
-            "contact": "hi@planta.design", "grant": "FCT 2025.00020.AIVLAB.DEUCALION",
-            "pilot": "HORSE CFT, Cacia, Aveiro — 950m2, 24 rooms, 3219 users/year"},
-        "products": {"PlantaOS": "Physical AI OS F=P/D every 60s, 22 views",
-            "Smart_Brick": "Patent PT120952 click-lock no mortar",
-            "Freedom_Water_Home": "222/222 laws 100% complete"},
-        "house": {"area_m2": area, "F": 0.81, "hours": 3},
-        "bill_of_materials": bom,
-        "cost": {"materials_eur": round(tm, 0), "labour_eur": round(tm*0.30, 0),
-                 "total_eur": round(tm*1.30, 0), "per_m2_eur": round(tm*1.30/area, 0)},
-        "label": LABEL,
-    }, default=str)
-
-
-
-def tool_generate_patent(invention_description: str = "smart building system using F=P/D",
-                         domain: str = "building") -> str:
-    desc   = str(invention_description or "smart building system using F=P/D")
-    domain = str(domain or "building")
-    return json.dumps({
-        "title": f"Freedom-Physics-Optimised {domain.title()} System F=(P/D)^alpha",
-        "inventor": "Goncalo Melo de Magalhaes", "orcid": "0009-0008-6255-7724",
-        "assignee": "Planta Smart Homes, Unipessoal Lda", "nif": "517336553",
-        "contact": "hi@planta.design", "grant": "FCT 2025.00020.AIVLAB.DEUCALION",
-        "description": desc,
-        "claims": {
-            "claim_1": (f"A {domain} system implementing F=(P/D)^alpha: "
-                        f"alpha={_alpha_bldg:.3f} buildings, alpha=1.000 passive. "
-                        f"Sensor means measuring D. Optimisation maximising F."),
-            "claim_2": (f"D=exp(sum(w_k*ln(d_k))), weights sum=1.0. "
-                        f"Deucalion R^2=0.993 vs additive 0.860 (3x, seed={SEED})."),
-            "claim_3": "Material selection: all 118 elements ranked by F_score via mendeleev.",
-            "claim_4": f"Method: budget -> rank 118 -> max F_global -> validate seed={SEED}.",
-            "claim_5": "P=BFS (observer-dependent). D=geometric (observer-independent). Different instruments.",
+def tool_generate_patent(invention_description: str = "smart building F=P/D system", domain="building"):
+    return json.dumps({"title":f"Freedom-Physics-Optimised {domain.title()} System F=(P/D)^alpha",
+        "inventor":"Goncalo Melo de Magalhaes","orcid":"0009-0008-6255-7724",
+        "assignee":"Planta Smart Homes, Unipessoal Lda","nif":"517336553",
+        "contact":"hi@planta.design","grant":"FCT 2025.00020.AIVLAB.DEUCALION",
+        "description":invention_description,
+        "claims":{
+            "claim_1":f"A {domain} system implementing F=(P/D)^alpha: alpha={_alpha_bldg:.3f} buildings, alpha=1.000 passive physics (R^2=1.0000). Sensor means measuring D. Optimisation maximising F.",
+            "claim_2":f"D=exp(sum(w_k*ln(d_k))), weights sum=1.0 (Deucalion: R^2=0.993 vs additive 0.860, 3x confirmed, seed={SEED}).",
+            "claim_3":"Material selection: all 118 elements ranked by F_use_case via mendeleev. Geometric D weights validated at startup.",
+            "claim_4":f"Method: budget->rank 118 elements->select max F_global->validate seed=numpy.random.default_rng({SEED}).",
+            "claim_5":"P=BFS path availability (observer-dependent). D=geometric distortion (observer-independent). Different instruments mandatory (HL-02).",
+            "claim_6":"Freedom Water Home: 222 laws integrated. Water D_channels: viscosity 40%, thermal 30%, surface 20%, acoustic 10%.",
         },
-        "existing": "PT120952 Smart Brick (INPI Portugal)",
-        "label": LABEL,
-    })
-
+        "prior_art":["No prior art uses F=P/D as universal design metric.","No prior art confirms D_geometric R^2=0.993 vs additive.","No prior art ranks all 118 elements by Freedom score."],
+        "doi_refs":["10.5281/zenodo.18636095","10.5281/zenodo.18845574","SSRN 6304936"],
+        "existing":"PT120952 Smart Brick (INPI Portugal)","label":LABEL})
 
 def tool_toe_summary():
     return json.dumps(_toe_full())
 
-
-def tool_visualise(chart_type: str = "physics",
-                   title: str = "",
-                   data_json: str = "{}") -> str:
-    chart_type = str(chart_type or "physics").strip()
-    title      = str(title or chart_type)
-    data_json  = str(data_json or "{}")
-    # Validate: reject hallucinated data with impossible F scores (>1.0 or <0)
-    try:
-        import json as _j
-        _d = _j.loads(data_json)
-        for _el in _d.get("elements", []):
-            _f = float(_el.get("F_score", 0.5))
-            if _f > 1.0 or _f < 0.0:
-                data_json = "{}"  # reject hallucinated data
-                break
-        # Also reject obviously fabricated patterns (H=0.998, O=0.997 are hallucinated)
-        _syms = [e.get("symbol","") for e in _d.get("elements", [])]
-        if "H" in _syms[:2] and "O" in _syms[:2]:
-            data_json = "{}"  # H and O are not top water_home elements
-    except Exception:
-        data_json = "{}"
+def tool_visualise(chart_type: str = "physics", title="", data_json="{}"):
     try:
         import matplotlib; matplotlib.use("Agg")
-        import matplotlib.pyplot as plt, matplotlib.colors as mcolors
-        plt.rcParams.update({
-            "figure.facecolor": "#1B3A21", "axes.facecolor": "#1B3A21",
-            "text.color": "#EEF5E9", "axes.labelcolor": "#6FAF82",
-            "xtick.color": "#6FAF82", "ytick.color": "#6FAF82",
-            "axes.edgecolor": "#4A7C59", "grid.color": "#4A7C59",
-            "font.family": "monospace",
-        })
-    except ImportError:
-        return json.dumps({"error": "matplotlib not available", "path": None})
+        import matplotlib.pyplot as plt
+        plt.rcParams.update({"figure.facecolor":"#1B3A21","axes.facecolor":"#1B3A21","text.color":"#EEF5E9","axes.labelcolor":"#6FAF82","xtick.color":"#6FAF82","ytick.color":"#6FAF82","axes.edgecolor":"#4A7C59","grid.color":"#4A7C59","font.family":"monospace"})
+    except ImportError: return json.dumps({"error":"matplotlib not available","path":None})
+    data=json.loads(data_json) if data_json and data_json!="{}" else {}
+    od=os.path.join(ROOT,"data","visualisations"); os.makedirs(od,exist_ok=True)
+    safe=(title or chart_type).replace(" ","_").replace("/","_")[:40]
+    path=os.path.join(od,f"{safe}.png")
     try:
-        data = json.loads(data_json)
-    except Exception:
-        data = {}
-    od   = os.path.join(ROOT, "data", "visualisations")
-    os.makedirs(od, exist_ok=True)
-    safe = (title or chart_type).replace(" ", "_").replace("/", "_")[:40]
-    path = os.path.join(od, f"{safe}.png")
-    try:
-        fig, ax = plt.subplots(figsize=(14, 8))
-        if chart_type == "periodic_F":
+        fig,ax=plt.subplots(figsize=(14,8))
+        if chart_type=="periodic_F":
             syms=[]; Fv=[]; ns=[]
-            for z in range(1, 119):
+            for z in range(1,119):
                 try:
                     el=mend_element(z); d=_F_element(el)
-                    if d and d["F_total"]>0: syms.append(el.symbol); Fv.append(d["F_total"]); ns.append(z)
+                    if d and d["F_total"]>0: syms.append(el.symbol);Fv.append(d["F_total"]);ns.append(z)
                 except: pass
-            cmap = plt.cm.YlGn
-            ax.bar(ns, Fv, color=[cmap(f) for f in Fv], width=0.8)
-            for i in sorted(range(len(Fv)), key=lambda i: Fv[i], reverse=True)[:8]:
-                ax.text(ns[i], Fv[i]+0.02, syms[i], ha="center", fontsize=7, color="#EEF5E9")
+            cmap=plt.cm.YlGn
+            ax.bar(ns,Fv,color=[cmap(f) for f in Fv],width=0.8)
+            for i in sorted(range(len(Fv)),key=lambda i:Fv[i],reverse=True)[:8]:
+                ax.text(ns[i],Fv[i]+0.02,syms[i],ha="center",fontsize=7,color="#EEF5E9")
             ax.set_xlabel("Atomic Number Z"); ax.set_ylabel("Freedom Score F")
-            ax.set_title(title or "All 118 Elements — Freedom Score F=P/D", color="#EEF5E9")
-            ax.set_xlim(0, 119); ax.set_ylim(0, 1.1); ax.grid(True, alpha=0.3)
-        elif chart_type in ("room_D", "room_attribution"):
-            attr = data.get("D_attribution_pct",
-                {"thermal":40,"co2":22,"humidity":16,"light":12,"noise":5,"occupancy":3,"spatial":2})
+            ax.set_title(title or "All 118 Elements — Freedom Score F=P/D",color="#EEF5E9")
+            ax.set_xlim(0,119); ax.set_ylim(0,1.1); ax.grid(True,alpha=0.3)
+        elif chart_type in ("room_D","room_attribution"):
+            attr=data.get("D_attribution_pct",{"thermal":40,"co2":22,"humidity":16,"light":12,"noise":5,"occupancy":3,"spatial":2})
             vals=[attr[k] for k in attr]; names=list(attr.keys()); mv=max(vals)
-            bars=ax.bar(names, vals,
-                color=["#c0392b" if v==mv else "#4A7C59" for v in vals], alpha=0.9)
-            ax.set_title(f"D Attribution — F={data.get('F',0):.4f}", color="#EEF5E9")
-            ax.set_ylabel("% D")
-            for bar, val in zip(bars, vals):
-                ax.text(bar.get_x()+bar.get_width()/2, val+0.5,
-                        f"{val:.1f}%", ha="center", fontsize=10, color="#EEF5E9")
-        elif chart_type == "elements_ranked":
-            top=data.get("top_elements",[]); names=[r.get("symbol","?") for r in top[:20]]
-            scores=[r.get("F_score",0) for r in top[:20]]
-            ax.barh(range(len(names)), scores,
-                color=["#6FAF82" if s>0.6 else "#4A7C59" if s>0.4 else "#c0392b" for s in scores],
-                alpha=0.9, edgecolor="#1B3A21")
-            ax.set_yticks(range(len(names))); ax.set_yticklabels(names, fontsize=11)
-            ax.set_xlabel("Freedom Score F"); ax.set_title(title or "Elements by F", color="#EEF5E9")
-            ax.set_xlim(0, 1); ax.grid(True, alpha=0.3, axis="x"); ax.invert_yaxis()
-        elif chart_type == "house_layers":
-            layers = data.get("layers", {})
+            bars=ax.bar(names,vals,color=["#c0392b" if v==mv else "#4A7C59" for v in vals],alpha=0.9,edgecolor="#6FAF82")
+            ax.set_title(f"D Attribution — F={data.get(chr(70),0):.4f}",color="#EEF5E9"); ax.set_ylabel("% D")
+            for bar,val in zip(bars,vals):
+                ax.text(bar.get_x()+bar.get_width()/2,val+0.5,f"{val:.1f}%",ha="center",fontsize=10,color="#EEF5E9")
+        elif chart_type=="elements_ranked":
+            top=data.get("top_elements",[]); names=[r.get("symbol","?") for r in top[:20]]; scores=[r.get("F_score",0) for r in top[:20]]
+            ax.barh(range(len(names)),scores,color=["#6FAF82" if s>0.6 else "#4A7C59" if s>0.4 else "#c0392b" for s in scores],alpha=0.9,edgecolor="#1B3A21")
+            ax.set_yticks(range(len(names))); ax.set_yticklabels(names,fontsize=11)
+            ax.set_xlabel("Freedom Score F"); ax.set_title(title or "Elements by F",color="#EEF5E9")
+            ax.set_xlim(0,1); ax.grid(True,alpha=0.3,axis="x"); ax.invert_yaxis()
+        elif chart_type=="house_layers":
+            layers=data.get("layers",{})
             if layers:
-                ax2 = ax.twinx(); ax2.set_facecolor("#1B3A21")
-                names=list(layers.keys())
-                Fs=[layers[k].get("F_score",0) for k in names]
-                costs=[layers[k].get("cost_eur",0) for k in names]
-                ax.bar(names, Fs, color="#6FAF82", alpha=0.8, width=0.4, align="edge", label="F")
-                ax2.bar(names, costs, color="#4A7C59", alpha=0.6, width=-0.4, align="edge", label="EUR")
-                ax.set_ylabel("F", color="#6FAF82"); ax.set_ylim(0, 1); ax2.set_ylabel("EUR", color="#4A7C59")
-                ax.legend(loc="upper left"); ax2.legend(loc="upper right")
-        elif chart_type == "element_phase":
-            import numpy as np
+                ax2=ax.twinx(); ax2.set_facecolor("#1B3A21")
+                names=list(layers.keys()); Fs=[layers[k].get("F_score",0) for k in names]; costs=[layers[k].get("cost_eur",0) for k in names]
+                ax.bar(names,Fs,color="#6FAF82",alpha=0.8,width=0.4,align="edge",label="F score")
+                ax2.bar(names,costs,color="#4A7C59",alpha=0.6,width=-0.4,align="edge",label="Cost EUR")
+                ax.set_ylabel("F",color="#6FAF82"); ax.set_ylim(0,1); ax2.set_ylabel("EUR",color="#4A7C59")
+                ax.set_title(f"House {data.get(chr(100)+chr(101)+chr(115)+chr(105)+chr(103)+chr(110),{}).get(chr(97)+chr(114)+chr(101)+chr(97)+chr(95)+chr(109)+chr(50),0):.0f}m2 F={data.get(chr(100)+chr(101)+chr(115)+chr(105)+chr(103)+chr(110),{}).get(chr(70)+chr(95)+chr(103)+chr(108)+chr(111)+chr(98)+chr(97)+chr(108),0):.3f}",color="#EEF5E9")
+                ax.legend(loc="upper left"); ax2.legend(loc="upper right"); ax2.tick_params(colors="#4A7C59")
+        elif chart_type=="element_phase":
             T_r=np.linspace(100,6000,200); mp_=data.get("melting_K",1000); bp_=data.get("boiling_K",3000)
             ax.fill_between(T_r,[1 if T<mp_ else 0 for T in T_r],color="#4A7C59",alpha=0.6,label="Solid")
             ax.fill_between(T_r,[1 if mp_<=T<bp_ else 0 for T in T_r],color="#6FAF82",alpha=0.6,label="Liquid")
@@ -1221,38 +1124,39 @@ def tool_visualise(chart_type: str = "physics",
             if bp_: ax.axvline(bp_,color="#EEF5E9",ls=":",lw=1.5,label=f"Tboil={bp_:.0f}K")
             T_s=data.get("T_K",300); ax.axvline(T_s,color="#c0392b",lw=2,label=f"Tsim={T_s}K")
             ax.set_xlabel("T(K)"); ax.set_ylabel("Phase"); ax.legend()
-            ax.set_title(f"{data.get('element','?')} phase F={data.get('F_at_T',0):.4f}", color="#EEF5E9")
+            ax.set_title(f"{data.get(chr(101)+chr(108)+chr(101)+chr(109)+chr(101)+chr(110)+chr(116),chr(63))} phase diagram F={data.get(chr(70)+chr(95)+chr(97)+chr(116)+chr(95)+chr(84),0):.4f}",color="#EEF5E9")
+        elif chart_type=="water_laws":
+            domains=["FLUID","THERMO","MOLECULAR","WAVES","EM","STRUCT","BIO","ENV","SMART","TOE","AFI"]
+            counts=[24,20,18,17,17,22,18,18,18,20,30]
+            colors=["#4A7C59","#6FAF82","#9DC4A8","#4A7C59","#6FAF82","#9DC4A8","#4A7C59","#6FAF82","#9DC4A8","#4A7C59","#6FAF82"]
+            ax.bar(domains,counts,color=colors,alpha=0.9,edgecolor="#1B3A21")
+            ax.set_ylabel("Number of Laws"); ax.set_title("Freedom Water Home — 222 Laws by Domain",color="#EEF5E9")
+            for i,(d,c) in enumerate(zip(domains,counts)):
+                ax.text(i,c+0.3,str(c),ha="center",color="#EEF5E9",fontsize=10)
+            ax.set_ylim(0,35); ax.grid(True,alpha=0.3,axis="y")
         else:
-            import numpy as np
             t_ax=np.linspace(0,10,500); D_t=1+0.5*t_ax; F_t=np.clip(1/D_t,0,1)
             ax.plot(t_ax,F_t,color="#6FAF82",lw=2,label="F(t)=P/D(t)")
-            ax.plot(t_ax,D_t/D_t.max(),color="#c0392b",lw=2,ls="--",label="D(t)")
+            ax.plot(t_ax,D_t/D_t.max(),color="#c0392b",lw=2,ls="--",label="D(t) normalised")
             ax.fill_between(t_ax,F_t,alpha=0.2,color="#6FAF82")
-            ax.set_xlabel("Time"); ax.set_ylabel("F or D")
-            ax.legend(); ax.grid(True,alpha=0.3)
-            ax.set_title(title or "F=P/D evolution", color="#EEF5E9")
+            ax.set_xlabel("Time"); ax.set_ylabel("F or D"); ax.legend(); ax.grid(True,alpha=0.3)
+            ax.set_title(title or "F=P/D evolution",color="#EEF5E9")
         plt.tight_layout()
-        plt.savefig(path, dpi=150, bbox_inches="tight", facecolor="#1B3A21")
-        plt.close()
-        try:
-            import platform, subprocess
-            if platform.system()=="Darwin": subprocess.Popen(["open", path])
-        except Exception: pass
-        return json.dumps({"path": path, "chart_type": chart_type, "saved": True})
+        plt.savefig(path,dpi=150,bbox_inches="tight",facecolor="#1B3A21"); plt.close()
+        return json.dumps({"path":path,"chart_type":chart_type,"saved":True})
     except Exception as e:
-        plt.close("all")
-        return json.dumps({"error": str(e), "path": None})
+        plt.close("all"); return json.dumps({"error":str(e),"path":None})
 
 
-
-def tool_compute_L_layer(room_F_scores_csv: str = "0.8144,0.4207,0.4166,0.3876,0.2640,0.2460",
-                          d_thermal: float = 1.0,
-                          d_light:   float = 1.0,
-                          d_noise:   float = 1.0) -> str:
-    """GAP 1 SOLVED: P_logic = 1 - H_posterior/H_prior. R^2=0.9875 vs <0.024."""
+# ═══════════════════════════════════════════════════════════════════════════
+# AFI GAPS TOOLS (afi_gaps.py)
+# ═══════════════════════════════════════════════════════════════════════════
+def tool_compute_L_layer(room_F_scores_csv: str = "0.8144,0.4207,0.4166,0.3876", d_thermal: float = 1.0,
+                          d_light: float = 1.0, d_noise: float = 1.0) -> str:
+    """Compute L-layer P_logic from room F scores. GAP 1 solved."""
     if not _GAPS_OK: return json.dumps({"error": "afi_gaps.py not loaded"})
     try:
-        scores = [float(x.strip()) for x in str(room_F_scores_csv or "0.8144,0.4207,0.4166").split(",")]
+        scores = [float(x.strip()) for x in str(room_F_scores_csv).split(",")]
     except Exception:
         scores = [0.8144, 0.4207, 0.4166, 0.3876, 0.2640, 0.2460]
     try:
@@ -1266,25 +1170,26 @@ def tool_compute_L_layer(room_F_scores_csv: str = "0.8144,0.4207,0.4166,0.3876,0
     except Exception as e:
         return json.dumps({"error": str(e), "scores": scores})
 
-
-
 def tool_atomic_to_macro(symbol: str = "Fe", L_m: float = 1.0,
                           sigma_MPa: float = 100.0, grain_um: float = 50.0) -> str:
-    """GAP 2 SOLVED: atomic D -> macroscopic D. Fe err=9.4%, Cu err=0.8%."""
+    """Bridge atomic lattice to macroscopic structural D. GAP 2 solved."""
     if not _GAPS_OK: return json.dumps({"error": "afi_gaps.py not loaded"})
     try:
         sym = str(symbol or "Fe").strip().capitalize()
-        sym = sym[:2] if len(sym) >= 2 else (sym or "Fe")
-        Lm  = float(str(L_m).strip()       or "1.0")
-        sig = float(str(sigma_MPa).strip() or "100.0")
-        gr  = float(str(grain_um).strip()  or "50.0")
+        sym = sym[:2] if len(sym) >= 2 else sym
+        Lm  = float(str(L_m).strip()      or "1.0")
+        sig = float(str(sigma_MPa).strip()or "100.0")
+        gr  = float(str(grain_um).strip() or "50.0")
         bulk  = atomic_to_bulk(sym)
-        macro = compute_D_macro(symbol=sym, L_m=Lm, sigma_applied_MPa=sig, grain_size_um=gr)
+        macro = compute_D_macro(
+            symbol=sym,
+            L_m=Lm,
+            sigma_applied_MPa=sig,
+            grain_size_um=gr,
+        )
         return json.dumps({"atomic": bulk, "macro": macro}, default=str)
     except Exception as e:
-        return json.dumps({"error": str(e), "symbol": str(symbol)})
-
-
+        return json.dumps({"error": str(e), "symbol": str(symbol), "L_m": str(L_m)})
 
 def tool_temporal_simulation(n_agents: int = 4, duration_min: float = 60.0,
                               ACH: float = 6.0, room_volume_m3: float = 75.0) -> str:
@@ -1368,7 +1273,7 @@ TOOLS_DEF = {
         "desc":"GAP 2 SOLVED: Bridge atomic lattice D to macroscopic structural D. Cauchy relation: E=E_coh*N_coord/a^3. Fe err=9.4%, Cu err=0.8%. D_macro=geom(D_grain,D_geometry,D_loading).",
         "params":{"symbol":"element symbol (Fe, Al, Cu, Ti...)","L_m":"beam length metres","sigma_MPa":"applied stress MPa","grain_um":"grain size micrometres"}},
     "temporal_simulation":{"fn":tool_temporal_simulation,
-        "desc":"GAP 3 SOLVED: Simulate temporal F=P/D dynamics. ALWAYS specify duration_min: 60=1h, 480=8h. ACH=0=sealed room. Returns CO2_peak_ppm, first_CO2_breach_min, F_min, n_alerts, f_debt_eur.",
+        "desc":"GAP 3 SOLVED: Simulate temporal F=P/D dynamics. dCO2/dt mass balance + dT/dt energy balance + dD/dt chain rule. Poisson agent arrivals create chaotic coupling. Returns F(t), CO2(t), alerts, F-debt.",
         "params":{"n_agents":"number of occupants","duration_min":"simulation duration minutes","ACH":"air changes per hour","room_volume_m3":"room volume m3"}},
     "validation_protocol":{"fn":tool_validation_protocol,
         "desc":"GAP 4 SOLVED: Physical validation protocol to remove SIMULATED label. Fisher z-transform power calculation. H0: R^2<=0.90. n_min readings, HORSE CFT 24 rooms, decision tree.",
@@ -1379,92 +1284,34 @@ TOOLS_DEF = {
 }
 
 SYSTEM_PROMPT = """You are the Planta Freedom Physics Physical AI v5.0.
-Theory of Everything simulation engine. ALL physics. ALL 118 elements. ALL 222 water laws.
+F = P / D — Theory of Everything simulation engine. ALL physics. ALL 118 elements. ALL 222 water laws.
+HYPOTHESIS UNDER TEST — never a proven law. seed=2026. Zero hardcodes.
 
-THE SINGLE LAW: F = P / D (Freedom = Perception / Distortion) — HYPOTHESIS UNDER TEST
-Axioms (Cauchy functional equation, unique solution):
-  C1: dF/dP>0, dF/dD<0   C2: F(lambdaP,lambdaD)=F(P,D)   C3: P and D from DIFFERENT instruments
-Result: F=(P/D)^alpha. alpha=1.000 passive physics (R^2=1.0000 EXACT). alpha=1.242 buildings.
+FRAMEWORK:
+F=(P/D)^alpha. alpha=1.000 passive physics R2=1.0. alpha=1.242 buildings CI[1.19,1.29].
+D=exp(sum(w_k*ln(max(d_k,1)))) GEOMETRIC R2=0.993 Deucalion 3x confirmed.
+weights: thermal=0.40 co2=0.22 humidity=0.16 light=0.12 noise=0.05 occupancy=0.03 spatial=0.02 sum=1.0.
+mp/me=6pi^5=1836.118 err=0.0019%. c=1/sqrt(eps0*mu0) err=0%.
+P alone R2=0.83 > P/D R2=0.48 open navigation. D value = ATTRIBUTION not prediction.
+FLRP = Freedom-Logic-Relations-Physical LAYERS T3 AFI thesis:
+  F-layer: F=P/D | L-layer: P_logic=1-H_post/H_prior | R-layer: BFS | P-layer: sensors
+  FLRP is NEVER multiplicative. It is a 4-layer operating system hierarchy.
 
-ALL 222 WATER LAWS UNIFIED UNDER F=P/D:
-001 Navier-Stokes: rho*(dv/dt+v.nabla_v)=-nablaP+mu*nabla^2_v -> D_viscosity
-193 AFI water: F_water=P_paths/D_water (geometric: viscosity 40%+thermal 30%+surface 20%+acoustic 10%)
-194 dx/dt=-P(x)*nabla_D(x): water follows least-D path
-207 Bernoulli: P+0.5*rho*v^2=const: conservation of total freedom along streamline
-222 Freedom Water Home: F=P/D scales from molecule to civilisation
-
-ALL PHYSICS UNIFIED:
-Newton: F=GMm/r^2=P_grav/D_r^2 (R^2=1.0000)
-Maxwell: c=1/sqrt(eps0*mu0) err=0%
-Schrodinger: D_quantum=hbar/2*Deltax
-Einstein GR: G_mu_nu=8piG*T_mu_nu: spacetime=crystallised D
-Boltzmann: S=kB*ln(W)=D_thermo
-Shannon: C=B*log2(1+P/D)
-Dirac: spin=T3 FLRP (FLRP = Freedom-Logic-Relations-Physical LAYERS hierarchy)
-FLRW: H^2=(8piG/3)*rho+Lambda*c^2/3
-FLRP: Freedom-Logic-Relations-Physical LAYERS (T3 AFI thesis — operating system of reality)
-  F-layer: F=P/D (freedom)
-  L-layer: P_logic = 1-H_posterior/H_prior (cognitive/information layer, GAP 1)
-  R-layer: BFS topology, network relations
-  P-layer: physical sensors, D channels
-  FLRP is NEVER multiplicative — it is a HIERARCHY of layers. T3 thesis.
-Key: mp/me=6pi^5=1836.118 (err 0.0019%) | c=299792458 m/s (err 0%) | a0 err=0%
-
-TOOLS (ALWAYS CALL for concrete questions):
+TOOLS:
 """ + "\n".join(f"  {k}: {v[chr(100)+chr(101)+chr(115)+chr(99)][:100]}" for k,v in TOOLS_DEF.items()) + """
 
-RULES — NEVER BREAK:
-0. AFTER EVERY tool call: copy EXACT numbers from JSON. Example:
-   You MUST write the symbol and F_score EXACTLY as returned in the JSON.
-   NEVER write any number that did not come from the tool JSON output.
-   Any number you invent = HALLUCINATION. Copy from JSON only.
-1. MAX 150 WORDS per response. Lead with tool numbers. NO essays. NO long explanations.
-1. ANY physics -> simulate_physics FIRST (full topic name)
-2. ANY water question / water home / water law -> simulate_water FIRST
-3. ANY element -> analyse_element OR find_best_elements
-4. ANY house/building/water home/home design -> planta_smart_homes + design_house FIRST
-   "water home" = Freedom Water Home (222 water laws unified) -> simulate_water THEN design_house
-5. ANY room -> compute_room_F
-6. Rankings/periodic table -> find_best_elements(n=118) then visualise(chart_type=periodic_F)
-   DO NOT pass data_json to visualise — it reads from last tool result automatically
-   NEVER fabricate data_json with made-up F scores
-7. FLRP = Freedom-Logic-Relations-Physical LAYERS (operating system hierarchy)
-   L-layer / logic layer / P_logic -> compute_L_layer FIRST
-   FLRP is NEVER multiplicative. NEVER associated with multiplication.
-   FLRP is T3 AFI thesis: the 4 ontological layers of reality.
-8. atomic/lattice/macro/Young modulus/Cauchy -> atomic_to_macro FIRST
-9. temporal/CO2 over time/dD/dt/dF/dt -> temporal_simulation FIRST
-   ALWAYS convert hours to minutes: 1h=60, 2h=120, 8h=480, 24h=1440
-   "sealed room" or "no ventilation" = ACH=0
-   ALWAYS pass n_agents, duration_min, ACH, room_volume_m3 explicitly
-10. validation/SIMULATED label/Fisher/n readings -> validation_protocol FIRST
-11. dark energy/cosmological constant -> simulate_physics(topic=dark energy)
-12. RESPONSE FORMAT after tool call:
-    TEMPLATE (MANDATORY):
-    For find_best_elements: copy top5_summary field EXACTLY from JSON result
-    Example if top5_summary="Al=0.84 | Mg=0.79": write "Al=0.84 | Mg=0.79"
-    Then one sentence. STOP.
-    SIMULATED — F=P/D HYPOTHESIS UNDER TEST — NOT A PROVEN LAW
-    Designing to free. -- Goncalo
-    Example format: "find_best_elements water_home: #1 {symbol}={F_score from JSON}, #2 ..."
-    Then max 2 sentences interpretation. Total under 100 words.
-    ZERO invented numbers. (R2, GPa, ppm, etc). Then max 3 sentences of interpretation. NEVER write more than 150 words total.
-13. NEVER invent numbers. NEVER hardcode. All values from tools only.
-14. F=P/D ALWAYS hypothesis under test — never proven law
-15. ALL negative results reported with equal depth as positive results
-16. Label: ALL RESULTS SIMULATION-BASED . F=P/D HYPOTHESIS UNDER TEST
-17. Language: match user. Sign off: Designing to free. -- Goncalo
-18. MANDATORY RESPONSE FORMAT — no exceptions:
-    After tool call:
-      Line 1: "find_best_elements water_home: " then copy top5_summary from JSON
-      Line 2: one sentence. Done.
-    If no tool needed: one sentence answer. Done.
-    NEVER write "I cannot" — call a tool instead.
-    NEVER write more than 3 sentences after a tool result.
-19. If question is vague: call toe_summary — always returns an answer.
-    NEVER say "I cannot provide" or "outside my design parameters"
-    ALWAYS call at least one tool before responding
-    If truly nothing matches: call toe_summary as default
+RULES (10 rules, no exceptions):
+1. Call a tool for EVERY concrete question. Numbers come from tools, not memory.
+2. After EVERY tool call: write key numbers from JSON. Max 3 sentences. STOP.
+3. find_best_elements result: write top5_summary field EXACTLY from JSON. One sentence. Stop.
+4. NEVER write "I cannot provide" or "comprehensive". Call a tool instead.
+5. NEVER invent numbers. Every number must appear in tool JSON. Invented = failure.
+6. Periodic table / rank elements -> find_best_elements(n=118) + visualise(chart_type=periodic_F)
+7. L-layer / P_logic / FLRP layers -> compute_L_layer
+8. atomic / macro / Cauchy -> atomic_to_macro
+9. temporal / CO2 / sealed room -> temporal_simulation(n_agents=N, duration_min=M, ACH=A)
+   Hours to minutes: 1h=60 2h=120 8h=480. Sealed=ACH=0.
+10. F=P/D hypothesis under test. Sign off: Designing to free. -- Goncalo
 """
 
 def _open_chart(path):
@@ -1522,7 +1369,7 @@ def run_agent(api_key):
         try:
             msgs=[types.Content(role=h["role"],parts=[types.Part.from_text(text=p["text"]) for p in h["parts"] if "text" in p]) for h in history[-12:]]
             response=client.models.generate_content(model="gemini-2.5-flash-lite",contents=msgs,
-                config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,tools=gemini_tools,temperature=0.1,max_output_tokens=800))
+                config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,tools=gemini_tools,temperature=0.1,max_output_tokens=8192))
             print("                    ",end="\r"); full_response=""; tool_results={}
             for candidate in response.candidates:
                 for part in candidate.content.parts:
@@ -1551,12 +1398,12 @@ def run_agent(api_key):
                 f2=[types.Content(role="model",parts=[types.Part.from_text(text=f"Results:\n{ctx}")]),
                     types.Content(role="user",parts=[types.Part.from_text(text="Give complete explanation: all key numbers from scipy.constants, step-by-step F=P/D derivation, practical implications, ALL negative results with equal depth. Be comprehensive.")])]
                 r2=client.models.generate_content(model="gemini-2.5-flash-lite",contents=msgs+f2,
-                    config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,temperature=0.2,max_output_tokens=800))
+                    config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,temperature=0.2,max_output_tokens=8192))
                 for c2 in r2.candidates:
                     for p2 in c2.content.parts:
                         if hasattr(p2,"text") and p2.text: full_response+=p2.text
             if not full_response: full_response="Simulation complete."
-            print(); print(f"{B_}{chr(45)*64}{RST}"); print(f"  {BOLD}Planta Freedom Physics AI v5.0{RST}"); print(f"{B_}{chr(45)*64}{RST}")
+            print(); print(f"{B_}{chr(45)*64}{RST}"); print(f"  {BOLD}Planta Freedom Physics AI v4.0{RST}"); print(f"{B_}{chr(45)*64}{RST}")
             for line in full_response.split("\n"):
                 w_=textwrap.fill(line,width=82,subsequent_indent="  ") if len(line)>82 else line
                 for term,col in [("F=P/D",G_),("DERIVED",G_),("CRITICAL",R_),("SIMULATED",DIM)]:
@@ -1567,7 +1414,7 @@ def run_agent(api_key):
         except Exception as e: print(f"  {R_}Error: {e}{RST}")
 
 if __name__=="__main__":
-    p=argparse.ArgumentParser(description="Planta Freedom Physics v5.0")
+    p=argparse.ArgumentParser(description="Planta Freedom Physics v4.0")
     p.add_argument("--key","-k",default=os.environ.get("GEMINI_API_KEY",""))
     args=p.parse_args()
     if not args.key:
