@@ -1171,12 +1171,12 @@ def tool_visualise(chart_type: str = "physics", title="", data_json="{}"):
 # ═══════════════════════════════════════════════════════════════════════════
 # AFI GAPS TOOLS (afi_gaps.py)
 # ═══════════════════════════════════════════════════════════════════════════
-def tool_compute_L_layer(room_F_scores_csv: str = "0.8144,0.4207,0.4166,0.3876", d_thermal: float = 1.0,
+def tool_compute_L_layer(room_F_scores: str = "0.8144,0.4207,0.4166,0.3876", d_thermal: float = 1.0,
                           d_light: float = 1.0, d_noise: float = 1.0) -> str:
     """Compute L-layer P_logic from room F scores. GAP 1 solved."""
     if not _GAPS_OK: return json.dumps({"error": "afi_gaps.py not loaded"})
     try:
-        scores = [float(x.strip()) for x in str(room_F_scores_csv).split(",")]
+        scores = [float(x.strip()) for x in str(room_F_scores).split(",")]
     except Exception:
         scores = [0.8144, 0.4207, 0.4166, 0.3876, 0.2640, 0.2460]
     try:
@@ -1195,7 +1195,10 @@ def tool_atomic_to_macro(symbol: str = "Fe", L_m: float = 1.0,
     """Bridge atomic lattice to macroscopic structural D. GAP 2 solved."""
     if not _GAPS_OK: return json.dumps({"error": "afi_gaps.py not loaded"})
     try:
-        sym = str(symbol or "Fe").strip().capitalize()
+        sym = str(symbol or "Fe").strip()
+        # Normalize: "Al" not "AL" or "al"
+        sym = sym[0].upper() + sym[1:].lower() if len(sym) > 1 else sym.upper()
+        sym = sym[:2]
         sym = sym[:2] if len(sym) >= 2 else sym
         Lm  = float(str(L_m).strip()      or "1.0")
         sig = float(str(sigma_MPa).strip()or "100.0")
@@ -1288,7 +1291,7 @@ TOOLS_DEF = {
         "params":{}},
     "compute_L_layer":{"fn":tool_compute_L_layer,
         "desc":"GAP 1 SOLVED: Compute L-layer P_logic for given room F scores. P_logic=1-H_posterior/H_prior. Information-theoretic agent cognition. R^2=0.9875 (vs <0.024 all previous). T_agent derived from D_cognitive channels.",
-        "params":{"room_F_scores_csv":"comma-separated F scores e.g. 0.8144,0.4207,0.4166","d_thermal":"thermal distortion (default 1.0)","d_light":"light distortion (default 1.0)","d_noise":"noise distortion (default 1.0)"}},
+        "params":{"room_F_scores":"comma-separated F scores e.g. 0.8144,0.4207,0.4166","d_thermal":"thermal distortion (default 1.0)","d_light":"light distortion (default 1.0)","d_noise":"noise distortion (default 1.0)"}},
     "atomic_to_macro":{"fn":tool_atomic_to_macro,
         "desc":"GAP 2 SOLVED: Bridge atomic lattice D to macroscopic structural D. Cauchy relation: E=E_coh*N_coord/a^3. Fe err=9.4%, Cu err=0.8%. D_macro=geom(D_grain,D_geometry,D_loading).",
         "params":{"symbol":"element symbol (Fe, Al, Cu, Ti...)","L_m":"beam length metres","sigma_MPa":"applied stress MPa","grain_um":"grain size micrometres"}},
@@ -1338,13 +1341,7 @@ RULES (10 rules, no exceptions):
 """
 
 def _open_chart(path):
-    try:
-        s=platform.system()
-        if s=="Darwin": subprocess.Popen(["open",path])
-        elif s=="Linux": subprocess.Popen(["xdg-open",path])
-        elif s=="Windows": subprocess.Popen(["start",path],shell=True)
-    except Exception: pass
-
+    return  # Auto-open disabled — user opens manually
 def run_agent(api_key):
     try:
         from google import genai as gai
