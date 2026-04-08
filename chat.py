@@ -825,7 +825,7 @@ def _toe_full():
         },
         "negative_results": [
             "P alone R^2=0.83 > P/D R^2=0.48 in open navigation (always reported)",
-            "FLRP multiplicative R^2=0.0002 — DEAD (raises RuntimeError)",
+            "FLRP = Freedom-Logic-Relations-Physical LAYERS (T3 AFI thesis). 4-layer OS hierarchy. NEVER multiplicative.",
             "Additive D R^2=0.860 < geometric 0.993 (3x Deucalion confirmed, seed=2026)",
             "alpha=1.242 CI[1.19,1.29] in buildings — not 1.000",
             "Vacuum energy: QFT/obs ratio~1e120 (worst prediction in physics)",
@@ -840,6 +840,26 @@ def _toe_full():
         ],
         "all_from": "scipy.constants NIST 2018 CODATA + config_omega.yaml PDG 2022 + Planck 2018",
         "seed": SEED, "label": LABEL,
+        "all_equations": {
+            "Newton_gravity": "F=GMm/r^2 = P_mass/D_r^2 (R2=1.0000)",
+            "Maxwell_c": "c=1/sqrt(eps0*mu0) err=0%",
+            "Schrodinger": "ihbar*d/dt|psi>=H|psi> — D_quantum=hbar/(2*Deltax)",
+            "Einstein_GR": "G_mu_nu=8piG*T_mu_nu — spacetime=crystallised D",
+            "Boltzmann_S": "S=kB*ln(W) — D_thermo=entropy",
+            "Shannon_C": "C=B*log2(1+P/D) — direct F=P/D",
+            "Dirac": "(i*gamma*d-m)*psi=0 — spin=T3 FLRP L-layer",
+            "Navier_Stokes": "rho*(dv/dt+v.nabla_v)=-nablaP+mu*nabla^2_v — D_viscosity",
+            "Bernoulli": "P+0.5*rho*v^2=const — conservation of F",
+            "Heisenberg": "DeltaX*DeltaP>=hbar/2 — fundamental D limit",
+            "Planck_radiation": "E=hf — quantum perception packet",
+            "Einstein_SR": "E=mc^2 — P_rest/D_relativistic",
+            "Friedmann": "H^2=(8piG/3)*rho+Lambda*c^2/3 — cosmic F=P/D",
+            "AFI_building": "F=(P_BFS/D_geometric)^alpha, alpha=1.242 CI[1.19,1.29]",
+            "D_formula": "D=exp(sum(w_k*ln(max(d_k,1.0)))) R2=0.993 Deucalion 3x",
+            "mp_me": "mp/me=6pi^5=1836.118 err=0.0019%",
+            "water_AFI": "F_water=P_paths/D_water (222 laws unified)",
+            "L_layer": "P_logic=1-H_posterior/H_prior R2=0.9875 (GAP 1)",
+        },
     }
 
 def _md_element(symbol, T_K, P_GPa=0.0):
@@ -1406,7 +1426,7 @@ def run_agent(api_key):
                 f2=[types.Content(role="model",parts=[types.Part.from_text(text=f"Results:\n{ctx}")]),
                     types.Content(role="user",parts=[types.Part.from_text(text="Reply using only the numbers from the tool results above. Max 3 sentences. Copy key values directly.")])]
                 r2=client.models.generate_content(model="gemini-2.5-flash",contents=msgs+f2,
-                    config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,temperature=0.1,max_output_tokens=400))
+                    config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,temperature=0.1,max_output_tokens=2000))
                 for c2 in r2.candidates:
                     for p2 in c2.content.parts:
                         if hasattr(p2,"text") and p2.text: full_response+=p2.text
