@@ -887,7 +887,6 @@ def _md_element(symbol, T_K, P_GPa=0.0):
 # TOOLS
 # ═══════════════════════════════════════════════════════════════════════════
 
-
 def tool_analyse_element(symbol: str = "Fe") -> str:
     sym = str(symbol or "Fe").strip().capitalize()
     el  = _elem(sym)
@@ -910,12 +909,10 @@ def tool_analyse_element(symbol: str = "Fe") -> str:
 def tool_find_best_elements(use_case: str = "combined", n: int = 10,
                              max_price: float = 1000.0, min_F: float = 0.0) -> str:
     use_case = str(use_case or "combined").strip().lower()
-    try:    n        = int(float(str(n).strip()         or "10"))
+    try: n = int(float(str(n).strip() or "10"))
     except: n = 10
-    try:    max_price= float(str(max_price).strip()     or "1000.0")
-    except: max_price=1000.0
-    try:    min_F    = float(str(min_F).strip()         or "0.0")
-    except: min_F=0.0
+    try: max_price = float(str(max_price).strip() or "1000.0")
+    except: max_price = 1000.0
     results = []
     for z in range(1, 119):
         try:
@@ -923,30 +920,26 @@ def tool_find_best_elements(use_case: str = "combined", n: int = 10,
             if not d: continue
             price = float(d.get("price_per_kg_eur") or 50.0)
             if price > max_price: continue
-            score = {
-                "structural": d["F_structural"], "thermal": d["F_thermal"],
-                "chemical": d["F_chemical"],     "cost": d["F_cost"],
-                "combined": d["F_total"],         "building": d["F_building"],
-                "electronics": d["F_electronics"],"aerospace": d["F_aerospace"],
-                "smart_brick": d["F_smart_brick"],"coastal": d["F_coastal"],
-                "nuclear": d["F_nuclear"],         "water_home": d["F_water_home"],
-            }.get(use_case, d["F_total"])
-            if score >= min_F:
-                results.append({
-                    "symbol": d["symbol"], "name": d["name"],
-                    "F_score": round(score, 4), "F_total": d["F_total"],
-                    "density": d["density_g_cm3"], "thermal_k": d["thermal_conductivity_W_mK"],
-                    "melting_K": d["melting_point_K"], "price_eur_kg": price,
-                    "lattice": d["lattice"], "phase_300K": d["phase_300K"],
-                    "F_building": d["F_building"], "F_water_home": d["F_water_home"],
-                })
+            score = {"structural":d.get("F_structural",0),"thermal":d.get("F_thermal",0),
+                "chemical":d.get("F_chemical",0),"cost":d.get("F_cost",0),
+                "combined":d.get("F_total",0),"building":d.get("F_building",0),
+                "electronics":d.get("F_electronics",0),"aerospace":d.get("F_aerospace",0),
+                "smart_brick":d.get("F_smart_brick",0),"coastal":d.get("F_coastal",0),
+                "nuclear":d.get("F_nuclear",0),"water_home":d.get("F_water_home",0),
+            }.get(use_case, d.get("F_total", 0))
+            results.append({"rank":0,"symbol":d["symbol"],"name":d["name"],
+                "F_score":round(float(score),4),"F_total":round(float(d.get("F_total",0)),4),
+                "F_building":round(float(d.get("F_building",0)),4),
+                "F_water_home":round(float(d.get("F_water_home",0)),4),
+                "density":d.get("density_g_cm3",0),"melting_K":d.get("melting_point_K",0),
+                "price_eur_kg":round(price,2),"lattice":d.get("lattice","?")})
         except Exception: continue
     results.sort(key=lambda x: x["F_score"], reverse=True)
-    for i, r in enumerate(results[:n], 1): r["rank"] = i
-    return json.dumps({"use_case": use_case, "n_analysed": 118,
-                       "n_results": len(results[:n]),
-                       "top_elements": results[:n], "label": LABEL})
-
+    top = results[:n]
+    for i,r in enumerate(top,1): r["rank"] = i
+    summary = " | ".join(f"{r['symbol']}={r['F_score']}" for r in top[:5])
+    return json.dumps({"use_case":use_case,"n_analysed":118,"n_shown":len(top),
+        "top5_summary":summary,"top_elements":top,"label":LABEL}, default=str)
 
 
 def tool_simulate_element(symbol: str = "Fe",
@@ -1062,7 +1055,6 @@ def tool_design_house(budget_eur_per_m2=300.0, area_m2=80.0, style="modular",
         "label":LABEL}, default=str)
 
 
-
 def tool_planta_smart_homes(query: str = "tell me about Planta Smart Homes") -> str:
     import re
     q    = str(query or "planta 20m2")
@@ -1129,7 +1121,6 @@ def tool_generate_patent(invention_description: str = "smart building system usi
 
 def tool_toe_summary():
     return json.dumps(_toe_full())
-
 
 
 def tool_visualise(chart_type: str = "physics",
@@ -1282,18 +1273,34 @@ def tool_atomic_to_macro(symbol: str = "Fe", L_m: float = 1.0,
 
 def tool_temporal_simulation(n_agents: int = 4, duration_min: float = 60.0,
                               ACH: float = 6.0, room_volume_m3: float = 75.0) -> str:
-    """GAP 3 SOLVED: dD/dt temporal ODE + Poisson chaotic coupling."""
     if not _GAPS_OK: return json.dumps({"error": "afi_gaps.py not loaded"})
     try:
-        na  = int(float(str(n_agents).strip()      or "4"))
-        dm  = float(str(duration_min).strip()      or "60.0")
-        ach = float(str(ACH).strip()               or "6.0")
-        vol = float(str(room_volume_m3).strip()    or "75.0")
+        na  = int(float(str(n_agents).strip()   or "4"))
+        dm  = float(str(duration_min).strip()   or "60.0")
+        ach = float(str(ACH).strip()            or "6.0")
+        vol = float(str(room_volume_m3).strip() or "75.0")
         result = simulate_temporal_feedback(n_agents=na, duration_min=dm, ACH=ach, room_volume_m3=vol)
-        result["trajectory_last10"] = result.pop("trajectory", [])[-10:]
-        return json.dumps(result, default=str)
+        stats = result.get("statistics", {})
+        traj  = result.get("trajectory", [])
+        alert_mins   = [t["t_min"] for t in traj if t.get("alert_level",0) >= 2]
+        breach_mins  = [t["t_min"] for t in traj if t.get("CO2_ppm",0) >= 1000]
+        return json.dumps({
+            "params": {"n_agents":na,"duration_min":dm,"ACH":ach,"vol_m3":vol},
+            "F_mean":round(float(stats.get("F_mean",0)),4),
+            "F_min": round(float(stats.get("F_min",0)),4),
+            "F_max": round(float(stats.get("F_max",0)),4),
+            "CO2_peak_ppm":  stats.get("CO2_peak_ppm"),
+            "CO2_ss_ppm":    stats.get("CO2_ss_ppm"),
+            "CO2_tau_min":   stats.get("CO2_tau_min"),
+            "n_alerts":      stats.get("n_alerts"),
+            "f_debt_eur":    stats.get("total_f_debt_eur"),
+            "first_alert_min":       alert_mins[0] if alert_mins else None,
+            "first_CO2_breach_min":  breach_mins[0] if breach_mins else None,
+            "equations":     result.get("equations",{}),
+            "label": LABEL,
+        }, default=str)
     except Exception as e:
-        return json.dumps({"error": str(e), "n_agents": str(n_agents), "ACH": str(ACH)})
+        return json.dumps({"error": str(e), "ACH": str(ACH)})
 
 
 def tool_validation_protocol(run_simulation: str = "yes") -> str:
@@ -1346,7 +1353,7 @@ TOOLS_DEF = {
         "desc":"GAP 2 SOLVED: Bridge atomic lattice D to macroscopic structural D. Cauchy relation: E=E_coh*N_coord/a^3. Fe err=9.4%, Cu err=0.8%. D_macro=geom(D_grain,D_geometry,D_loading).",
         "params":{"symbol":"element symbol (Fe, Al, Cu, Ti...)","L_m":"beam length metres","sigma_MPa":"applied stress MPa","grain_um":"grain size micrometres"}},
     "temporal_simulation":{"fn":tool_temporal_simulation,
-        "desc":"GAP 3 SOLVED: Simulate temporal F=P/D dynamics. dCO2/dt mass balance + dT/dt energy balance + dD/dt chain rule. Poisson agent arrivals create chaotic coupling. Returns F(t), CO2(t), alerts, F-debt.",
+        "desc":"GAP 3 SOLVED: Simulate temporal F=P/D dynamics. ALWAYS specify duration_min: 60=1h, 480=8h. ACH=0=sealed room. Returns CO2_peak_ppm, first_CO2_breach_min, F_min, n_alerts, f_debt_eur.",
         "params":{"n_agents":"number of occupants","duration_min":"simulation duration minutes","ACH":"air changes per hour","room_volume_m3":"room volume m3"}},
     "validation_protocol":{"fn":tool_validation_protocol,
         "desc":"GAP 4 SOLVED: Physical validation protocol to remove SIMULATED label. Fisher z-transform power calculation. H0: R^2<=0.90. n_min readings, HORSE CFT 24 rooms, decision tree.",
@@ -1396,6 +1403,9 @@ RULES — NEVER BREAK:
 7. FLRP / L-layer / logic layer / P_logic -> compute_L_layer FIRST
 8. atomic/lattice/macro/Young modulus/Cauchy -> atomic_to_macro FIRST
 9. temporal/CO2 over time/dD/dt/dF/dt -> temporal_simulation FIRST
+   ALWAYS convert hours to minutes: 1h=60, 2h=120, 8h=480, 24h=1440
+   "sealed room" or "no ventilation" = ACH=0
+   ALWAYS pass n_agents, duration_min, ACH, room_volume_m3 explicitly
 10. validation/SIMULATED label/Fisher/n readings -> validation_protocol FIRST
 11. dark energy/cosmological constant -> simulate_physics(topic=dark energy)
 12. AFTER any tool call: FIRST output the KEY NUMBERS from the tool result (R2, GPa, ppm, etc). Then max 3 sentences of interpretation. NEVER write more than 150 words total.
@@ -1495,7 +1505,7 @@ def run_agent(api_key):
                     for p2 in c2.content.parts:
                         if hasattr(p2,"text") and p2.text: full_response+=p2.text
             if not full_response: full_response="Simulation complete."
-            print(); print(f"{B_}{chr(45)*64}{RST}"); print(f"  {BOLD}Planta Freedom Physics AI v4.0{RST}"); print(f"{B_}{chr(45)*64}{RST}")
+            print(); print(f"{B_}{chr(45)*64}{RST}"); print(f"  {BOLD}Planta Freedom Physics AI v5.0{RST}"); print(f"{B_}{chr(45)*64}{RST}")
             for line in full_response.split("\n"):
                 w_=textwrap.fill(line,width=82,subsequent_indent="  ") if len(line)>82 else line
                 for term,col in [("F=P/D",G_),("DERIVED",G_),("CRITICAL",R_),("SIMULATED",DIM)]:
@@ -1506,7 +1516,7 @@ def run_agent(api_key):
         except Exception as e: print(f"  {R_}Error: {e}{RST}")
 
 if __name__=="__main__":
-    p=argparse.ArgumentParser(description="Planta Freedom Physics v4.0")
+    p=argparse.ArgumentParser(description="Planta Freedom Physics v5.0")
     p.add_argument("--key","-k",default=os.environ.get("GEMINI_API_KEY",""))
     args=p.parse_args()
     if not args.key:
