@@ -1396,7 +1396,9 @@ def run_agent(api_key):
             response=client.models.generate_content(model="gemini-2.5-flash",contents=msgs,
                 config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,tools=gemini_tools,temperature=0.1,max_output_tokens=8192))
             print("                    ",end="\r"); full_response=""; tool_results={}
-            for candidate in response.candidates:
+            for candidate in (response.candidates or []):
+                if not candidate or not candidate.content or not candidate.content.parts:
+                    continue
                 for part in candidate.content.parts:
                     if hasattr(part,"function_call") and part.function_call:
                         fc=part.function_call; tn=fc.name; ta=dict(fc.args) if fc.args else {}
@@ -1430,8 +1432,10 @@ def run_agent(api_key):
 "NEVER summarize when user asked for all."
 )])]
                 r2=client.models.generate_content(model="gemini-2.5-flash",contents=msgs+f2,
-                    config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,temperature=0.1,max_output_tokens=2000))
-                for c2 in r2.candidates:
+                    config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,temperature=0.1,max_output_tokens=8192))
+                for c2 in (r2.candidates or []):
+                    if not c2 or not c2.content or not c2.content.parts:
+                        continue
                     for p2 in c2.content.parts:
                         if hasattr(p2,"text") and p2.text: full_response+=p2.text
             if not full_response: full_response="Simulation complete."
