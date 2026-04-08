@@ -128,7 +128,8 @@ def _F_element(el):
     rho  = float(_ga(el,"density",2.7) or 2.7)
     k_th = float(_ga(el,"thermal_conductivity",0.1) or 0.1)
     en   = float(_ga(el,"en_pauling",1.5) or 1.5)
-    price= float(_ga(el,"price_per_kg",50.0) or 50.0)
+    _raw_price = _ga(el,"price_per_kg", None)
+    price = float(_raw_price) if _raw_price is not None else None
     sh   = float(_ga(el,"specific_heat_capacity",0.5) or 0.5)
     fh   = float(_ga(el,"fusion_heat",10.0) or 10.0)
     ev_  = float(_ga(el,"evaporation_heat",100.0) or 100.0)
@@ -139,7 +140,7 @@ def _F_element(el):
     D_struct  = max(1.0, rho/2.5)
     D_thermal = max(1.0, 400.0/max(k_th,0.1))
     D_chem    = max(1.0, en/1.5)
-    D_cost    = max(1.0, price/10.0)
+    D_cost    = max(1.0, (price or 50.0)/10.0)
     D_coh     = max(1.0, (fh+ev_*0.1)/50.0)
     D_react   = max(1.0, 1.0+abs(ea)/3.0)
     W = [0.35, 0.25, 0.20, 0.15, 0.05]
@@ -166,7 +167,7 @@ def _F_element(el):
         "D_struct":round(D_struct,4),"D_thermal":round(D_thermal,4),
         "D_chem":round(D_chem,4),"D_cost":round(D_cost,4),
         "density_g_cm3":rho,"thermal_conductivity_W_mK":k_th,
-        "en_pauling":en,"price_per_kg_eur":price,
+        "en_pauling":en,"price_per_kg_eur":price,"price_eur_kg":price,
         "melting_point_K":mp_,"boiling_point_K":bp_,
         "specific_heat_J_gK":sh,"fusion_heat_kJ_mol":fh,
         "evaporation_heat_kJ_mol":ev_,"electron_affinity_eV":ea,
@@ -1126,13 +1127,13 @@ def tool_find_best_elements(use_case: str = "combined", n: int = 10,
     # Return compact plaintext table — forces Gemini to read exact values
     lines = [f"top5: {summary}", f"n_shown: {len(top)}", "---"]
     for t in top:
-        p = t.get("price_eur_kg") or t.get("price_per_kg_eur", 0)
+        p = t.get("price_eur_kg") or t.get("price_per_kg_eur")
         lines.append(
             f"#{t['rank']} {t['symbol']} {t['name']} | "
             f"F={t['F_score']} struct={t.get('F_structural',0)} "
             f"thermal={t.get('F_thermal',0)} building={t.get('F_building',0)} "
             f"density={t.get('density',t.get('density_g_cm3',0))}g/cm3 "
-            f"melt={t.get('melting_K',0)}K PRICE=EUR{p}/kg "
+            f"melt={t.get('melting_K',0)}K PRICE={f'EUR{p}/kg' if p else 'N/A'} "
             f"{t.get('lattice','?')} {t.get('phase_300K','?')} "
             f"config:{t.get('electron_config','?')} | {t.get('description','')[:80]}"
         )
