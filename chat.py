@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Planta Freedom Physics Physical AI v4.0
+"""Planta Freedom Physics Physical AI v5.0
 ALL Physics Laws · Theory of Everything · Zero Hardcodes · seed=2026
 Author: Goncalo Melo de Magalhaes | ORCID 0009-0008-6255-7724
 Company: Planta Smart Homes · hi@planta.design · Porto, Portugal
@@ -984,7 +984,7 @@ def tool_simulate_water(subtopic: str = "all",
 
 
 def tool_compute_room_F(temp_c=20.0, co2_ppm=650, humidity_pct=50.0, lux=400.0,
-                         noise_db=42.0, occupants=8, capacity=20, P_spatial=0.7):
+                         noise_db=42.0, occupants=8, capacity=20, P_spatial=0.7, **kwargs):
     if _CFG_OK:
         W={k:float(v) for k,v in vars(cfg.building_distortion_weights).items() if isinstance(v,(int,float))}
     else:
@@ -1353,7 +1353,7 @@ TOOLS_DEF = {
         "params":{"chart_type":"chart type name","title":"chart title","data_json":"JSON string from previous tool call"}},
 }
 
-SYSTEM_PROMPT = """You are the Planta Freedom Physics Physical AI v4.0.
+SYSTEM_PROMPT = """You are the Planta Freedom Physics Physical AI v5.0.
 Theory of Everything simulation engine. ALL physics. ALL 118 elements. ALL 222 water laws.
 
 THE SINGLE LAW: F = P / D (Freedom = Perception / Distortion) — HYPOTHESIS UNDER TEST
@@ -1383,21 +1383,24 @@ TOOLS (ALWAYS CALL for concrete questions):
 """ + "\n".join(f"  {k}: {v[chr(100)+chr(101)+chr(115)+chr(99)][:100]}" for k,v in TOOLS_DEF.items()) + """
 
 RULES — NEVER BREAK:
+0. MAX 150 WORDS per response. Lead with tool numbers. NO essays. NO long explanations.
 1. ANY physics -> simulate_physics FIRST (full topic name)
-2. ANY water question -> simulate_water FIRST then simulate_physics(topic)
-3. ANY element -> simulate_element OR analyse_element OR find_best_elements
-4. ANY house/building -> planta_smart_homes + design_house + generate_patent
-5. ANY room -> compute_room_F then visualise(room_D)
-6. Rankings -> find_best_elements then visualise(elements_ranked)
-7. Periodic table -> find_best_elements(combined,118) then visualise(periodic_F)
-8. After house: auto-call visualise(house_layers)
-9. After element sim: auto-call visualise(element_phase)
-10. Water laws: simulate_water then visualise(water_laws)
-11. NEVER invent numbers. NEVER hardcode. All values from tools only.
-12. F=P/D ALWAYS hypothesis under test — never proven law
-13. ALL negative results reported with equal depth
-14. Label: ALL RESULTS SIMULATION-BASED . F=P/D HYPOTHESIS UNDER TEST
-15. Language: match user. Sign off: Designing to free. -- Goncalo
+2. ANY water question -> simulate_water FIRST
+3. ANY element -> analyse_element OR find_best_elements
+4. ANY house/building -> planta_smart_homes + design_house
+5. ANY room -> compute_room_F
+6. Rankings/periodic table -> find_best_elements(n=118) then visualise(periodic_F)
+7. FLRP / L-layer / logic layer / P_logic -> compute_L_layer FIRST
+8. atomic/lattice/macro/Young modulus/Cauchy -> atomic_to_macro FIRST
+9. temporal/CO2 over time/dD/dt/dF/dt -> temporal_simulation FIRST
+10. validation/SIMULATED label/Fisher/n readings -> validation_protocol FIRST
+11. dark energy/cosmological constant -> simulate_physics(topic=dark energy)
+12. AFTER any tool call: FIRST output the KEY NUMBERS from the tool result (R2, GPa, ppm, etc). Then max 3 sentences of interpretation. NEVER write more than 150 words total.
+13. NEVER invent numbers. NEVER hardcode. All values from tools only.
+14. F=P/D ALWAYS hypothesis under test — never proven law
+15. ALL negative results reported with equal depth as positive results
+16. Label: ALL RESULTS SIMULATION-BASED . F=P/D HYPOTHESIS UNDER TEST
+17. Language: match user. Sign off: Designing to free. -- Goncalo
 """
 
 def _open_chart(path):
