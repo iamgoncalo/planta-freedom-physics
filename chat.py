@@ -1422,9 +1422,16 @@ def run_agent(api_key):
                             except Exception as ex: tool_results[tn]=json.dumps({"error":str(ex)}); print(f"  {Y_}err: {ex}{RST}")
                     elif hasattr(part,"text") and part.text: full_response+=part.text
             if tool_results and not full_response:
-                ctx="\n\n".join(f"[{n}]:\n{r[:5000]}" for n,r in tool_results.items())
+                ctx="\n\n".join(f"[{n}]:\n{r}" for n,r in tool_results.items())
                 f2=[types.Content(role="model",parts=[types.Part.from_text(text=f"Results:\n{ctx}")]),
-                    types.Content(role="user",parts=[types.Part.from_text(text="Reply using only the numbers from the tool results above. Max 3 sentences. Copy key values directly.")])]
+                    types.Content(role="user",parts=[types.Part.from_text(text=
+                        "Reply using ONLY the data from the tool results above. "
+"If the user asked for all equations: list ALL equations from all_equations dict, one per line as: name: formula. "
+"If the user asked for all elements or periodic table: list ALL top_elements entries as: #rank symbol F=score, one per line. "
+"If the user asked for top N elements: list all N entries. "
+"Otherwise: key numbers, max 3 sentences. "
+"NEVER summarize when user asked for all."
+)])]
                 r2=client.models.generate_content(model="gemini-2.5-flash",contents=msgs+f2,
                     config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,temperature=0.1,max_output_tokens=2000))
                 for c2 in r2.candidates:
