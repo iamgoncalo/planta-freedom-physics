@@ -1137,7 +1137,7 @@ def run_agent(api_key: str):
                 ))
 
             response = client.models.generate_content(
-                model='gemini-2.0-flash',
+                model='gemini-2.5-flash-lite',
                 contents=msgs,
                 config=types.GenerateContentConfig(
                     system_instruction=SYSTEM_PROMPT,
@@ -1216,7 +1216,7 @@ def run_agent(api_key: str):
                     )]),
                 ]
                 response2 = client.models.generate_content(
-                    model='gemini-2.0-flash',
+                    model='gemini-2.5-flash-lite',
                     contents=followup_msgs,
                     config=types.GenerateContentConfig(
                         system_instruction=SYSTEM_PROMPT,
