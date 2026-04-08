@@ -70,21 +70,19 @@ def _elem(symbol_or_name: str):
             return None
 
 def _F_element(el) -> dict:
-    """Compute Freedom scores for an element across all domains."""
+    """Compute Freedom scores for an element across all domains. Null-safe."""
     if el is None:
         return {}
-    # D_structural: inversely proportional to density normalised
-    rho = el.density or 1.0
-    D_struct = max(1.0, rho / 2.5)  # normalised to Al density
-    # D_thermal: inversely proportional to thermal conductivity
-    k = el.thermal_conductivity or 0.1
+    # Null-safe property reads
+    rho   = float(el.density or 2.7)
+    k     = float(el.thermal_conductivity or 0.1)
+    en    = float(el.en_pauling or 1.5)
+    price = float(el.price_per_kg or 50.0)  # default 50 eur/kg for rare elements
+    # Freedom-Physics D channels (geometric, all ≥ 1.0)
+    D_struct  = max(1.0, rho / 2.5)
     D_thermal = max(1.0, 400.0 / max(k, 0.1))
-    # D_chemical: electronegativity drives bonding (high EN = less free)
-    en = el.en_pauling or 1.0
-    D_chem = max(1.0, en / 1.5)
-    # D_cost: price per kg
-    price = el.price_per_kg or 100.0
-    D_cost = max(1.0, price / 10.0)
+    D_chem    = max(1.0, en / 1.5)
+    D_cost    = max(1.0, price / 10.0)
     # F scores (P=1 passive, geometric D)
     weights = [0.35, 0.25, 0.25, 0.15]  # struct, thermal, chem, cost
     ln_D = (weights[0]*math.log(D_struct) + weights[1]*math.log(D_thermal)
@@ -249,7 +247,7 @@ def tool_design_house(budget_eur_per_m2: float = 300.0,
             el = _elem(sym)
             if not el: continue
             d = _F_element(el)
-            price = d.get('price_per_kg_eur', 99999)
+            price = float(d.get('price_per_kg_eur') or 50.0)
             if price > budget_eur_per_m2 * 0.5:
                 continue
             layer_priority = layer.get('priority', 'combined')
@@ -275,13 +273,13 @@ def tool_design_house(budget_eur_per_m2: float = 300.0,
         }
         thickness = thickness_by_style.get(style, thickness_by_style['modular']).get(layer_name, 0.01)
         vol = layer_area * thickness
-        kg = vol * (d['density_g_cm3'] or 2.7) * 1000
+        kg = vol * float(d.get('density_g_cm3') or 2.7) * 1000
         # Installed cost per m2 by layer (realistic construction rates)
         # Modulated by element price: cheaper elements = closer to target
         base_installed_eur_m2 = {
             'foundation': 50, 'structure': 35, 'envelope': 40, 'insulation': 15, 'finishing': 20
         }.get(layer_name, 30)
-        price_factor = min(2.0, max(0.5, (d['price_per_kg_eur'] or 2.0) / 2.0))
+        price_factor = min(2.0, max(0.5, float(d.get('price_per_kg_eur') or 2.0) / 2.0))
         cost = layer_area * base_installed_eur_m2 * price_factor
         total_cost += cost; total_kg += kg
         total_F += best_score * layer['pct_area']
@@ -916,6 +914,165 @@ def tool_toe_summary(n_criteria: int = 100) -> str:
 # GEMINI AGENT
 # =============================================================================
 
+# ─── SMART HOME / PLANTA SMART HOMES Knowledge ─────────────────────────────
+PLANTA_KNOWLEDGE = """
+PLANTA SMART HOMES — Physical AI Building Operating System
+Founder & CEO: Gonçalo Melo de Magalhães | ORCID 0009-0008-6255-7724
+NIF: 517336553 | hi@planta.design | Porto, Portugal
+FCT Grant: 2025.00020.AIVLAB.DEUCALION | Deucalion Supercomputer
+
+THE CORE PRODUCT: PlantaOS — Physical AI Building OS
+  Pilot: HORSE CFT, Cacia, Aveiro, Portugal (950m², 24 rooms, 3219 annual users)
+  Formula: F=P/D. Every room monitored every 60 seconds.
+  D = geometric weighted mean of 7 channels:
+    thermal 40%, CO2 22%, humidity 16%, light 12%, noise 5%, occupancy 3%, spatial 2%
+  Alert when: CO2>1000ppm (legal breach, Portaria 353-A/2013), lux<150, F<0.3
+  
+THE SMART BRICK (Patent PT120952):
+  Modular robotic construction unit following F=P/D:
+  - Self-assembles like LEGO: interlocking geometry, no mortar needed
+  - Embedded sensors: temperature, CO2, humidity, lux (SCD41, VL53L1X)
+  - Materials: optimised by periodic table F-ranking (Al/Si/C preferred)
+  - One brick = one sensor node. The wall IS the sensor network.
+  - Cost target: €50-150 per brick. A 20m² room = ~200 bricks.
+  - Build time: 1 day for a modular unit. 4-hour assembly for 20m².
+
+FREEDOM WATER HOME:
+  34/34 validation criteria achieved.
+  Off-grid home: rainwater collection + greywater recycling.
+  F_water = P_water_availability / D_treatment_complexity
+  Target: F>0.8 = self-sufficient water system.
+
+LEGO-HOUSE PRINCIPLE (Freedom Physics applied to construction):
+  Traditional house: D_construction=HIGH (mortar, waiting, sequential)
+  Smart Brick house: D_construction=LOW (modular, parallel assembly, no waiting)
+  F_construction = 1/D_construction. Modular = maximum F.
+  
+  5 steps to build a 20m² Smart Brick unit:
+  Step 1 (30min): Foundation — 4 corner anchors + perimeter rail. Al extrusion.
+  Step 2 (60min): Wall assembly — stack Smart Bricks. Click-lock joints. 
+  Step 3 (30min): Roof — prefab panel slides onto wall rail. Sealed.
+  Step 4 (30min): Services — plug-in modules: electricity, water, ventilation.
+  Step 5 (30min): PlantaOS — connect sensor network, activate F=P/D monitoring.
+  Total: 3 hours for a 20m² liveable unit.
+  
+  Material stack by F-ranking (Freedom Physics):
+    Structure:  Aluminium (F_struct=0.88, €1.79/kg, density=2.7)
+    Insulation: Expanded silica foam (Si-based, F_thermal=0.95)
+    Skin:       Anodised Al panels (corrosion F=0.92, coastal-ready)
+    Foundation: Carbon-fibre reinforced (C+Fe, F_combined=0.79)
+    
+BUSINESS MODEL:
+  B2B: PlantaOS licence + sensor hardware to building operators
+  B2C: Freedom Water Home + Smart Brick residential units
+  Partners: HORSE/Renault (pilot), Crédito Agrícola (financing),
+            Rock in Rio Lisboa 2026 (event deployment)
+  
+REGULATORY ADVANTAGE (EPBD 2023):
+  EU Energy Performance of Buildings Directive 2023 mandates smart monitoring.
+  PlantaOS = compliance infrastructure, not just comfort product.
+  F=P/D provides the objective metric for EPBD compliance scoring.
+"""
+
+def tool_planta_smart_homes(query: str) -> str:
+    """Answer anything about Planta Smart Homes, PlantaOS, Smart Brick, 
+    Freedom Water Home, how to build a house like lego, 20m2 house design,
+    construction steps, materials, costs, sensors, F=P/D in buildings."""
+    # Extract area from query
+    area = 20.0
+    import re
+    m = re.search(r'(\d+)\s*m', query)
+    if m: area = float(m.group(1))
+    
+    # Material costs (from mendeleev via _F_element)
+    al = _elem('Al'); si = _elem('Si'); fe = _elem('Fe'); c = _elem('C')
+    al_d = _F_element(al); si_d = _F_element(si)
+    fe_d = _F_element(fe); c_d = _F_element(c)
+    
+    # Bill of materials for area m2
+    bom = {
+        'Smart_Bricks_Al_structure': {
+            'qty': int(area * 10), 'unit': 'bricks',
+            'material': 'Aluminium 6061',
+            'F_score': al_d.get('F_structural', 0.88),
+            'cost_per_unit_eur': 85,
+            'total_eur': int(area * 10 * 85),
+            'why': 'F_structural=0.88, lightweight, corrosion-resistant, recyclable',
+        },
+        'Insulation_Si_foam': {
+            'qty': int(area * 0.08 * 1000), 'unit': 'kg',
+            'material': 'Expanded silica foam (Si-based)',
+            'F_score': si_d.get('F_thermal', 0.72),
+            'cost_per_unit_eur': round(float(si_d.get('price_per_kg_eur') or 1.7), 2),
+            'total_eur': int(area * 0.08 * 1000 * 1.7),
+            'why': 'F_thermal=0.72, R-value>4.0, lightweight',
+        },
+        'Foundation_C_Fe_composite': {
+            'qty': int(area * 0.05 * 7870), 'unit': 'kg',
+            'material': 'Carbon-steel composite (C+Fe)',
+            'F_score': round((c_d.get('F_structural',0) + fe_d.get('F_structural',0))/2, 3),
+            'cost_per_unit_eur': round((float(c_d.get('price_per_kg_eur') or 0.12) + 
+                                       float(fe_d.get('price_per_kg_eur') or 0.42))/2, 2),
+            'total_eur': int(area * 0.05 * 7870 * 0.3),
+            'why': 'High strength, low cost, F_structural>0.6',
+        },
+        'PlantaOS_sensors': {
+            'qty': max(4, int(area/5)), 'unit': 'nodes',
+            'material': 'ESP32-C3 + SCD41 + VL53L1X + LD2410C',
+            'F_score': 1.0,
+            'cost_per_unit_eur': 50,
+            'total_eur': max(4, int(area/5)) * 50,
+            'why': 'F=P/D monitoring every 60s. CO2+temp+lux+occupancy.',
+        },
+    }
+    
+    total_material = sum(v['total_eur'] for v in bom.values())
+    labour = total_material * 0.30
+    total_cost = total_material + labour
+    
+    return json.dumps({
+        'planta_smart_homes': PLANTA_KNOWLEDGE[:500],
+        'house_design': {
+            'area_m2': area,
+            'style': 'Smart Brick modular (Lego principle)',
+            'F_global': 0.81,
+            'build_time': f'{max(3, int(area/7))} hours (1 person + 1 helper)',
+            'build_steps': [
+                {'step': 1, 'duration': '30-60 min', 'phase': 'Foundation rail',
+                 'action': f'Mark {area}m² footprint. Install 4 corner anchors + perimeter Al rail.',
+                 'material': 'Aluminium 6061 extrusion', 'F_after': 0.3},
+                {'step': 2, 'duration': '60-90 min', 'phase': 'Wall stacking',
+                 'action': f'Stack {int(area*10)} Smart Bricks. Click-lock joints — no mortar, no waiting.',
+                 'material': 'Smart Bricks (Al structure + Si foam insulation)', 'F_after': 0.55},
+                {'step': 3, 'duration': '30 min', 'phase': 'Roof panel',
+                 'action': 'Slide prefab roof panel onto wall rail. Seal perimeter.',
+                 'material': 'Composite roof panel (Al + waterproof membrane)', 'F_after': 0.65},
+                {'step': 4, 'duration': '30 min', 'phase': 'Services plug-in',
+                 'action': 'Connect modular electricity, water pipe, ventilation duct.',
+                 'material': 'Pre-wired service module', 'F_after': 0.73},
+                {'step': 5, 'duration': '20 min', 'phase': 'PlantaOS activation',
+                 'action': f'Mount {max(4,int(area/5))} sensor nodes. Connect WiFi. PlantaOS F=P/D live.',
+                 'material': 'ESP32-C3 + SCD41 + VL53L1X', 'F_after': 0.81},
+            ],
+        },
+        'bill_of_materials': bom,
+        'cost_summary': {
+            'materials_eur': round(total_material, 0),
+            'labour_eur': round(labour, 0),
+            'total_eur': round(total_cost, 0),
+            'per_m2_eur': round(total_cost/area, 0),
+            'note': 'Smart Brick units are higher upfront but zero ongoing maintenance D.',
+        },
+        'why_smart_brick': {
+            'vs_traditional': 'Traditional: D_construction=HIGH (6-12 months, mortar, drying). Smart Brick: D_construction=LOW (hours).',
+            'sensor_built_in': 'Every brick = sensor node. No separate installation. F monitoring from day 1.',
+            'patent': 'Smart Brick: Patent PT120952. Planta Smart Homes, Porto, Portugal.',
+            'regulatory': 'EPBD 2023: EU mandates smart monitoring. PlantaOS = automatic compliance.',
+        },
+        'label': LABEL,
+    })
+
+
 TOOLS_DEF = {
     'analyse_element': {
         'fn': tool_analyse_element,
@@ -972,6 +1129,14 @@ TOOLS_DEF = {
         'fn': tool_toe_summary,
         'desc': 'Get Theory of Everything summary: 100/100 and 217/217 scores, key derivations, negative results',
         'params': {},
+    },
+    'planta_smart_homes': {
+        'fn': tool_planta_smart_homes,
+        'desc': ('Answer anything about Planta Smart Homes, PlantaOS, Smart Brick building system, '
+                 'Freedom Water Home, how to build a house like lego bricks, '
+                 'construction steps for any size house, bill of materials, sensor deployment, '
+                 'F=P/D monitoring in buildings. Call this for ANY house-building or Planta company question.'),
+        'params': {'query': 'the full user question about house building or Planta Smart Homes'},
     },
 }
 
@@ -1137,7 +1302,7 @@ def run_agent(api_key: str):
                 ))
 
             response = client.models.generate_content(
-                model='gemini-2.5-flash-lite',
+                model='gemini-2.0-flash',
                 contents=msgs,
                 config=types.GenerateContentConfig(
                     system_instruction=SYSTEM_PROMPT,
@@ -1216,7 +1381,7 @@ def run_agent(api_key: str):
                     )]),
                 ]
                 response2 = client.models.generate_content(
-                    model='gemini-2.5-flash-lite',
+                    model='gemini-2.0-flash',
                     contents=followup_msgs,
                     config=types.GenerateContentConfig(
                         system_instruction=SYSTEM_PROMPT,
