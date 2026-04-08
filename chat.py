@@ -1404,9 +1404,9 @@ def run_agent(api_key):
             if tool_results and not full_response:
                 ctx="\n\n".join(f"[{n}]:\n{r[:5000]}" for n,r in tool_results.items())
                 f2=[types.Content(role="model",parts=[types.Part.from_text(text=f"Results:\n{ctx}")]),
-                    types.Content(role="user",parts=[types.Part.from_text(text="Give complete explanation: all key numbers from scipy.constants, step-by-step F=P/D derivation, practical implications, ALL negative results with equal depth. Be comprehensive.")])]
+                    types.Content(role="user",parts=[types.Part.from_text(text="Reply using only the numbers from the tool results above. Max 3 sentences. Copy key values directly.")])]
                 r2=client.models.generate_content(model="gemini-2.5-flash",contents=msgs+f2,
-                    config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,temperature=0.2,max_output_tokens=8192))
+                    config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,temperature=0.1,max_output_tokens=400))
                 for c2 in r2.candidates:
                     for p2 in c2.content.parts:
                         if hasattr(p2,"text") and p2.text: full_response+=p2.text
