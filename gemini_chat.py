@@ -74,10 +74,10 @@ def _F_element(el) -> dict:
     if el is None:
         return {}
     # Null-safe property reads
-    rho   = float(el.density or 2.7)
-    k     = float(el.thermal_conductivity or 0.1)
-    en    = float(el.en_pauling or 1.5)
-    price = float(el.price_per_kg or 50.0)  # default 50 eur/kg for rare elements
+    rho   = float(getattr(el,"density",None) or 2.7)
+    k     = float(getattr(el,"thermal_conductivity",None) or 0.1)
+    en    = float(getattr(el,"en_pauling",None) or 1.5)
+    price = float(getattr(el,"price_per_kg",None) or 50.0)
     # Freedom-Physics D channels (geometric, all ≥ 1.0)
     D_struct  = max(1.0, rho / 2.5)
     D_thermal = max(1.0, 400.0 / max(k, 0.1))
@@ -103,19 +103,19 @@ def _F_element(el) -> dict:
         'thermal_conductivity_W_mK': k,
         'en_pauling': en,
         'price_per_kg_eur': price,
-        'melting_point_K': el.melting_point,
-        'boiling_point_K': el.boiling_point,
-        'electron_config': el.econf,
-        'block': el.block,
-        'period': el.period,
-        'group_id': el.group_id,
+        'melting_point_K': getattr(el,'melting_point',None),
+        'boiling_point_K': getattr(el,'boiling_point',None),
+        'electron_config': getattr(el,'econf',''),
+        'block': getattr(el,'block','?'),
+        'period': getattr(el,'period',0),
+        'group_id': getattr(el,'group_id',0),
         'lattice_structure': getattr(el, 'lattice_structure', None),
         'lattice_constant_angstrom': getattr(el, 'lattice_constant', None),
-        'fusion_heat_kJ_mol': el.fusion_heat,
-        'evaporation_heat_kJ_mol': el.evaporation_heat,
-        'specific_heat_J_gK': el.specific_heat_capacity,
-        'abundance_crust_ppm': el.abundance_crust,
-        'description': (el.description or '')[:300],
+        'fusion_heat_kJ_mol': getattr(el,'fusion_heat',None),
+        'evaporation_heat_kJ_mol': getattr(el,'evaporation_heat',None),
+        'specific_heat_J_gK': getattr(el,'specific_heat_capacity',None),
+        'abundance_crust_ppm': getattr(el,'abundance_crust',None),
+        'description': (getattr(el,'description',None) or '')[:300],
         'label': LABEL,
     }
 
@@ -134,15 +134,16 @@ def tool_analyse_element(symbol: str) -> str:
                            'Dense structural' if (el.density or 0) < 8 else 'Heavy'),
         'thermal_role': ('Insulator' if (el.thermal_conductivity or 0) < 1 else
                         'Conductor' if (el.thermal_conductivity or 0) > 50 else 'Semiconductor'),
-        'chemical_role': ('Noble gas' if el.group_id in [18, 17] else
+        'chemical_role': ('Noble gas' if getattr(el,'group_id',0) in [18, 17] else
                          'Highly reactive' if el.en_pauling and el.en_pauling > 3 else 'Moderate'),
     }
     # Simulate phase at different temperatures
-    if el.melting_point and el.boiling_point:
+    _mp=getattr(el,'melting_point',None); _bp=getattr(el,'boiling_point',None)
+    if _mp and _bp:
         data['phase_at'] = {
-            '300K': 'solid' if el.melting_point > 300 else ('liquid' if el.boiling_point > 300 else 'gas'),
-            '1000K': 'solid' if el.melting_point > 1000 else ('liquid' if el.boiling_point > 1000 else 'gas'),
-            '3000K': 'solid' if el.melting_point > 3000 else ('liquid' if el.boiling_point > 3000 else 'gas'),
+            '300K': 'solid' if _mp>300 else('liquid' if _bp>300 else 'gas'),
+            '1000K': 'solid' if _mp>1000 else('liquid' if _bp>1000 else 'gas'),
+            '3000K': 'solid' if _mp>3000 else('liquid' if _bp>3000 else 'gas'),
         }
     return json.dumps(data, default=str)
 
@@ -160,7 +161,7 @@ def tool_find_best_elements(use_case: str, n: int = 10,
             el = mend_element(z)
             d = _F_element(el)
             if not d: continue
-            price = d.get('price_per_kg_eur', 9999)
+            price = float(d.get('price_per_kg_eur') or 50.0)
             if price > max_price_eur_kg: continue
             score = {
                 'structural': d['F_structural'],
@@ -1302,7 +1303,7 @@ def run_agent(api_key: str):
                 ))
 
             response = client.models.generate_content(
-                model='gemini-2.0-flash',
+                model='gemini-2.5-flash-lite',
                 contents=msgs,
                 config=types.GenerateContentConfig(
                     system_instruction=SYSTEM_PROMPT,
@@ -1381,7 +1382,7 @@ def run_agent(api_key: str):
                     )]),
                 ]
                 response2 = client.models.generate_content(
-                    model='gemini-2.0-flash',
+                    model='gemini-2.5-flash-lite',
                     contents=followup_msgs,
                     config=types.GenerateContentConfig(
                         system_instruction=SYSTEM_PROMPT,
