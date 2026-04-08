@@ -1393,7 +1393,12 @@ TOOLS (ALWAYS CALL for concrete questions):
 """ + "\n".join(f"  {k}: {v[chr(100)+chr(101)+chr(115)+chr(99)][:100]}" for k,v in TOOLS_DEF.items()) + """
 
 RULES — NEVER BREAK:
-0. MAX 150 WORDS per response. Lead with tool numbers. NO essays. NO long explanations.
+0. AFTER EVERY tool call: copy EXACT numbers from JSON. Example:
+   Tool returned: top_elements[0] = {symbol:Al, F_score:0.842}
+   You MUST write: "Rank 1: Al (Aluminum) F=0.842"
+   NEVER write numbers not in the tool JSON. Carbon=0.985 = HALLUCINATION.
+   Al=0.9259 when tool returned Al=0.8668 = HALLUCINATION. Always copy exactly.
+1. MAX 150 WORDS per response. Lead with tool numbers. NO essays. NO long explanations.
 1. ANY physics -> simulate_physics FIRST (full topic name)
 2. ANY water question / water home / water law -> simulate_water FIRST
 3. ANY element -> analyse_element OR find_best_elements
@@ -1409,7 +1414,11 @@ RULES — NEVER BREAK:
    ALWAYS pass n_agents, duration_min, ACH, room_volume_m3 explicitly
 10. validation/SIMULATED label/Fisher/n readings -> validation_protocol FIRST
 11. dark energy/cosmological constant -> simulate_physics(topic=dark energy)
-12. AFTER any tool call: FIRST output the KEY NUMBERS from the tool result (R2, GPa, ppm, etc). Then max 3 sentences of interpretation. NEVER write more than 150 words total.
+12. RESPONSE FORMAT after tool call:
+    Line 1: Tool name + key numbers COPIED EXACTLY from JSON
+    Example: "find_best_elements water_home: #1 Al=0.8668, #2 Mg=0.8475"
+    Then max 2 sentences interpretation. Total under 100 words.
+    ZERO invented numbers. (R2, GPa, ppm, etc). Then max 3 sentences of interpretation. NEVER write more than 150 words total.
 13. NEVER invent numbers. NEVER hardcode. All values from tools only.
 14. F=P/D ALWAYS hypothesis under test — never proven law
 15. ALL negative results reported with equal depth as positive results
