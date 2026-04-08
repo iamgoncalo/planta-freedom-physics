@@ -1395,9 +1395,10 @@ TOOLS (ALWAYS CALL for concrete questions):
 RULES — NEVER BREAK:
 0. MAX 150 WORDS per response. Lead with tool numbers. NO essays. NO long explanations.
 1. ANY physics -> simulate_physics FIRST (full topic name)
-2. ANY water question -> simulate_water FIRST
+2. ANY water question / water home / water law -> simulate_water FIRST
 3. ANY element -> analyse_element OR find_best_elements
-4. ANY house/building -> planta_smart_homes + design_house
+4. ANY house/building/water home/home design -> planta_smart_homes + design_house FIRST
+   "water home" = Freedom Water Home (222 water laws unified) -> simulate_water THEN design_house
 5. ANY room -> compute_room_F
 6. Rankings/periodic table -> find_best_elements(n=118) then visualise(periodic_F)
 7. FLRP / L-layer / logic layer / P_logic -> compute_L_layer FIRST
