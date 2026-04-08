@@ -1597,8 +1597,9 @@ def run_agent(api_key):
                 f2=[types.Content(role="model",parts=[types.Part.from_text(text=f"Results:\n{ctx}")]),
                     types.Content(role="user",parts=[types.Part.from_text(text=
                         "Reply using ONLY the data from the tool results above. "
+"Copy price_eur_kg EXACTLY from JSON — do NOT use 50.0 as default. "
 "If the user asked for all equations: list ALL equations from all_equations dict, one per line as: name: formula. "
-"If user asked for all elements/periodic table: list ALL top_elements as #rank symbol | F_total=X | F_building=X | density=Xg/cm3 | melting=XK | price=XEUR/kg | lattice=X | phase_300K=X | description. "
+"If user asked for all elements/periodic table: for each element in top_elements, write: #rank symbol | F=F_total | struct=F_structural | thermal=F_thermal | density=density_g_cm3 g/cm3 | melt=melting_K K | price=price_eur_kg EUR/kg | lattice | phase_300K | electron_config | description. "
 "If the user asked for top N elements: list all N entries. "
 "Otherwise: key numbers, max 3 sentences. "
 "NEVER summarize when user asked for all."
