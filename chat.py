@@ -1129,6 +1129,21 @@ def tool_visualise(chart_type: str = "physics",
     chart_type = str(chart_type or "physics").strip()
     title      = str(title or chart_type)
     data_json  = str(data_json or "{}")
+    # Validate: reject hallucinated data with impossible F scores (>1.0 or <0)
+    try:
+        import json as _j
+        _d = _j.loads(data_json)
+        for _el in _d.get("elements", []):
+            _f = float(_el.get("F_score", 0.5))
+            if _f > 1.0 or _f < 0.0:
+                data_json = "{}"  # reject hallucinated data
+                break
+        # Also reject obviously fabricated patterns (H=0.998, O=0.997 are hallucinated)
+        _syms = [e.get("symbol","") for e in _d.get("elements", [])]
+        if "H" in _syms[:2] and "O" in _syms[:2]:
+            data_json = "{}"  # H and O are not top water_home elements
+    except Exception:
+        data_json = "{}"
     try:
         import matplotlib; matplotlib.use("Agg")
         import matplotlib.pyplot as plt, matplotlib.colors as mcolors
@@ -1410,7 +1425,9 @@ RULES — NEVER BREAK:
 4. ANY house/building/water home/home design -> planta_smart_homes + design_house FIRST
    "water home" = Freedom Water Home (222 water laws unified) -> simulate_water THEN design_house
 5. ANY room -> compute_room_F
-6. Rankings/periodic table -> find_best_elements(n=118) then visualise(periodic_F)
+6. Rankings/periodic table -> find_best_elements(n=118) then visualise(chart_type=periodic_F)
+   DO NOT pass data_json to visualise — it reads from last tool result automatically
+   NEVER fabricate data_json with made-up F scores
 7. FLRP = Freedom-Logic-Relations-Physical LAYERS (operating system hierarchy)
    L-layer / logic layer / P_logic -> compute_L_layer FIRST
    FLRP is NEVER multiplicative. NEVER associated with multiplication.
@@ -1423,9 +1440,10 @@ RULES — NEVER BREAK:
 10. validation/SIMULATED label/Fisher/n readings -> validation_protocol FIRST
 11. dark energy/cosmological constant -> simulate_physics(topic=dark energy)
 12. RESPONSE FORMAT after tool call:
-    TEMPLATE:
-    [tool_name]: list top results as #rank symbol=F_score from JSON
-    One sentence of what it means.
+    TEMPLATE (MANDATORY):
+    For find_best_elements: copy top5_summary field EXACTLY from JSON result
+    Example if top5_summary="Al=0.84 | Mg=0.79": write "Al=0.84 | Mg=0.79"
+    Then one sentence. STOP.
     SIMULATED — F=P/D HYPOTHESIS UNDER TEST — NOT A PROVEN LAW
     Designing to free. -- Goncalo
     Example format: "find_best_elements water_home: #1 {symbol}={F_score from JSON}, #2 ..."
@@ -1436,11 +1454,14 @@ RULES — NEVER BREAK:
 15. ALL negative results reported with equal depth as positive results
 16. Label: ALL RESULTS SIMULATION-BASED . F=P/D HYPOTHESIS UNDER TEST
 17. Language: match user. Sign off: Designing to free. -- Goncalo
-18. BANNED PHRASES — never say these:
-    "I cannot provide" / "outside my design parameters" / "exceeds the 150-word limit"
-    "comprehensive explanation" / "step-by-step" / "would require"
-    Instead: call a tool, show the numbers, done.
-19. If question is vague or broad: call toe_summary THEN simulate_physics(topic=gravity)
+18. MANDATORY RESPONSE FORMAT — no exceptions:
+    After tool call:
+      Line 1: "find_best_elements water_home: " then copy top5_summary from JSON
+      Line 2: one sentence. Done.
+    If no tool needed: one sentence answer. Done.
+    NEVER write "I cannot" — call a tool instead.
+    NEVER write more than 3 sentences after a tool result.
+19. If question is vague: call toe_summary — always returns an answer.
     NEVER say "I cannot provide" or "outside my design parameters"
     ALWAYS call at least one tool before responding
     If truly nothing matches: call toe_summary as default
