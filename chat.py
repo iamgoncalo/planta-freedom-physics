@@ -1359,7 +1359,14 @@ def run_agent(api_key):
   {C_}• show all 118 elements ordered by Freedom score{RST}
   {DIM}  Type quit to exit.{RST}
 """)
-    history=[]
+    _prime_q = "what is your response format?"
+    _prime_a = ("Tool result first. Key numbers from JSON only. 1-2 sentences max. "
+               "Example: find_best_elements water_home: Al=0.8668 | Cu=0.8542 | Mg=0.8475. "
+               "Aluminum leads. SIMULATED. Designing to free. -- Goncalo")
+    history = [
+        {"role":"user","parts":[{"text":_prime_q}]},
+        {"role":"model","parts":[{"text":_prime_a}]},
+    ]
     while True:
         try: query=input(f"\n{BOLD}{G_}You:{RST} ").strip()
         except (KeyboardInterrupt,EOFError): print(f"\n{DIM}Designing to free. -- Goncalo{RST}\n"); break
