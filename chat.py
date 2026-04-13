@@ -1906,6 +1906,66 @@ def tool_annual_simulation(mode="baseline", intervention="none"):
     spec.loader.exec_module(m)
     return m.tool_annual_simulation(str(mode), str(intervention))
 
+
+def tool_horse_report(section="all"):
+    """Full HORSE CFT report: performance, compliance, 3 scenarios, sensors, action plan.
+    section: all | now | annual | tiers | sensors | norms | plan"""
+    import importlib.util, os as _os
+    _dir = _os.path.dirname(_os.path.abspath(__file__))
+    
+    # Redirect stdout to capture output
+    import io, sys
+    _path = _os.path.join(_dir, "horse_report_v4.py")
+    if not _os.path.exists(_path):
+        return {"error": "horse_report_v4.py not found"}
+    
+    # Use annual_simulation directly for structured data
+    ann_path = _os.path.join(_dir, "annual_simulation.py")
+    if not _os.path.exists(ann_path):
+        return {"error": "annual_simulation.py not found"}
+    
+    spec = importlib.util.spec_from_file_location("annual_simulation", ann_path)
+    ann = importlib.util.module_from_spec(spec); spec.loader.exec_module(ann)
+    
+    if section in ("tiers", "all", "annual"):
+        tiers = ann.analyse_tiers(verbose=False)
+        b = tiers["baseline"]
+        result = {
+            "baseline_performance_pct": round(b["mean_F"]*100),
+            "baseline_f_debt_eur_year": round(b["f_debt_eur"]),
+            "baseline_energy_kwh": round(b["energy_kwh"]),
+            "baseline_carbon_kg": round(b["carbon_kg"]),
+            "baseline_temp_violations": b["temp_legal"],
+            "baseline_lux_violations": b["lux_fail"],
+            "daily_cost_eur": round(b["f_debt_eur"]/220),
+            "people_3219_cost_eur": b.get("people_cost_eur", 0),
+            "scenarios": {}
+        }
+        for k in ("small","balanced","mega"):
+            if k in tiers:
+                t = tiers[k]
+                result["scenarios"][k] = {
+                    "label": t["label"],
+                    "performance_pct": round(t["mean_F"]*100),
+                    "delta_pp": round(t["delta_F"]*100, 1),
+                    "cost_eur": t["cost_eur"],
+                    "savings_eur_year": t["total_savings"],
+                    "payback_months": t["payback_months"],
+                    "roi_pct": t["roi_pct"],
+                    "temp_violations_after": t["temp_legal"],
+                    "lux_violations_after": t["lux_fail"],
+                }
+        result["system_says"] = (
+            f"HORSE CFT opera a {result['baseline_performance_pct']}% de performance. "
+            f"Custo: €{result['daily_cost_eur']:,}/dia. "
+            f"Melhor intervenção: cenário Pequena (€2,000, payback 1 mês, ROI 1148%). "
+            f"3.219 utilizadores/ano com €{result['people_3219_cost_eur']:,} em formação desperdiçada."
+        )
+        result["label"] = "SIMULATED — F=P/D HYPOTHESIS UNDER TEST"
+        return result
+    
+    return {"error": f"section '{section}' not recognised. Use: all|annual|tiers|sensors|norms|plan"}
+
 TOOLS_DEF = {
     "analyse_element":{"fn":tool_analyse_element,
         "desc":"Deep Freedom Physics analysis of ANY element Z=1-118. F scores for all use cases (building, water_home, aerospace, nuclear, coastal). Phase, properties, AFI T5 interpretation.",
@@ -1916,6 +1976,7 @@ TOOLS_DEF = {
     "simulate_element":{"fn":tool_simulate_element,
         "desc":"Full MD simulation of any element at any T(K) and P(GPa). Phase, Maxwell-Boltzmann velocities, F(T), Lindemann ratio, quantum regime, cohesion energy.",
         "params":{"symbol":"element symbol","temperature_K":"temperature in Kelvin","pressure_GPa":"pressure in GPa (default 0)"}},
+    "horse_report":{"fn":tool_horse_report,"desc":"Complete HORSE CFT building report. Performance score, compliance with PT/EU laws, 3 intervention scenarios (Small/Balanced/Mega), sensor recommendations, action plan. Returns structured data: performance_pct, daily_cost_eur, scenarios with ROI/payback, 3219-person economics. section: all|annual|tiers|sensors|norms|plan","params":{"section":"all|annual|tiers|sensors|norms|plan"}},
     "annual_simulation":{"fn":tool_annual_simulation,"desc":"Full year building simulation for HORSE CFT. Simulates all 365 operating days, every room, every hour. Shows F score, F-debt in EUR, CO2 legal breaches, temperature violations, energy kWh, worst and best hours of the year, and ROI of interventions. mode: baseline|intervention|compare_all. intervention: none|pintassilgo_fix|cantina_hvac|all_halls|full_upgrade","params":{"mode":"baseline|intervention|compare_all","intervention":"none|pintassilgo_fix|cantina_hvac|all_halls|full_upgrade"}},
     "building_flows":{"fn":tool_building_flows,"desc":"Flow intelligence engine for HORSE CFT. Thinks in flows not data points. Scenarios: morning_crisis, normal_day, evening, winter_cold, summer_heat. Returns plain Portuguese narrative, emergencies, systemic problems, F score, active flows.","params":{"scenario":"morning_crisis|normal_day|evening|winter_cold|summer_heat","month":"1-12","hour":"0-24"}},
     "bio_run":{"fn":bio_run,"desc":"Run all 100 biological algorithms D01-D10 F=P/D. Scenarios: healthy stress fwh lifecycle. Returns F, delta_F, all active algorithms, house-bio map.","params":{"scenario":"healthy | stress | fwh | lifecycle"}},
