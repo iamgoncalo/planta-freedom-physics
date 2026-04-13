@@ -1915,7 +1915,15 @@ def tool_horse_report(section="all"):
     if not O.path.exists(p): return "ERROR: annual_simulation.py not found"
     s = U.spec_from_file_location("A", p)
     m = U.module_from_spec(s); s.loader.exec_module(m)
-    T = m.analyse_tiers(verbose=False)
+    _cache_f = os.path.join(d, "horse_cache.json")
+    if os.path.exists(_cache_f):
+        import json as _j
+        T = _j.load(open(_cache_f))
+    else:
+        T = m.analyse_tiers(verbose=False)
+        import json as _j
+        try: _j.dump(T, open(_cache_f,"w"), default=str)
+        except: pass
     b = T["baseline"]
     pe = b.get("people_econ", {})
     bd = pe.get("breakdown_by_segment", {})
@@ -2133,7 +2141,7 @@ def run_agent(api_key):
                 print(f"\n{chr(10)}  Planta Freedom Physics AI v5.0{chr(10)}")
                 for _line in str(_result).splitlines():
                     print(f"  {_line}")
-                print(BORDER)
+                print("  " + "-"*64)
                 history.append({"role":"user","parts":[{"text":query}]})
                 history.append({"role":"model","parts":[{"text":str(_result)}]})
                 continue
