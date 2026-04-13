@@ -1,0 +1,137 @@
+# report_config.yaml — Regras de narrativa e thresholds para horse_report.py
+# O sistema gera os conselhos a partir daqui. Nunca hardcode em Python.
+
+# F score bands — o sistema fala baseado no F calculado
+f_bands:
+  optimal:   {min: 0.80, max: 1.00, label: "óptimo",   emoji: "✅", urgency: "none"}
+  good:      {min: 0.65, max: 0.80, label: "bom",      emoji: "🟢", urgency: "monitor"}
+  degraded:  {min: 0.50, max: 0.65, label: "degradado", emoji: "🟡", urgency: "act_soon"}
+  critical:  {min: 0.30, max: 0.50, label: "crítico",  emoji: "🔴", urgency: "act_now"}
+  emergency: {min: 0.00, max: 0.30, label: "emergência","emoji": "🚨", urgency: "immediate"}
+
+# ROI thresholds — o sistema classifica cada intervenção
+roi_bands:
+  exceptional: {min: 5000, label: "ROI excepcional — investimento obrigatório"}
+  excellent:   {min: 1000, label: "ROI excelente — implementar este mês"}
+  good:        {min: 200,  label: "ROI bom — planear próximo trimestre"}
+  acceptable:  {min: 50,   label: "ROI aceitável — avaliar orçamento"}
+  low:         {min: 0,    label: "ROI baixo — só se estratégico"}
+
+# Payback thresholds (months)
+payback_bands:
+  immediate: {max: 0.5,  label: "payback imediato — menos de 2 semanas"}
+  fast:      {max: 3.0,  label: "payback rápido — menos de 3 meses"}
+  medium:    {max: 12.0, label: "payback médio — menos de 1 ano"}
+  slow:      {max: 999,  label: "payback lento — avaliar com cuidado"}
+
+# Violation thresholds — o sistema escalona o problema
+violation_bands:
+  co2_legal:
+    critical:  1000    # ppm — Portaria 353-A/2013
+    alert:     800     # ppm — 25% de margem
+    regulation: "Portaria 353-A/2013 — Portugal"
+    consequence: "Responsabilidade legal da entidade gestora"
+  temp_min:
+    critical:  17.0    # °C — abaixo do mínimo legal
+    alert:     18.5    # °C — aproximar do mínimo
+    regulation: "Portaria 353-A/2013 — Portugal"
+    consequence: "Incumprimento legal + risco de saúde"
+  lux_min:
+    critical:  150     # lux — CIE 117-1995
+    alert:     300     # lux — EN 12464-1 salas de aula
+    regulation: "EN 12464-1"
+    consequence: "Fadiga visual, redução de produtividade"
+  noise_max:
+    critical:  55      # dB
+    alert:     45      # dB — ISO 11690-1
+    regulation: "ISO 11690-1"
+    consequence: "Redução de concentração, stress"
+
+# Advice rules — o sistema gera conselhos baseados em dados
+# Format: condição → mensagem
+# {value} = valor calculado, {room} = sala, {date} = data
+advice_rules:
+  annual_f_critical:
+    condition: "mean_F < 0.50"
+    system_says: |
+      F médio anual de {mean_F:.3f} classifica como CRÍTICO.
+      O edifício opera a menos de metade da sua capacidade óptima.
+      {total_people_hours:,} horas-pessoa desperdiçadas em condições sub-óptimas.
+      Custo directo: €{f_debt_eur:,.0f}/ano em produtividade perdida.
+      Acção: intervenções físicas têm ROI superior a 5000% — não é uma opção, é obrigatório.
+
+  co2_violations_zero:
+    condition: "co2_breaches_legal == 0"
+    system_says: |
+      Zero breaches de CO₂ acima do limite legal (1000ppm).
+      O sistema de ventilação está a funcionar correctamente para CO₂.
+      Nota: os sensores físicos são necessários para confirmar este resultado.
+
+  temp_violations_high:
+    condition: "temp_breaches > 10000"
+    system_says: |
+      {temp_breaches:,} violações de temperatura registadas no ano.
+      Causa principal: salas sem HVAC (Hall GF/F1, Cantina) em meses frios.
+      Risco legal: Portaria 353-A/2013 exige mínimo de 18°C.
+      Solução de menor custo: instalar AC nas salas críticas antes do Inverno.
+
+  lux_violations_high:
+    condition: "lux_breaches > 50000"
+    system_says: |
+      {lux_breaches:,} violações de iluminação registadas no ano.
+      Causa: 7 salas com iluminação base insuficiente (Hall GF/F1, Pintassilgo, outros).
+      Custo do problema: fadiga visual + redução de capacidade de aprendizagem.
+      Solução: upgrade de iluminação LED (€300-800/sala, payback < 6 meses).
+
+  worst_hour_early_morning:
+    condition: "worst_hour < 8.0"
+    system_says: |
+      A pior hora do ano ocorreu a {worst_date} às {worst_hour:.1f}h.
+      Causa: o edifício ainda está frio quando as primeiras pessoas chegam.
+      Solução: algoritmo A18 (pré-aquecimento circadiano) — ligar HVAC 45min antes.
+      Implementação: regra no PlantaOS lbm.py, zero custo de hardware.
+
+  sensor_priority_co2:
+    condition: "always"
+    system_says: |
+      Canal CO₂ tem peso 0.22 no D geométrico (config.yaml: co2: 0.22).
+      É o segundo maior contribuinte para D depois da temperatura (0.40).
+      Um sensor SCD40 (€40) mede CO₂ + temperatura + humidade = 3 canais em simultâneo.
+      Prioridade máxima para validação empírica de F=P/D.
+
+  full_upgrade_roi:
+    condition: "full_upgrade_roi > 1000"
+    system_says: |
+      Upgrade completo (€{upgrade_cost:,}) tem ROI de {upgrade_roi:.0f}%.
+      Payback em {upgrade_payback:.1f} meses.
+      Após upgrade: F passa de {f_before:.3f} para {f_after:.3f}.
+      Poupança anual: €{upgrade_saving:,.0f}.
+      Argumento para gestão: cada mês de atraso custa €{monthly_cost:,.0f}.
+
+# Step-by-step timeline — gerado com base nos ROI calculados
+timeline:
+  week_0:
+    cost: 0
+    label: "Esta semana (custo zero)"
+    actions:
+      - "Instalar PlantaOS digital twin em modo simulação no HORSE CFT"
+      - "Definir sala piloto com maior F-debt: {worst_room}"
+      - "Mostrar dashboard V11 ao responsável do edifício"
+      - "Activar pré-aquecimento circadiano A18 no lbm.py"
+
+  month_1:
+    cost: "best_intervention_cost"
+    label: "Este mês (melhor ROI)"
+    actions:
+      - "Implementar intervenção com maior ROI: {best_intervention}"
+      - "Instalar 2 sensores piloto em {worst_room}: ESP32 + SCD40 + BH1750"
+      - "Validar primeiros dados reais vs simulação"
+
+  quarter_1:
+    cost: "full_sensor_cost"
+    label: "Próximo trimestre (sensor completo)"
+    actions:
+      - "Deploy sensor completo: todas as salas, gateway LoRaWAN"
+      - "Todos os resultados passam de SIMULATED para VALIDATED"
+      - "Submeter paper Automation in Construction com dados empíricos"
+      - "Renegociar contrato HORSE com F score validado como KPI"

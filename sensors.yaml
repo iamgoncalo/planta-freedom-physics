@@ -1,0 +1,127 @@
+# sensors.yaml — Catálogo completo de sensores para PlantaOS
+# SINGLE SOURCE OF TRUTH para hardware
+# Nunca mudar valores directamente em Python — mudar aqui
+
+sensors:
+  co2_temp_rh:
+    model: "Sensirion SCD40"
+    channel: ["co2", "temp", "rh"]
+    price_eur: 40
+    qty_horse_cft: 12
+    protocol: "I2C / LoRaWAN"
+    accuracy: "±50ppm CO₂, ±0.3°C, ±6% RH"
+    range_co2_ppm: [400, 2000]
+    range_temp_c: [-10, 60]
+    power_ua: 18000
+    update_interval_s: 5
+    priority: 1
+    resolves_channels: ["co2", "temp", "rh"]
+    resolves_violations: ["CO2_LEGAL_BREACH", "CO2_ALERT", "TEMP_LOW", "TEMP_LEGAL_BREACH"]
+    certification: ["CE", "RoHS"]
+    notes: "Um sensor resolve 3 canais do D. Confirmado com PlantaOS config.yaml weights."
+
+  temp_rh_backup:
+    model: "Sensirion SHT31-D"
+    channel: ["temp", "rh"]
+    price_eur: 12
+    qty_horse_cft: 24
+    protocol: "I2C"
+    accuracy: "±0.3°C, ±2% RH"
+    range_temp_c: [-40, 125]
+    power_ua: 2000
+    update_interval_s: 1
+    priority: 1
+    resolves_channels: ["temp", "rh"]
+    resolves_violations: ["TEMP_LOW", "TEMP_LEGAL_BREACH"]
+    certification: ["CE", "RoHS"]
+    notes: "Backup para SCD40. Uma por sala. Bateria 2 anos."
+
+  lux:
+    model: "ROHM BH1750"
+    channel: ["lux"]
+    price_eur: 3
+    qty_horse_cft: 24
+    protocol: "I2C"
+    accuracy: "1-65535 lux, ±20%"
+    range_lux: [1, 65535]
+    power_ua: 120
+    update_interval_s: 0.12
+    priority: 2
+    resolves_channels: ["lux"]
+    resolves_violations: ["LUX_CRITICAL", "LUX_LOW"]
+    certification: ["CE", "RoHS"]
+    notes: "€3 por sensor. Resolve canal light sem custo significativo."
+
+  occupancy:
+    model: "Hi-Link LD2410"
+    channel: ["occupancy"]
+    price_eur: 8
+    qty_horse_cft: 12
+    protocol: "UART / GPIO"
+    accuracy: "Presença estática + movimento, alcance 6m"
+    privacy: "Zero áudio/vídeo — detecta presença apenas"
+    power_ua: 70000
+    update_interval_s: 0.1
+    priority: 2
+    resolves_channels: ["occupancy"]
+    resolves_violations: []
+    certification: ["CE", "FCC"]
+    notes: "RGPD compliant. Não é câmara. Zero privacidade em risco."
+
+  noise:
+    model: "Knowles SPH8878LR5H-1"
+    channel: ["noise"]
+    price_eur: 7
+    qty_horse_cft: 12
+    protocol: "Analógico / I2C (com ADC)"
+    accuracy: "±3dB, 30-120dB SPL"
+    range_db: [30, 120]
+    power_ua: 800
+    update_interval_s: 0.25
+    priority: 3
+    resolves_channels: ["noise"]
+    resolves_violations: []
+    certification: ["CE", "RoHS"]
+    notes: "Grava nível dB apenas — não grava áudio. ISO 11690-1 compliant."
+
+  gateway_lorawan:
+    model: "RAK7268 WisGate Edge Lite 2"
+    channel: ["network"]
+    price_eur: 180
+    qty_horse_cft: 1
+    protocol: "LoRaWAN 1.0.3 + Ethernet + WiFi"
+    accuracy: "Indoor 200m, outdoor 2km"
+    power_w: 5
+    update_interval_s: 1
+    priority: 1
+    resolves_channels: ["network_all"]
+    resolves_violations: []
+    certification: ["CE", "FCC", "AS923"]
+    notes: "1 gateway cobre 950m². Alternativa a cablagem €3000+. Liga a PlantaOS via MQTT."
+
+  mcu:
+    model: "Espressif ESP32-C3"
+    channel: ["processing"]
+    price_eur: 4
+    qty_horse_cft: 24
+    protocol: "WiFi 802.11b/g/n + BLE 5.0 + I2C + UART"
+    flash_kb: 4096
+    ram_kb: 400
+    power_ma_active: 22
+    power_ua_sleep: 5
+    update_interval_s: 60
+    priority: 1
+    resolves_channels: ["all_local"]
+    resolves_violations: []
+    certification: ["CE", "FCC", "TELEC"]
+    notes: "€4/sala. MicroPython ou C++. Liga CO₂+T+lux+ocupação num nó. PlantaOS MQTT client."
+
+# Arquitectura mínima viável
+minimum_viable:
+  sensors: ["co2_temp_rh", "lux", "mcu", "gateway_lorawan"]
+  per_room_cost_eur: 47  # SCD40(40) + BH1750(3) + ESP32(4) = 47
+  gateway_cost_eur: 180
+  rooms_with_co2: 12     # salas de formação prioritárias
+  rooms_basic: 12        # halls, corredores, WCs = só T+lux
+  total_formula: "12*47 + 12*7 + 180"  # = 564 + 84 + 180 = €828
+  payback_note: "< 3 dias de F-debt evitado (€5.3M/ano / 365 = €14.500/dia)"
