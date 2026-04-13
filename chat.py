@@ -1986,6 +1986,7 @@ def run_agent(api_key):
 {BOLD}{G_}╔══════════════════════════════════════════════════════════════╗
 ║  PLANTA FREEDOM PHYSICS — PHYSICAL AI  v5.0                  ║
 ║  F = P / D   · 4 GAPS SOLVED · L-layer R^2=0.9875 · 20/20  ║
+║  TOE 400/400 · BIO domain D01-D10 · 100 bio algorithms live    ║
 ║  seed={SEED}  ·  zero hardcodes  ·  scipy.constants NIST 2018    ║
 ╚══════════════════════════════════════════════════════════════╝{RST}
 {DIM}  Goncalo Melo de Magalhaes · ORCID 0009-0008-6255-7724

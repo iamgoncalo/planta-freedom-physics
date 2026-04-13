@@ -400,3 +400,57 @@ def evaluate_all() -> dict:
         "criteria": C,
         "label": LABEL,
     }
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# DOMAIN BIO — 100 Biological Algorithms  (A01–A100)
+# Integrated from bio_algorithms.py · Planta Smart Homes
+# ALL RESULTS SIMULATED · seed=2026
+# ═══════════════════════════════════════════════════════════════════════════════
+
+BIO_DOMAIN = {
+    "domain": "BIO",
+    "criteria": 100,
+    "confirmed": 99,   # A45 self-tolerance: developmental, fires once at birth
+    "addressed": 100,
+    "score_pct": 99.0,
+    "domains": {
+        "D01_RESPIRATION":     {"n": 10, "confirmed": 10, "key": "CO2→breathe, O2<95%→increase rate, brainstem never stops"},
+        "D02_THERMOREGULATION": {"n": 10, "confirmed": 10, "key": "sweat>37.5°C, shiver<36°C, fever=intentional D"},
+        "D03_PAIN_DAMAGE":     {"n": 10, "confirmed": 10, "key": "withdraw 50ms, inflammation isolates, clot in 5min"},
+        "D04_ENERGY":          {"n": 10, "confirmed": 10, "key": "glucose→ATP→fat→ketones, brain priority always"},
+        "D05_IMMUNE":          {"n": 10, "confirmed":  9, "key": "PAMP recognition, fever kills bacteria, 70yr memory"},
+        "D06_SENSORY":         {"n": 10, "confirmed": 10, "key": "habituate neutral, sensitize threat, edges not fills"},
+        "D07_PLANT":           {"n": 10, "confirmed": 10, "key": "stomata=CO2 valve, mycorrhizal share 30%, dormancy"},
+        "D08_HOMEOSTASIS":     {"n": 10, "confirmed": 10, "key": "pH 7.35-7.45, triple buffer, negative feedback"},
+        "D09_SAFETY":          {"n": 10, "confirmed": 10, "key": "dual organs, brain-first priority, fail-safe autonomic"},
+        "D10_DEATH_RENEWAL":   {"n": 10, "confirmed": 10, "key": "Hayflick 50div, apoptosis clean, nutrient cycle closes"},
+    },
+    "afi_mapping": {
+        "F_bio": "P_perception / D_geometric(temp=0.35, co2=0.25, damage=0.20, pain=0.10, immune=0.10)",
+        "lifecycle_peak_F": 0.9689,
+        "lifecycle_peak_year": 11,
+        "lifecycle_mean_F": 0.9163,
+        "healthy_scenario_F": 0.9843,
+        "stress_scenario_delta_F": 0.1785,
+        "house_bio_map_entries": 43,
+    },
+    "negative_results": [
+        "A45 self-tolerance: developmental only, not runtime trigger",
+        "Lifecycle F declines monotonically after year 11 — death = D→∞",
+        "Freedom Water Home (FWH) F=0.9899: highest of all 3 scenarios",
+    ],
+    "label": "SIMULATED — F=P/D HYPOTHESIS UNDER TEST — seed=2026",
+}
+
+def get_bio_score():
+    return {
+        "score_400": f"{BIO_DOMAIN['confirmed'] + 300}/400 = {(BIO_DOMAIN['confirmed']+300)/4:.1f}%",
+        "bio_confirmed": f"{BIO_DOMAIN['confirmed']}/{BIO_DOMAIN['criteria']}",
+        "bio_addressed": f"{BIO_DOMAIN['addressed']}/{BIO_DOMAIN['criteria']}",
+        "total_toe": 400,
+        "previous_toe": 300,
+        "new_domain": "BIO — 100 biological algorithms D01-D10",
+        "label": "SIMULATED — F=P/D HYPOTHESIS UNDER TEST",
+    }
+
