@@ -1839,6 +1839,45 @@ def tool_validation_protocol(run_simulation: str = "yes") -> str:
     )
     return json.dumps({"protocol": protocol, "calibration": cal, "integrated_F": full}, default=str)
 
+
+def bio_run(scenario="healthy"):
+    """100 biological algorithms F=P/D. scenario: healthy|stress|fwh|lifecycle"""
+    import importlib.util as _ilu, os as _os
+    _dir = _os.path.dirname(_os.path.abspath(__file__))
+    _path = _os.path.join(_dir, "bio_algorithms.py")
+    if not _os.path.exists(_path):
+        return {"error": "bio_algorithms.py not found in " + _dir}
+    spec = _ilu.spec_from_file_location("bio_algorithms", _path)
+    bio = _ilu.module_from_spec(spec); spec.loader.exec_module(bio)
+    if scenario == "lifecycle":
+        traj = bio.simulate_lifecycle(years=80)
+        peak = max(traj, key=lambda t: t["F"])
+        return {"years": len(traj), "peak_F": peak["F"], "peak_year": peak["year"],
+                "mean_F": round(sum(t["F"] for t in traj)/len(traj), 4),
+                "decades": [traj[min(i*10, len(traj)-1)]["F"] for i in range(9)],
+                "label": "SIMULATED"}
+    presets = {
+        "healthy": bio.BioState(),
+        "stress":  bio.BioState(co2_room_ppm=1100.0, core_temp_c=38.8,
+                                fatigue_pct=75.0, pathogen_load=0.3, o2_sat_pct=93.0),
+        "fwh":     bio.BioState(co2_room_ppm=420.0, atp_store_pct=90.0),
+    }
+    s = presets.get(scenario, bio.BioState())
+    out = bio.run_all_algorithms(s, verbose=False)
+    by_domain = {}
+    for r in out["results"]:
+        d = by_domain.setdefault(r.domain, {"active": [], "total": 0})
+        d["total"] += 1
+        if r.triggered:
+            d["active"].append({"id": r.algo_id, "name": r.name,
+                                "action": r.action[:100], "delta_F": r.delta_F})
+    return {"scenario": scenario, "F_initial": out["F_initial"],
+            "F_final": out["F_final"], "delta_F": out["delta_F"],
+            "triggered": out["triggered"], "total": out["total"],
+            "by_domain": by_domain,
+            "house_bio_map": list(bio.HOUSE_BIO_MAP.items()),
+            "label": "SIMULATED — F=P/D HYPOTHESIS UNDER TEST"}
+
 TOOLS_DEF = {
     "analyse_element":{"fn":tool_analyse_element,
         "desc":"Deep Freedom Physics analysis of ANY element Z=1-118. F scores for all use cases (building, water_home, aerospace, nuclear, coastal). Phase, properties, AFI T5 interpretation.",
@@ -1849,6 +1888,7 @@ TOOLS_DEF = {
     "simulate_element":{"fn":tool_simulate_element,
         "desc":"Full MD simulation of any element at any T(K) and P(GPa). Phase, Maxwell-Boltzmann velocities, F(T), Lindemann ratio, quantum regime, cohesion energy.",
         "params":{"symbol":"element symbol","temperature_K":"temperature in Kelvin","pressure_GPa":"pressure in GPa (default 0)"}},
+    "bio_run":{"fn":bio_run,"desc":"Run all 100 biological algorithms D01-D10 F=P/D. Scenarios: healthy stress fwh lifecycle. Returns F, delta_F, all active algorithms, house-bio map.","params":{"scenario":"healthy | stress | fwh | lifecycle"}},
     "simulate_physics":{"fn":tool_simulate_physics,
         "desc":("Simulate ANY physics law through F=P/D. Topics: mechanics/Newton/Lagrange/Kepler, electromagnetism/Maxwell/light, quantum/Schrodinger/Heisenberg/Dirac/tunneling/entanglement, general relativity/Einstein/black hole/Schwarzschild, thermodynamics/Carnot/Boltzmann/entropy, particle physics/Standard Model/Higgs/quarks, cosmology/Big Bang/dark energy/dark matter/inflation, nuclear/fission/fusion/decay, condensed matter/superconductor/Fermi/BEC, fluid dynamics/Navier-Stokes/Reynolds/Bernoulli, waves/optics/diffraction/acoustic, information/Shannon/holographic, biology/evolution/DNA, QFT/Feynman/vacuum, consciousness/IIT/hard problem, gravity/geodesic, TOE/unification. Returns real equations + numbers from scipy.constants + config."),
         "params":{"topic":"FULL specific topic","parameter":"numerical param 1 (mass/freq/T etc)","parameter2":"numerical param 2 (radius/velocity etc)"}},
