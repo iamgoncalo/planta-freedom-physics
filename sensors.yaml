@@ -124,4 +124,4 @@ minimum_viable:
   rooms_with_co2: 12     # salas de formação prioritárias
   rooms_basic: 12        # halls, corredores, WCs = só T+lux
   total_formula: "12*47 + 12*7 + 180"  # = 564 + 84 + 180 = €828
-  payback_note: "< 3 dias de F-debt evitado (€5.3M/ano / 365 = €14.500/dia)"
+  payback_note: "< 3 dias de perda de produtividade evitada (€598K/ano / 220 dias = €2.720/dia)"
