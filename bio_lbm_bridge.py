@@ -322,26 +322,19 @@ def _bio_to_action(triggered: list, room_state: dict, room_name: str,
         return float(room_state[pk]) if pk in room_state else float(room_state.get(lk, dv))
     co2 = _gv("co2_ppm", "co2", 420.0)
 
-    if any(r.algo_id in ("A10",) for r in triggered):
-        # A10: CO2 > legal limit → max ventilation + alert (A10 = Portaria 353-A)
-        action.ventilation = "max"
-        action.damper_pct = 100.0
-        action.alert_level = max(action.alert_level, 4)
-        action.alert_triggers.append(f"CO2={co2:.0f}ppm > {CO2_LEGAL_PPM}ppm LEGAL BREACH")
-        action.priority = "life_safety"
-
-    elif any(r.algo_id in ("A01", "A07") for r in triggered):
-        # A01/A07: CO2 rising → increase ventilation proportionally
-        deficit = max(0.0, co2 - CO2_ALERT_PPM) / (CO2_LEGAL_PPM - CO2_ALERT_PPM)
-        action.ventilation = "max" if deficit > 0.7 else "normal"
-        action.damper_pct = min(100.0, 50.0 + deficit * 50.0)
-        action.alert_level = max(action.alert_level, 2 if deficit > 0.5 else 1)
-        action.alert_triggers.append(f"CO2={co2:.0f}ppm rising")
-
-    elif any(r.algo_id == "A06" for r in triggered):
-        # A06: Autonomic — always minimum ventilation
-        action.ventilation = max(action.ventilation, "min") if action.ventilation == "closed" else action.ventilation
-        action.damper_pct = max(action.damper_pct, 20.0)
+    _ct=next((r.name for r in triggered if r.algo_id in ("A10","A09","A01","A07")),None)
+    if co2 >= CO2_LEGAL_PPM:
+        action.ventilation="max"; action.damper_pct=100.0
+        action.alert_level=max(action.alert_level,4); action.priority="life_safety"
+        action.alert_triggers.append(f"CO2={co2:.0f}ppm > {CO2_LEGAL_PPM:.0f}ppm LEGAL BREACH")
+    elif co2 >= CO2_ALERT_PPM:
+        _d=(co2-CO2_ALERT_PPM)/max(1.0,CO2_LEGAL_PPM-CO2_ALERT_PPM)
+        action.ventilation="max" if _d>0.7 else "normal"
+        action.damper_pct=min(100.0,50.0+_d*50.0)
+        action.alert_level=max(action.alert_level,2 if _d>0.5 else 1)
+        action.alert_triggers.append(f"CO2={co2:.0f}ppm ({_ct or chr(67)+chr(79)+chr(50)})")
+    elif any(r.algo_id=="A06" for r in triggered):
+        action.damper_pct=max(action.damper_pct,20.0)
 
     # ── THERMOREGULATION → HVAC ───────────────────────────────────────────────
     T     = _gv("temp_c", "T", 20.0)
