@@ -1,0 +1,466 @@
+# compliance.yaml — Normas legais e técnicas completas
+# Portugal · União Europeia · Global · Clima Português
+# Fonte: JRC 2022 · INE · DGEG · ACT · SCE · ADENE · WHO · ISO · CEN · ASHRAE
+# SINGLE SOURCE OF TRUTH — nunca hardcode em Python
+
+# ─────────────────────────────────────────────────────
+# PORTUGAL — Normas nacionais obrigatórias
+# ─────────────────────────────────────────────────────
+portugal:
+
+  portaria_353a_2013:
+    name: "Portaria 353-A/2013"
+    full_name: "Regulamento de Desempenho Energético dos Edifícios de Comércio e Serviços (RECS)"
+    scope: "industria"
+    channel: "co2"
+    limit_ppm: 1000
+    alert_ppm: 800
+    voc_limit_ug_m3: 300
+    formaldehyde_limit_ug_m3: 100
+    pm10_limit_ug_m3: 50
+    radon_limit_bq_m3: 300
+    penalty_eur_max: 45000
+    enforced_by: "ACT — Autoridade para as Condições do Trabalho"
+    consequence: "Multa até €45.000/ano + suspensão de actividade"
+    applies_to: "Edifícios de comércio e serviços > 500m²"
+    monitoring_required: true
+    label: "Qualidade do Ar Interior"
+
+  iso_7730_pt:
+    name: "ISO 7730:2005"
+    full_name: "Ergonomics — Analytical determination of thermal comfort (PMV/PPD)"
+    scope: "industria"
+    deadline: "2026"
+    channel: "temp"
+    temp_min_c: 18.0
+    temp_max_c: 26.0
+    pmv_min: -0.5
+    pmv_max: 0.5
+    ppd_max_pct: 10
+    operative_temp_winter_c: 20.0
+    operative_temp_summer_c: 24.0
+    humidity_min_pct: 30
+    humidity_max_pct: 70
+    penalty_description: "Incumprimento laboral — responsabilidade civil e criminal"
+    enforced_by: "ACT + SCE"
+    consequence: "Multa ACT + desvalorização SCE"
+    label: "Conforto Térmico"
+
+  en_12464_pt:
+    name: "EN 12464-1:2021"
+    full_name: "Light and lighting — Lighting of work places — Part 1: Indoor"
+    scope: "ambos"
+    channel: "lux"
+    lux_min_classroom: 300
+    lux_target_classroom: 500
+    lux_min_corridor: 100
+    lux_min_office: 300
+    ugr_max: 19
+    ra_min: 80
+    penalty_description: "Não conformidade EN → risco ACT + seguros"
+    enforced_by: "ACT + IPQ"
+    consequence: "Responsabilidade civil em caso de acidente laboral"
+    label: "Iluminação"
+
+  iso_11690_pt:
+    name: "ISO 11690-1:1996"
+    full_name: "Acoustics — Recommended practice for the design of low-noise workplaces"
+    scope: "industria"
+    channel: "noise"
+    noise_max_db: 45
+    noise_cognitive_work_db: 40
+    noise_legal_limit_db: 85
+    noise_action_level_db: 80
+    penalty_description: "Danos auditivos = responsabilidade empregador"
+    enforced_by: "ACT"
+    consequence: "Indemnização trabalhadores + multa até €15.000"
+    label: "Acústica"
+
+  epbd_2024:
+    name: "EPBD 2024"
+    full_name: "Energy Performance of Buildings Directive 2024/1275/EU"
+    scope: "industria"
+    channel: "energy"
+    monitoring_required_above_m2: 250
+    bacs_required_above_kw: 70
+    renovation_trigger_pct_cost: 25
+    zero_emission_target_year: 2050
+    existing_buildings_deadline: 2033
+    new_buildings_deadline_public: 2026
+    new_buildings_deadline_private: 2028
+    energy_class_target: "A"
+    smart_readiness_indicator: true
+    enforced_by: "ADENE + DGEG"
+    consequence: "Classe energética D após 2033 → imóvel -8% valor + restrições venda"
+    label: "Eficiência Energética"
+
+  sce_portugal:
+    name: "SCE — Sistema de Certificação Energética"
+    full_name: "Decreto-Lei 118/2013 — Sistema de Certificação Energética dos Edifícios"
+    scope: "ambos"
+    channel: "energy"
+    certificate_valid_years: 10
+    classes: ["A+", "A", "B", "B-", "C", "D", "E", "F"]
+    horse_cft_current_class: "C"
+    target_class: "B"
+    enforced_by: "ADENE"
+    consequence: "Certificado obrigatório para venda/arrendamento"
+    label: "Certificação Energética"
+
+  lei_102_2009:
+    name: "Lei 102/2009"
+    full_name: "Regime jurídico da promoção da segurança e saúde no trabalho"
+    scope: "industria"
+    channel: "all"
+    max_temperature_hot_work_c: 30.0
+    min_temperature_cold_work_c: 12.0
+    max_humidity_pct: 75
+    ventilation_min_ach: 0.5
+    enforced_by: "ACT"
+    consequence: "Contra-ordenação grave: €1.800 a €6.000; muito grave: €6.000 a €30.000"
+    label: "Segurança e Saúde no Trabalho"
+
+  portaria_987_93:
+    name: "Portaria 987/93"
+    full_name: "Prescrições mínimas de segurança e saúde nos locais de trabalho"
+    scope: "industria"
+    channel: "all"
+    min_volume_m3_per_person: 10
+    min_surface_m2_per_person: 2
+    min_height_m: 2.5
+    natural_light_required: true
+    enforced_by: "ACT"
+    consequence: "Condicionamento de actividade"
+    label: "Condições Mínimas de Trabalho"
+
+# ─────────────────────────────────────────────────────
+# UNIÃO EUROPEIA — Directivas e Regulamentos
+# ─────────────────────────────────────────────────────
+european_union:
+
+  en_16798_2019:
+    name: "EN 16798-1:2019"
+    full_name: "Energy performance of buildings — Indoor environmental input parameters"
+    replaces: "EN 15251:2007"
+    categories:
+      I:   {co2_above_outdoor_ppm: 550,  temp_summer_max_c: 25.5, temp_winter_min_c: 21.0, description: "High level — hospitals, elderly"}
+      II:  {co2_above_outdoor_ppm: 800,  temp_summer_max_c: 26.0, temp_winter_min_c: 20.0, description: "Normal — offices, schools"}
+      III: {co2_above_outdoor_ppm: 1350, temp_summer_max_c: 27.0, temp_winter_min_c: 19.0, description: "Acceptable — industrial"}
+    horse_cft_category: "II"
+    co2_outdoor_baseline_ppm: 420
+    label: "Qualidade Ambiental Interior — EU"
+
+  eu_taxonomy_2021:
+    name: "EU Taxonomy 2021/2139"
+    full_name: "EU Taxonomy for Sustainable Activities — Climate Change Mitigation"
+    scope: "investimento_sustentavel"
+    channel: "carbon"
+    threshold_kg_co2_m2_year: 40
+    horse_cft_current_kg: 116633
+    horse_cft_area_m2: 950
+    horse_cft_intensity: 122.8  # kg/m²/year — ABOVE threshold
+    dnsh_criteria: ["water", "circular_economy", "biodiversity", "pollution"]
+    label: "Taxonomia EU — Sustentabilidade"
+
+  csrd_2024:
+    name: "CSRD 2024/ESRS"
+    full_name: "Corporate Sustainability Reporting Directive — European Sustainability Reporting Standards"
+    mandatory_from: 2025
+    scope: "empresas > 250 trabalhadores OU > €50M facturação"
+    required_disclosures: ["E1_climate", "E4_biodiversity", "S1_workforce", "G1_governance"]
+    metrics_required: ["energy_kwh", "carbon_kg", "water_m3", "waste_kg"]
+    label: "Relatório de Sustentabilidade"
+
+  eu_green_deal:
+    name: "EU Green Deal 2050"
+    target_co2_reduction_2030_pct: 55
+    target_net_zero_year: 2050
+    buildings_share_eu_energy_pct: 40
+    buildings_share_eu_co2_pct: 36
+    renovation_wave_target: "3% stock/year"
+    label: "Pacto Ecológico Europeu"
+
+  energy_efficiency_directive:
+    name: "EED 2023/1791"
+    full_name: "Energy Efficiency Directive — recast"
+    energy_savings_target_2030_pct: 11.7
+    mandatory_energy_audits_above_toe: 10
+    smart_metering_required: true
+    label: "Directiva Eficiência Energética"
+
+  f_gas_regulation:
+    name: "EU F-Gas Regulation 2024"
+    hvac_refrigerant_phase_out: "R-32 target by 2030, R-410A phase-down"
+    gwp_limit_2025: 2500
+    label: "Gases Fluorados"
+
+# ─────────────────────────────────────────────────────
+# GLOBAL — ISO, ASHRAE, WELL, LEED, BREEAM
+# ─────────────────────────────────────────────────────
+global:
+
+  ashrae_55_2020:
+    name: "ASHRAE 55:2020"
+    full_name: "Thermal Environmental Conditions for Human Occupancy"
+    channel: "temp"
+    pmv_range: [-0.5, 0.5]
+    ppd_max_pct: 10
+    adaptive_upper_80pct_acceptability_c: 28.0
+    adaptive_lower_80pct_acceptability_c: 18.0
+    radiant_temp_asymmetry_max_c: 10
+    floor_surface_temp_min_c: 19
+    floor_surface_temp_max_c: 29
+    label: "Conforto Térmico ASHRAE"
+
+  ashrae_62_1_2022:
+    name: "ASHRAE 62.1:2022"
+    full_name: "Ventilation and Acceptable Indoor Air Quality"
+    channel: "co2"
+    ventilation_rate_per_person_L_s: 3.8
+    ventilation_rate_per_floor_m2_L_s: 0.30
+    co2_above_outdoor_max_ppm: 700
+    label: "Ventilação e QAI ASHRAE"
+
+  well_v2:
+    name: "WELL Building Standard v2"
+    full_name: "International WELL Building Institute — WELL v2"
+    categories: ["Air", "Water", "Nourishment", "Light", "Movement", "Thermal_Comfort", "Sound", "Materials", "Mind", "Community"]
+    air_co2_max_ppm: 900
+    air_pm25_max_ug_m3: 12
+    light_edi_min_lux: 200
+    light_eq_melanopic_lux_min: 150
+    thermal_pmv_range: [-0.5, 0.5]
+    sound_background_max_db: 45
+    certification_levels: ["Bronze", "Silver", "Gold", "Platinum"]
+    horse_cft_potential: "Silver"
+    label: "WELL Building Standard"
+
+  leed_v4_1:
+    name: "LEED v4.1"
+    full_name: "Leadership in Energy and Environmental Design — USGBC"
+    categories: ["Sustainable_Sites", "Water_Efficiency", "Energy_Atmosphere", "Materials_Resources", "Indoor_Environmental_Quality", "Innovation", "Regional_Priority"]
+    ieq_co2_monitoring: true
+    ieq_co2_max_ppm: 1100
+    ieq_thermal_control: true
+    energy_reduction_vs_baseline_pct: 5
+    certification_levels: ["Certified", "Silver", "Gold", "Platinum"]
+    horse_cft_potential: "Certified"
+    label: "LEED v4.1"
+
+  breeam_2023:
+    name: "BREEAM In-Use 2022"
+    full_name: "Building Research Establishment Environmental Assessment Method"
+    categories: ["Energy", "Water", "Materials", "Waste", "Land_Use", "Pollution", "Transport", "Health_Wellbeing", "Management"]
+    co2_monitoring_required: true
+    energy_sub_metering: true
+    thermal_comfort_survey: true
+    certification_levels: ["Pass", "Good", "Very_Good", "Excellent", "Outstanding"]
+    horse_cft_potential: "Good"
+    label: "BREEAM"
+
+  iso_14001_2015:
+    name: "ISO 14001:2015"
+    full_name: "Environmental Management Systems — Requirements"
+    scope: "environmental_management"
+    requires_energy_monitoring: true
+    requires_waste_tracking: true
+    requires_water_monitoring: true
+    label: "Gestão Ambiental"
+
+  iso_50001_2018:
+    name: "ISO 50001:2018"
+    full_name: "Energy Management Systems — Requirements"
+    scope: "energy_management"
+    requires_baseline: true
+    requires_objectives: true
+    requires_monitoring: true
+    label: "Gestão de Energia"
+
+  iso_16484_2017:
+    name: "ISO 16484:2017"
+    full_name: "Building Automation and Control Systems (BACS)"
+    bacs_efficiency_classes: ["A", "B", "C", "D"]
+    bacs_class_a_savings_pct: 30
+    bacs_class_b_savings_pct: 20
+    bacs_class_c_savings_pct: 11
+    en_iso_52120_2022_replaces: true
+    label: "Automação e Controlo de Edifícios"
+
+  who_guidelines_2010:
+    name: "WHO Air Quality Guidelines 2021"
+    full_name: "WHO Global Air Quality Guidelines"
+    pm25_annual_ug_m3: 5
+    pm25_24h_ug_m3: 15
+    pm10_annual_ug_m3: 15
+    pm10_24h_ug_m3: 45
+    no2_annual_ug_m3: 10
+    co_8h_mg_m3: 4
+    label: "OMS — Qualidade do Ar"
+
+  sdg_goals:
+    name: "UN Sustainable Development Goals"
+    relevant_goals:
+      SDG3:  {name: "Saúde e Bem-Estar", target: "3.9 — reduzir mortes por poluição indoor"}
+      SDG7:  {name: "Energia Limpa", target: "7.3 — duplicar eficiência energética até 2030"}
+      SDG11: {name: "Cidades Sustentáveis", target: "11.6 — qualidade do ar em espaços públicos"}
+      SDG13: {name: "Acção Climática", target: "13.2 — políticas climáticas nacionais"}
+    label: "Objetivos de Desenvolvimento Sustentável ONU"
+
+# ─────────────────────────────────────────────────────
+# PORTUGAL — Clima (Aveiro / zona costeira)
+# ─────────────────────────────────────────────────────
+portugal_climate:
+  location: "Aveiro"
+  climate_zone: "Csb (Köppen) — Oceânico temperado"
+  altitude_m: 10
+  latitude: 40.64
+  longitude: -8.65
+
+  monthly_temp_avg_c:
+    jan: 9.8
+    feb: 10.8
+    mar: 12.5
+    apr: 14.0
+    may: 16.3
+    jun: 19.2
+    jul: 21.5
+    aug: 21.8
+    sep: 20.1
+    oct: 16.8
+    nov: 12.8
+    dec: 10.5
+
+  monthly_temp_max_c:
+    jan: 14.2
+    feb: 15.4
+    mar: 17.3
+    apr: 19.2
+    may: 21.8
+    jun: 25.0
+    jul: 28.1
+    aug: 28.7
+    sep: 26.4
+    oct: 21.7
+    nov: 17.0
+    dec: 14.6
+
+  monthly_temp_min_c:
+    jan: 5.4
+    feb: 6.2
+    mar: 7.7
+    apr: 8.8
+    may: 10.8
+    jun: 13.4
+    jul: 14.9
+    aug: 14.9
+    sep: 13.8
+    oct: 11.9
+    nov: 8.6
+    dec: 6.4
+
+  monthly_rh_avg_pct:
+    jan: 82
+    feb: 79
+    mar: 76
+    apr: 73
+    may: 72
+    jun: 69
+    jul: 66
+    aug: 66
+    sep: 70
+    oct: 77
+    nov: 82
+    dec: 83
+
+  monthly_solar_radiation_kwh_m2:
+    jan: 64
+    feb: 82
+    mar: 124
+    apr: 157
+    may: 193
+    jun: 205
+    jul: 220
+    aug: 200
+    sep: 152
+    oct: 107
+    nov: 64
+    dec: 55
+
+  heating_degree_days_18c: 1250
+  cooling_degree_days_21c: 180
+  annual_sunshine_hours: 2700
+  annual_rain_mm: 900
+  prevailing_wind_direction: "NW"
+  wind_speed_avg_ms: 3.2
+
+  design_conditions:
+    summer_design_dry_bulb_c: 32.0
+    summer_design_wet_bulb_c: 20.0
+    winter_design_dry_bulb_c: 3.0
+    solar_irradiance_peak_w_m2: 850
+    ground_temp_avg_c: 14.5
+
+# ─────────────────────────────────────────────────────
+# COMPLIANCE MAPPING — canal D → norma → limite
+# ─────────────────────────────────────────────────────
+channel_compliance_map:
+  co2:
+    primary_law: "portaria_353a_2013"
+    eu_standard: "en_16798_2019"
+    global: "ashrae_62_1_2022"
+    critical_ppm: 1000
+    alert_ppm: 800
+    d_weight_config: 0.22
+
+  temp:
+    primary_law: "iso_7730_pt"
+    eu_standard: "en_16798_2019"
+    global: "ashrae_55_2020"
+    winter_min_c: 18.0
+    winter_max_c: 22.0
+    summer_min_c: 22.0
+    summer_max_c: 26.0
+    d_weight_config: 0.40
+
+  lux:
+    primary_law: "en_12464_pt"
+    eu_standard: "en_16798_2019"
+    global: "well_v2"
+    classroom_min_lux: 300
+    classroom_target_lux: 500
+    ugr_max: 19
+    d_weight_config: 0.12
+
+  noise:
+    primary_law: "iso_11690_pt"
+    eu_standard: "en_16798_2019"
+    global: "well_v2"
+    max_db: 45
+    cognitive_work_db: 40
+    d_weight_config: 0.05
+
+  humidity:
+    primary_law: "iso_7730_pt"
+    eu_standard: "en_16798_2019"
+    global: "ashrae_55_2020"
+    min_pct: 30
+    max_pct: 70
+    target_pct: 50
+    d_weight_config: 0.16
+
+  energy:
+    primary_law: "epbd_2024"
+    eu_standard: "energy_efficiency_directive"
+    global: "iso_50001_2018"
+    horse_cft_area_m2: 950
+    monitoring_required: true
+
+# Financial consequences (used by compliance checker)
+financial_consequences:
+  co2_legal_breach_per_event_eur: 500      # conservative estimate
+  temp_legal_breach_per_event_eur: 200
+  lux_legal_breach_per_event_eur: 100
+  annual_fine_max_eur: 45000               # ACT maximum
+  productivity_loss_co2_high_pct: 50       # WHO / -50% produtividade
+  time_indoors_pct: 90                     # OMS — 90% do tempo em interiores
+  buildings_non_compliant_portugal_pct: 75 # JRC 2022 / INE / DGEG

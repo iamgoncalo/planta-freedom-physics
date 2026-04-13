@@ -1,0 +1,186 @@
+# language.yaml — Linguagem humana para todos os outputs do PlantaOS
+# F=0.480 não existe. Existe "Performance: 48%"
+# O sistema fala para pessoas, não para engenheiros.
+
+# Performance bands (F score → linguagem humana)
+performance:
+  exceptional:
+    min: 0.90
+    max: 1.00
+    pct_label: "{pct:.0f}%"
+    short: "Excelente"
+    description: "O espaço está em condições óptimas para trabalho e aprendizagem."
+    system_says: "Neste espaço, as pessoas trabalham nas melhores condições possíveis."
+    emoji: "✅"
+    color: "#22c55e"
+    action: "Manter. Usar como referência para outros espaços."
+
+  good:
+    min: 0.75
+    max: 0.90
+    pct_label: "{pct:.0f}%"
+    short: "Bom"
+    description: "Condições boas. Pequenas melhorias possíveis."
+    system_says: "O espaço funciona bem. Há margem de melhoria sem urgência."
+    emoji: "🟢"
+    color: "#86efac"
+    action: "Monitorizar. Identificar causa do gap restante."
+
+  acceptable:
+    min: 0.65
+    max: 0.75
+    pct_label: "{pct:.0f}%"
+    short: "Aceitável"
+    description: "Condições aceitáveis mas abaixo do óptimo."
+    system_says: "As pessoas conseguem trabalhar, mas estão a perder produtividade."
+    emoji: "🟡"
+    color: "#fbbf24"
+    action: "Actuar em 30 dias. Identificar o canal dominante e corrigir."
+
+  degraded:
+    min: 0.50
+    max: 0.65
+    pct_label: "{pct:.0f}%"
+    short: "Degradado"
+    description: "Condições abaixo do aceitável. Produtividade afectada."
+    system_says: "Este espaço custa dinheiro todos os dias que passa sem intervenção."
+    emoji: "🟠"
+    color: "#f97316"
+    action: "Actuar esta semana. Cada dia de atraso tem custo mensurável."
+
+  critical:
+    min: 0.30
+    max: 0.50
+    pct_label: "{pct:.0f}%"
+    short: "Crítico"
+    description: "Condições críticas. Possível incumprimento legal."
+    system_says: "Este espaço está a falhar as pessoas que nele trabalham. E a lei."
+    emoji: "🔴"
+    color: "#ef4444"
+    action: "Actuar agora. Risco legal + custo humano elevado."
+
+  emergency:
+    min: 0.00
+    max: 0.30
+    pct_label: "{pct:.0f}%"
+    short: "Emergência"
+    description: "Condições de emergência. Incumprimento legal confirmado."
+    system_says: "Este espaço não devia ter pessoas. Ou não devia estar assim."
+    emoji: "🚨"
+    color: "#991b1b"
+    action: "Intervenção imediata. Considerar evacuação/encerramento."
+
+# Metric translations (technical → human)
+metrics:
+  F_score:
+    technical: "F = {value:.4f}"
+    human: "Performance: {pct:.0f}%"
+    context: "Mede a liberdade real das pessoas no espaço (0% = bloqueado, 100% = óptimo)"
+
+  D_total:
+    technical: "D = {value:.4f}"
+    human: "Índice de perturbação: {pct:.0f}%"
+    context: "Quanto o ambiente está a trabalhar contra as pessoas"
+
+  f_debt:
+    technical: "F-debt = €{value:.2f}/h"
+    human: "Perda de produtividade: €{value:.2f}/hora"
+    context: "Custo real em euros das condições sub-óptimas"
+
+  f_debt_annual:
+    technical: "F-debt annual = €{value:,.0f}"
+    human: "Produtividade perdida este ano: €{value:,.0f}"
+    context: "Se o espaço estivesse em condições óptimas, este dinheiro ficava na empresa"
+
+  co2_ppm:
+    technical: "CO₂: {value:.0f} ppm"
+    human: "Qualidade do ar: {value:.0f} ppm CO₂"
+    good: "Ar fresco (< 700 ppm)"
+    warning: "Ar viciado ({value:.0f} ppm — avisar para ventilar)"
+    critical: "Ar muito viciado ({value:.0f} ppm — limite legal: 1.000 ppm)"
+    emergency: "Incumprimento legal ({value:.0f} ppm > 1.000 ppm — Portaria 353-A/2013)"
+
+  temp_c:
+    technical: "T: {value:.1f}°C"
+    human: "Temperatura: {value:.1f}°C"
+    cold: "Muito frio ({value:.1f}°C — mínimo legal 18°C)"
+    cool: "Fresco ({value:.1f}°C — confortável para muitos)"
+    comfortable: "Confortável ({value:.1f}°C)"
+    warm: "Quente ({value:.1f}°C)"
+    hot: "Muito quente ({value:.1f}°C — máximo legal 26°C)"
+
+  lux:
+    technical: "Lux: {value:.0f}"
+    human: "Iluminação: {value:.0f} lux"
+    critical: "Iluminação perigosa ({value:.0f} lux — mínimo EN 12464-1: 300 lux)"
+    low: "Iluminação insuficiente ({value:.0f} lux)"
+    adequate: "Iluminação adequada ({value:.0f} lux)"
+    optimal: "Iluminação óptima ({value:.0f} lux)"
+
+  noise_db:
+    technical: "Ruído: {value:.0f} dB"
+    human: "Nível de ruído: {value:.0f} dB"
+    quiet: "Silencioso ({value:.0f} dB — óptimo para concentração)"
+    acceptable: "Nível aceitável ({value:.0f} dB)"
+    noisy: "Ruidoso ({value:.0f} dB — ISO 11690-1: máximo 45 dB)"
+    very_noisy: "Muito ruidoso ({value:.0f} dB — risco de dano auditivo)"
+
+  energy_kwh:
+    technical: "Energia: {value:.0f} kWh"
+    human: "Energia consumida: {value:.0f} kWh"
+    context: "Equivale a {cars:.0f} carros a circular 1 hora"
+
+  carbon_kg:
+    technical: "CO₂: {value:.0f} kg"
+    human: "Emissões: {value:.0f} kg CO₂"
+    context: "Equivale a {flights:.1f} voos Lisboa-Porto"
+
+# Compliance status labels
+compliance:
+  pass:   {label: "✅ CUMPRE",     color: "#22c55e", urgency: "none"}
+  warn:   {label: "⚠  ATENÇÃO",   color: "#f59e0b", urgency: "monitor"}
+  fail:   {label: "❌ VIOLA",      color: "#ef4444", urgency: "act_now"}
+  na:     {label: "—  N/A",        color: "#94a3b8", urgency: "none"}
+
+# Flow type descriptions (human)
+flow_descriptions:
+  RISE:      "a subir"
+  FALL:      "a descer"
+  CASCADE:   "a propagar-se"
+  CIRCADIAN: "padrão diário (antecipar)"
+  ANOMALY:   "fora do normal"
+  CLUSTER:   "problema sistémico"
+  RECOVERY:  "a recuperar"
+
+# Severity labels (human)
+severity:
+  1: {label: "Observar",    emoji: "👁",  action: "Monitorizar"}
+  2: {label: "Atenção",     emoji: "⚠",  action: "Actuar em 7 dias"}
+  3: {label: "Actuar Já",   emoji: "⚡", action: "Actuar hoje"}
+  4: {label: "Emergência",  emoji: "🚨", action: "Actuar agora"}
+
+# Month names (PT)
+months:
+  1: "Janeiro"
+  2: "Fevereiro"
+  3: "Março"
+  4: "Abril"
+  5: "Maio"
+  6: "Junho"
+  7: "Julho"
+  8: "Agosto"
+  9: "Setembro"
+  10: "Outubro"
+  11: "Novembro"
+  12: "Dezembro"
+
+# Context messages (used by narrative engine)
+context:
+  indoors_pct: 90
+  indoors_source: "OMS 2021"
+  productivity_co2_loss_pct: 50
+  productivity_source: "Harvard T.H. Chan School, 2015"
+  non_compliant_portugal_pct: 75
+  non_compliant_source: "JRC 2022 · INE · DGEG"
+  fine_max_eur: 45000
+  fine_source: "ACT — Autoridade para as Condições do Trabalho"
