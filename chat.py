@@ -1887,7 +1887,9 @@ def tool_building_flows(scenario="morning_crisis", month=3, hour=9.0):
     if not _os.path.exists(_path):
         return {"error": "building_flows.py not found"}
     spec = importlib.util.spec_from_file_location("building_flows", _path)
-    m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+    m = importlib.util.module_from_spec(spec)
+    import sys as _s; _s.modules["building_flows"] = m
+    spec.loader.exec_module(m)
     return m.tool_building_flows(str(scenario), int(month), float(hour))
 
 
@@ -1899,7 +1901,9 @@ def tool_annual_simulation(mode="baseline", intervention="none"):
     if not _os.path.exists(_path):
         return {"error": "annual_simulation.py not found in " + _dir}
     spec = importlib.util.spec_from_file_location("annual_simulation", _path)
-    m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+    m = importlib.util.module_from_spec(spec)
+    import sys as _s; _s.modules["annual_simulation"] = m
+    spec.loader.exec_module(m)
     return m.tool_annual_simulation(str(mode), str(intervention))
 
 TOOLS_DEF = {
