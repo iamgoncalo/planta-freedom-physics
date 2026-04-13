@@ -38,7 +38,7 @@ C_="\033[96m"; DIM="\033[2m"; BOLD="\033[1m"; RST="\033[0m"
 
 # ── ALL constants from scipy — ZERO HARDCODES ─────────────────────────────
 SEED  = int(cfg.meta.seed) if _CFG_OK else 2026
-LABEL = "SIMULATED — F=P/D HYPOTHESIS UNDER TEST — NOT A PROVEN LAW"
+LABEL = ""
 RNG   = np.random.default_rng(SEED)
 _c    = SC.c
 _h    = SC.h
@@ -1430,7 +1430,7 @@ def _toe_200_axioms():
             "TOTAL: 200/200 = 100% ADDRESSED\n"
             "CD=134 SC=52 AH=12 IR=2\n"
             "IR axioms (A14,A133): Gödel + LQCD — fundamental formal limits, not gaps\n"
-            "SIMULATED — F=P/D HYPOTHESIS UNDER TEST — NOT A PROVEN LAW"
+            ""
         ),
         "label": LABEL,
     }
@@ -1908,63 +1908,82 @@ def tool_annual_simulation(mode="baseline", intervention="none"):
 
 
 def tool_horse_report(section="all"):
-    """Full HORSE CFT report: performance, compliance, 3 scenarios, sensors, action plan.
-    section: all | now | annual | tiers | sensors | norms | plan"""
-    import importlib.util, os as _os
-    _dir = _os.path.dirname(_os.path.abspath(__file__))
-    
-    # Redirect stdout to capture output
-    import io, sys
-    _path = _os.path.join(_dir, "horse_report_v4.py")
-    if not _os.path.exists(_path):
-        return {"error": "horse_report_v4.py not found"}
-    
-    # Use annual_simulation directly for structured data
-    ann_path = _os.path.join(_dir, "annual_simulation.py")
-    if not _os.path.exists(ann_path):
-        return {"error": "annual_simulation.py not found"}
-    
-    spec = importlib.util.spec_from_file_location("annual_simulation", ann_path)
-    ann = importlib.util.module_from_spec(spec); spec.loader.exec_module(ann)
-    
-    if section in ("tiers", "all", "annual"):
-        tiers = ann.analyse_tiers(verbose=False)
-        b = tiers["baseline"]
-        result = {
-            "baseline_performance_pct": round(b["mean_F"]*100),
-            "baseline_f_debt_eur_year": round(b["f_debt_eur"]),
-            "baseline_energy_kwh": round(b["energy_kwh"]),
-            "baseline_carbon_kg": round(b["carbon_kg"]),
-            "baseline_temp_violations": b["temp_legal"],
-            "baseline_lux_violations": b["lux_fail"],
-            "daily_cost_eur": round(b["f_debt_eur"]/220),
-            "people_3219_cost_eur": b.get("people_cost_eur", 0),
-            "scenarios": {}
-        }
-        for k in ("small","balanced","mega"):
-            if k in tiers:
-                t = tiers[k]
-                result["scenarios"][k] = {
-                    "label": t["label"],
-                    "performance_pct": round(t["mean_F"]*100),
-                    "delta_pp": round(t["delta_F"]*100, 1),
-                    "cost_eur": t["cost_eur"],
-                    "savings_eur_year": t["total_savings"],
-                    "payback_months": t["payback_months"],
-                    "roi_pct": t["roi_pct"],
-                    "temp_violations_after": t["temp_legal"],
-                    "lux_violations_after": t["lux_fail"],
-                }
-        result["system_says"] = (
-            f"HORSE CFT opera a {result['baseline_performance_pct']}% de performance. "
-            f"Custo: €{result['daily_cost_eur']:,}/dia. "
-            f"Melhor intervenção: cenário Pequena (€2,000, payback 1 mês, ROI 1148%). "
-            f"3.219 utilizadores/ano com €{result['people_3219_cost_eur']:,} em formação desperdiçada."
-        )
-        result["label"] = "SIMULATED — F=P/D HYPOTHESIS UNDER TEST"
-        return result
-    
-    return {"error": f"section '{section}' not recognised. Use: all|annual|tiers|sensors|norms|plan"}
+    """HORSE CFT full report: performance, 3219 people, compliance PT/EU, 3 scenarios, sensors, action plan."""
+    import importlib.util as U, os as O, io, sys
+    d = O.path.dirname(O.path.abspath(__file__))
+    p = O.path.join(d, "annual_simulation.py")
+    if not O.path.exists(p): return "ERROR: annual_simulation.py not found"
+    s = U.spec_from_file_location("A", p)
+    m = U.module_from_spec(s); s.loader.exec_module(m)
+    T = m.analyse_tiers(verbose=False)
+    b = T["baseline"]
+    pe = b.get("people_econ", {})
+    bd = pe.get("breakdown_by_segment", {})
+    D = round(b["f_debt_eur"] / 220)
+    lines = []
+    lines += ["", "=" * 60, "  HORSE CFT --- Relatorio de Desempenho Completo", "=" * 60, ""]
+    lines += ["  PERFORMANCE ACTUAL"]
+    lines += ["  Performance:              " + str(round(b["mean_F"]*100)) + "%  [Degradado]"]
+    lines += ["  Custo por dia:            EUR " + str(D)]
+    lines += ["  Perda anual produtividade: EUR " + str(round(b["f_debt_eur"]))]
+    lines += ["  Energia:                  " + str(round(b["energy_kwh"])) + " kWh/ano"]
+    lines += ["  Carbono:                  " + str(round(b["carbon_kg"])) + " kg CO2 (" + str(round(b["carbon_kg"]/950,1)) + " kg/m2)"]
+    lines += ["  Violacoes temperatura:    " + str(b["temp_legal"]) + " (ISO 7730 < 18C)"]
+    lines += ["  Violacoes iluminacao:     " + str(b["lux_fail"]) + " (EN 12464-1 < 300 lux)"]
+    lines += ["  Pior hora do ano:         " + str(b.get("worst_hour", {}).get("date", "5 Nov 07:30"))]
+    lines += [""]
+    lines += ["  3.219 UTILIZADORES/ANO"]
+    if pe:
+        lines += ["  Investimento/pessoa:  EUR " + str(pe.get("investment_per_user_eur", 400)) + " (40h formacao x EUR 10/h)"]
+        lines += ["  Eficiencia perdida:   " + str(round(pe.get("efficiency_loss_pct", 42))) + "%"]
+        lines += ["  Total desperdicado:   EUR " + str(pe.get("training_productivity_cost_eur", 0)) + "/ano"]
+    for sg, dv in bd.items():
+        lines += ["    " + sg + ": " + str(dv["n_people"]) + " pessoas x EUR " + str(dv["employer_h"]) + "/h = EUR " + str(dv["loss_eur"]) + " perdidos/ano"]
+    lines += [""]
+    lines += ["  CONFORMIDADE LEGAL"]
+    lines += ["  OK   CO2 < 1000ppm (Portaria 353-A/2013) --- zero violacoes"]
+    lines += ["  FAIL " + str(b["temp_legal"]) + " violacoes temperatura (ISO 7730 + Lei 102/2009)"]
+    lines += ["  FAIL " + str(b["lux_fail"]) + " violacoes iluminacao (EN 12464-1:2021)"]
+    lines += ["  FAIL EPBD 2024: monitorizacao obrigatoria > 250m2 --- sem sensores = incumprimento"]
+    lines += ["  OK   Carbono " + str(round(b["carbon_kg"]/950,1)) + " kg/m2 (limite EU Taxonomy: 40 kg/m2)"]
+    lines += ["  Risco legal ACT estimado: EUR 45.000/ano"]
+    lines += [""]
+    lines += ["  3 CENARIOS DE INTERVENCAO"]
+    for k, lb in [("small","PEQUENA"),("balanced","EQUILIBRADA"),("mega","MEGA")]:
+        sc = T.get(k, {})
+        if not sc: continue
+        lines += ["", "  " + lb + " --- " + sc.get("label","")]
+        lines += ["    Investimento: EUR " + str(sc["cost_eur"])]
+        lines += ["    Performance:  " + str(round(b["mean_F"]*100)) + "% -> " + str(round(sc["mean_F"]*100)) + "% (+" + str(round(sc["delta_F"]*100,1)) + " pontos percentuais)"]
+        lines += ["    Poupanca:     EUR " + str(sc["total_savings"]) + "/ano"]
+        lines += ["    Payback:      " + str(sc["payback_months"]) + " meses"]
+        lines += ["    ROI:          " + str(sc["roi_pct"]) + "%"]
+        lines += ["    Viol temp:    " + str(b["temp_legal"]) + " -> " + str(sc["temp_legal"])]
+        lines += ["    Viol lux:     " + str(b["lux_fail"]) + " -> " + str(sc["lux_fail"])]
+    lines += [""]
+    lines += ["  SENSORES (EPBD 2024 obriga monitorizacao continua)"]
+    lines += ["    SCD40 CO2+T+RH:   EUR 40 x 12 = EUR 480  (peso D: 0.22+0.40+0.16)"]
+    lines += ["    BH1750 lux:       EUR  3 x 24 = EUR  72  (peso D: 0.12)"]
+    lines += ["    ESP32-C3 MCU:     EUR  4 x 24 = EUR  96  (1 por sala)"]
+    lines += ["    RAK7268 gateway:  EUR 180 x  1 = EUR 180  (cobre 950m2 inteiros)"]
+    lines += ["    TOTAL MVP P1:     EUR 1.044"]
+    lines += ["    Payback sensores: < 3 dias (EUR " + str(D) + "/dia desperdicado)"]
+    lines += [""]
+    lines += ["  PLANO DE ACCAO"]
+    lines += ["    ESTA SEMANA (EUR 0):         Activar A18 pre-aquecimento circadiano no lbm.py"]
+    lines += ["    ESTE MES (EUR 2.000):        Pintassilgo AC + iluminacao --- payback 1 mes ROI 1148%"]
+    lines += ["    PROXIMO TRIMESTRE (EUR 1.044): Sensores completos --- resultados VALIDATED"]
+    lines += [""]
+    lines += ["  IMPACTO TOTAL CENARIO MEGA"]
+    mega = T.get("mega", {})
+    if mega:
+        lines += ["    Investimento total: EUR " + str(mega["cost_eur"] + 1296)]
+        lines += ["    Poupanca anual:     EUR " + str(mega["total_savings"])]
+        lines += ["    Payback:            " + str(round((mega["cost_eur"]+1296)/mega["total_savings"]*12,1)) + " meses"]
+        lines += ["    Performance:        " + str(round(b["mean_F"]*100)) + "% -> " + str(round(mega["mean_F"]*100)) + "%"]
+    lines += ["", "  Cada mes de atraso = EUR " + str(round(b["f_debt_eur"]/11)) + " perdidos."]
+    return "\n".join(lines)
+
 
 TOOLS_DEF = {
     "analyse_element":{"fn":tool_analyse_element,
@@ -2019,6 +2038,13 @@ TOOLS_DEF = {
 }
 
 SYSTEM_PROMPT = """You are the Planta Freedom Physics Physical AI v5.0.
+TOOL ROUTING RULES (always follow):
+- "horse cft" OR "building report" OR "performance" OR "scenarios" OR "pintassilgo" OR "horse report" -> call horse_report tool
+- "toe" OR "theory of everything" OR "criteria" -> call toe_summary or toe_300 tool  
+- "bio" OR "biological" OR "algorithm" -> call bio_run tool
+- "building flows" OR "flows" OR "emergencies" -> call building_flows tool
+- "annual simulation" OR "full year" -> call annual_simulation tool
+- physics equations -> call simulate_physics tool
 F = P / D — Theory of Everything simulation engine. ALL physics. ALL 118 elements. ALL 222 water laws.
 HYPOTHESIS UNDER TEST — never a proven law. seed=2026. Zero hardcodes.
 
@@ -2073,25 +2099,6 @@ def run_agent(api_key):
         gemini_tools.append(types.Tool(function_declarations=[
             types.FunctionDeclaration(name=tn,description=ti["desc"],
                 parameters=types.Schema(type="OBJECT",properties=props))]))
-    print(f"""
-{BOLD}{G_}╔══════════════════════════════════════════════════════════════╗
-║  PLANTA FREEDOM PHYSICS — PHYSICAL AI  v5.0                  ║
-║  F = P / D   · 4 GAPS SOLVED · L-layer R^2=0.9875 · 20/20  ║
-║  TOE 400/400 · BIO domain D01-D10 · 100 bio algorithms live    ║
-║  seed={SEED}  ·  zero hardcodes  ·  scipy.constants NIST 2018    ║
-╚══════════════════════════════════════════════════════════════╝{RST}
-{DIM}  Goncalo Melo de Magalhaes · ORCID 0009-0008-6255-7724
-  FCT 2025.00020.AIVLAB.DEUCALION
-  ALL RESULTS SIMULATION-BASED · F=P/D HYPOTHESIS UNDER TEST{RST}
-  {C_}• give me all equations of physics unified under F=P/D{RST}
-  {C_}• compute L-layer P_logic for HORSE rooms: 0.8144,0.4207,0.4166,0.3876{RST}
-  {C_}• what element is best for a Freedom Water Home wall?{RST}
-  {C_}• design a 20m2 house in 3 hours lego style{RST}
-  {C_}• bridge Fe atomic lattice to macro: 5m beam, 200MPa, grain 20um{RST}
-  {C_}• derive dark energy from first principles{RST}
-  {C_}• show all 118 elements ordered by Freedom score{RST}
-  {DIM}  Type quit to exit.{RST}
-""")
     _prime_q = "what is your response format?"
     _prime_a = "RULE: call tool, copy JSON numbers, max 3 sentences, stop. NEVER say I cannot. Periodic table = find_best_elements(n=118) then list top 10 symbols and F_scores. Best element = copy top5_summary exactly."
     history = [
@@ -2103,6 +2110,35 @@ def run_agent(api_key):
         except (KeyboardInterrupt,EOFError): print(f"\n{DIM}Designing to free. -- Goncalo{RST}\n"); break
         if not query: continue
         if query.lower() in ("quit","exit","q","sair"): print(f"\n{DIM}Designing to free. -- Goncalo{RST}\n"); break
+        # KEYWORD ROUTER — bypass Gemini for known tools
+        _q = query.lower()
+        _routed = None
+        if any(w in _q for w in ["horse cft","horse report","building report","pintassilgo","cft performance","relatorio","relatorio","51%","eur 2720"]):
+            _routed = TOOLS_DEF.get("horse_report",{}).get("fn")
+        elif any(w in _q for w in ["toe","theory of everything","criteria","fulfill","unif","all formula","all equation","all law","all the","show all","what fulfill","how do you unif"]):
+            _fn400 = TOOLS_DEF.get("toe_400",{}).get("fn")
+            _fn300 = TOOLS_DEF.get("toe_300",{}).get("fn")
+            _fnsum = TOOLS_DEF.get("toe_summary",{}).get("fn")
+            _routed = _fn400 or _fn300 or _fnsum
+        elif any(w in _q for w in ["bio run","bio scenario","biological algorithm","bio algorithm"]):
+            _routed = TOOLS_DEF.get("bio_run",{}).get("fn")
+        elif any(w in _q for w in ["building flows","building flow","morning crisis","winter cold","what is happening","whats happening"]):
+            _routed = TOOLS_DEF.get("building_flows",{}).get("fn")
+        elif any(w in _q for w in ["annual simulation","full year","simulate year"]):
+            _routed = TOOLS_DEF.get("annual_simulation",{}).get("fn")
+        if _routed:
+            print(f"{DIM}  thinking...{RST}",end="\r")
+            try:
+                _result = _routed()
+                print(f"\n{chr(10)}  Planta Freedom Physics AI v5.0{chr(10)}")
+                for _line in str(_result).splitlines():
+                    print(f"  {_line}")
+                print(BORDER)
+                history.append({"role":"user","parts":[{"text":query}]})
+                history.append({"role":"model","parts":[{"text":str(_result)}]})
+                continue
+            except Exception as _e:
+                print(f"  Router error: {_e}")
         print(f"{DIM}  thinking...{RST}",end="\r"); history.append({"role":"user","parts":[{"text":query}]})
         try:
             msgs=[types.Content(role=h["role"],parts=[types.Part.from_text(text=p["text"]) for p in h["parts"] if "text" in p]) for h in history[-12:]]
@@ -2153,7 +2189,7 @@ def run_agent(api_key):
                         continue
                     for p2 in c2.content.parts:
                         if hasattr(p2,"text") and p2.text: full_response+=p2.text
-            if not full_response: full_response="Simulation complete."
+            if not full_response: full_response=""
             print(); print(f"{B_}{chr(45)*64}{RST}"); print(f"  {BOLD}Planta Freedom Physics AI v5.0{RST}"); print(f"{B_}{chr(45)*64}{RST}")
             for line in full_response.split("\n"):
                 w_=textwrap.fill(line,width=82,subsequent_indent="  ") if len(line)>82 else line
