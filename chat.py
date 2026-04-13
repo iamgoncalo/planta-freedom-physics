@@ -1878,6 +1878,18 @@ def bio_run(scenario="healthy"):
             "house_bio_map": list(bio.HOUSE_BIO_MAP.items()),
             "label": "SIMULATED — F=P/D HYPOTHESIS UNDER TEST"}
 
+
+def tool_building_flows(scenario="morning_crisis", month=3, hour=9.0):
+    """Flow intelligence: o edifício pensa em fluxos, não em dados. Scenario: morning_crisis|normal_day|evening|winter_cold|summer_heat"""
+    import importlib.util, os as _os
+    _dir = _os.path.dirname(_os.path.abspath(__file__))
+    _path = _os.path.join(_dir, "building_flows.py")
+    if not _os.path.exists(_path):
+        return {"error": "building_flows.py not found"}
+    spec = importlib.util.spec_from_file_location("building_flows", _path)
+    m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+    return m.tool_building_flows(str(scenario), int(month), float(hour))
+
 TOOLS_DEF = {
     "analyse_element":{"fn":tool_analyse_element,
         "desc":"Deep Freedom Physics analysis of ANY element Z=1-118. F scores for all use cases (building, water_home, aerospace, nuclear, coastal). Phase, properties, AFI T5 interpretation.",
@@ -1888,6 +1900,7 @@ TOOLS_DEF = {
     "simulate_element":{"fn":tool_simulate_element,
         "desc":"Full MD simulation of any element at any T(K) and P(GPa). Phase, Maxwell-Boltzmann velocities, F(T), Lindemann ratio, quantum regime, cohesion energy.",
         "params":{"symbol":"element symbol","temperature_K":"temperature in Kelvin","pressure_GPa":"pressure in GPa (default 0)"}},
+    "building_flows":{"fn":tool_building_flows,"desc":"Flow intelligence engine for HORSE CFT. Thinks in flows not data points. Scenarios: morning_crisis, normal_day, evening, winter_cold, summer_heat. Returns plain Portuguese narrative, emergencies, systemic problems, F score, active flows.","params":{"scenario":"morning_crisis|normal_day|evening|winter_cold|summer_heat","month":"1-12","hour":"0-24"}},
     "bio_run":{"fn":bio_run,"desc":"Run all 100 biological algorithms D01-D10 F=P/D. Scenarios: healthy stress fwh lifecycle. Returns F, delta_F, all active algorithms, house-bio map.","params":{"scenario":"healthy | stress | fwh | lifecycle"}},
     "simulate_physics":{"fn":tool_simulate_physics,
         "desc":("Simulate ANY physics law through F=P/D. Topics: mechanics/Newton/Lagrange/Kepler, electromagnetism/Maxwell/light, quantum/Schrodinger/Heisenberg/Dirac/tunneling/entanglement, general relativity/Einstein/black hole/Schwarzschild, thermodynamics/Carnot/Boltzmann/entropy, particle physics/Standard Model/Higgs/quarks, cosmology/Big Bang/dark energy/dark matter/inflation, nuclear/fission/fusion/decay, condensed matter/superconductor/Fermi/BEC, fluid dynamics/Navier-Stokes/Reynolds/Bernoulli, waves/optics/diffraction/acoustic, information/Shannon/holographic, biology/evolution/DNA, QFT/Feynman/vacuum, consciousness/IIT/hard problem, gravity/geodesic, TOE/unification. Returns real equations + numbers from scipy.constants + config."),
