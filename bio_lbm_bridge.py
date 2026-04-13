@@ -119,17 +119,19 @@ def room_to_biostate(room_state: dict, room_name: str = ""):
     """
     bio = _get_bio()
     s = bio.BioState()
-
-    T = room_state.get("T", 20.0)
-    co2 = room_state.get("co2", 420.0)
-    rh = room_state.get("rh", 50.0)
-    lux = room_state.get("lux", 400.0)
-    noise = room_state.get("noise", 40.0)
-    F = room_state.get("F", 0.5)
-    D = room_state.get("D", 1.0)
-    n_people = room_state.get("n_people", 0)
-    cap = room_state.get("cap", max(1, n_people))
-    alert = room_state.get("alert_level", 0)
+    def _get(pk, lk, dv):
+        if pk in room_state: return float(room_state[pk])
+        return float(room_state.get(lk, dv))
+    T        = _get("temp_c",       "T",          20.0)
+    co2      = _get("co2_ppm",      "co2",        420.0)
+    rh       = _get("humidity_pct", "rh",         50.0)
+    lux      = _get("lux",          "lux",        400.0)
+    noise    = _get("noise_db",     "noise",      40.0)
+    F        = _get("F",            "F",          0.5)
+    D        = _get("D",            "D",          1.0)
+    n_people = int(_get("occupancy","n_people",   0))
+    cap      = int(_get("cap",      "cap",        max(1, n_people)))
+    alert    = int(_get("alert_level","alert_level",0))
 
     s.core_temp_c   = float(T)
     s.skin_temp_c   = float(T) - 3.0     # building skin ≈ core - 3°C
@@ -316,7 +318,9 @@ def _bio_to_action(triggered: list, room_state: dict, room_name: str,
 
     # ── RESPIRATION algorithms → ventilation ─────────────────────────────────
     respiration = [r for r in triggered if r.domain == "RESPIRATION"]
-    co2 = room_state.get("co2", 420.0)
+    def _gv(pk, lk, dv):
+        return float(room_state[pk]) if pk in room_state else float(room_state.get(lk, dv))
+    co2 = _gv("co2_ppm", "co2", 420.0)
 
     if any(r.algo_id in ("A10",) for r in triggered):
         # A10: CO2 > legal limit → max ventilation + alert (A10 = Portaria 353-A)
@@ -340,8 +344,8 @@ def _bio_to_action(triggered: list, room_state: dict, room_name: str,
         action.damper_pct = max(action.damper_pct, 20.0)
 
     # ── THERMOREGULATION → HVAC ───────────────────────────────────────────────
-    T = room_state.get("T", 20.0)
-    month = room_state.get("month", 4)
+    T     = _gv("temp_c", "T", 20.0)
+    month = int(room_state.get("month", 4))
     T_sp = 20.0 if month in [10, 11, 12, 1, 2, 3] else 24.0
     T_sp = _CFG.get("comfort", {}).get("winter_min_c", T_sp) if month <= 3 or month >= 10 else _CFG.get("comfort", {}).get("summer_min_c", T_sp)
 
@@ -386,10 +390,11 @@ def _bio_to_action(triggered: list, room_state: dict, room_name: str,
         action.hvac_urgency = "immediate"
 
     if any(r.algo_id == "A22" for r in triggered):
-        # Inflammation isolation: block occupancy in this room
-        action.block_occupancy = True
-        action.reason = "Zone quarantine: isolate problem, protect adjacent"
         action.alert_level = max(action.alert_level, 3)
+        action.reason = "Zone inflammation: repair active"
+        if s.damage_pct > 40.0:  # D > 1.60 only
+            action.block_occupancy = True
+            action.reason = "Zone quarantine: severe damage"
 
     if any(r.algo_id == "A23" for r in triggered):
         # Coagulation: close valves, stop loss
@@ -443,7 +448,7 @@ def _bio_to_action(triggered: list, room_state: dict, room_name: str,
 
     if any(r.algo_id == "A79" for r in triggered):
         # Sleep homeostasis: no occupancy → deep sleep mode
-        if room_state.get("n_people", 0) == 0:
+        if int(_gv("occupancy", "n_people", 0)) == 0:
             action.hvac_mode = "off"
             action.ventilation = "min"
             action.damper_pct = 20.0
