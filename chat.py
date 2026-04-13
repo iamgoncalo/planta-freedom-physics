@@ -1890,6 +1890,18 @@ def tool_building_flows(scenario="morning_crisis", month=3, hour=9.0):
     m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
     return m.tool_building_flows(str(scenario), int(month), float(hour))
 
+
+def tool_annual_simulation(mode="baseline", intervention="none"):
+    """Full year HORSE CFT simulation. mode: baseline|intervention|compare_all. intervention: none|pintassilgo_fix|cantina_hvac|all_halls|full_upgrade"""
+    import importlib.util, os as _os
+    _dir = _os.path.dirname(_os.path.abspath(__file__))
+    _path = _os.path.join(_dir, "annual_simulation.py")
+    if not _os.path.exists(_path):
+        return {"error": "annual_simulation.py not found in " + _dir}
+    spec = importlib.util.spec_from_file_location("annual_simulation", _path)
+    m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+    return m.tool_annual_simulation(str(mode), str(intervention))
+
 TOOLS_DEF = {
     "analyse_element":{"fn":tool_analyse_element,
         "desc":"Deep Freedom Physics analysis of ANY element Z=1-118. F scores for all use cases (building, water_home, aerospace, nuclear, coastal). Phase, properties, AFI T5 interpretation.",
@@ -1900,6 +1912,7 @@ TOOLS_DEF = {
     "simulate_element":{"fn":tool_simulate_element,
         "desc":"Full MD simulation of any element at any T(K) and P(GPa). Phase, Maxwell-Boltzmann velocities, F(T), Lindemann ratio, quantum regime, cohesion energy.",
         "params":{"symbol":"element symbol","temperature_K":"temperature in Kelvin","pressure_GPa":"pressure in GPa (default 0)"}},
+    "annual_simulation":{"fn":tool_annual_simulation,"desc":"Full year building simulation for HORSE CFT. Simulates all 365 operating days, every room, every hour. Shows F score, F-debt in EUR, CO2 legal breaches, temperature violations, energy kWh, worst and best hours of the year, and ROI of interventions. mode: baseline|intervention|compare_all. intervention: none|pintassilgo_fix|cantina_hvac|all_halls|full_upgrade","params":{"mode":"baseline|intervention|compare_all","intervention":"none|pintassilgo_fix|cantina_hvac|all_halls|full_upgrade"}},
     "building_flows":{"fn":tool_building_flows,"desc":"Flow intelligence engine for HORSE CFT. Thinks in flows not data points. Scenarios: morning_crisis, normal_day, evening, winter_cold, summer_heat. Returns plain Portuguese narrative, emergencies, systemic problems, F score, active flows.","params":{"scenario":"morning_crisis|normal_day|evening|winter_cold|summer_heat","month":"1-12","hour":"0-24"}},
     "bio_run":{"fn":bio_run,"desc":"Run all 100 biological algorithms D01-D10 F=P/D. Scenarios: healthy stress fwh lifecycle. Returns F, delta_F, all active algorithms, house-bio map.","params":{"scenario":"healthy | stress | fwh | lifecycle"}},
     "simulate_physics":{"fn":tool_simulate_physics,
