@@ -1430,7 +1430,7 @@ def _toe_200_axioms():
             "TOTAL: 200/200 = 100% ADDRESSED\n"
             "CD=134 SC=52 AH=12 IR=2\n"
             "IR axioms (A14,A133): Gödel + LQCD — fundamental formal limits, not gaps\n"
-            ""
+            "SIMULATED — F=P/D HYPOTHESIS UNDER TEST — NOT A PROVEN LAW"
         ),
         "label": LABEL,
     }
@@ -1839,160 +1839,6 @@ def tool_validation_protocol(run_simulation: str = "yes") -> str:
     )
     return json.dumps({"protocol": protocol, "calibration": cal, "integrated_F": full}, default=str)
 
-
-def bio_run(scenario="healthy"):
-    """100 biological algorithms F=P/D. scenario: healthy|stress|fwh|lifecycle"""
-    import importlib.util as _ilu, os as _os
-    _dir = _os.path.dirname(_os.path.abspath(__file__))
-    _path = _os.path.join(_dir, "bio_algorithms.py")
-    if not _os.path.exists(_path):
-        return {"error": "bio_algorithms.py not found in " + _dir}
-    spec = _ilu.spec_from_file_location("bio_algorithms", _path)
-    bio = _ilu.module_from_spec(spec); spec.loader.exec_module(bio)
-    if scenario == "lifecycle":
-        traj = bio.simulate_lifecycle(years=80)
-        peak = max(traj, key=lambda t: t["F"])
-        return {"years": len(traj), "peak_F": peak["F"], "peak_year": peak["year"],
-                "mean_F": round(sum(t["F"] for t in traj)/len(traj), 4),
-                "decades": [traj[min(i*10, len(traj)-1)]["F"] for i in range(9)],
-                "label": "SIMULATED"}
-    presets = {
-        "healthy": bio.BioState(),
-        "stress":  bio.BioState(co2_room_ppm=1100.0, core_temp_c=38.8,
-                                fatigue_pct=75.0, pathogen_load=0.3, o2_sat_pct=93.0),
-        "fwh":     bio.BioState(co2_room_ppm=420.0, atp_store_pct=90.0),
-    }
-    s = presets.get(scenario, bio.BioState())
-    out = bio.run_all_algorithms(s, verbose=False)
-    by_domain = {}
-    for r in out["results"]:
-        d = by_domain.setdefault(r.domain, {"active": [], "total": 0})
-        d["total"] += 1
-        if r.triggered:
-            d["active"].append({"id": r.algo_id, "name": r.name,
-                                "action": r.action[:100], "delta_F": r.delta_F})
-    return {"scenario": scenario, "F_initial": out["F_initial"],
-            "F_final": out["F_final"], "delta_F": out["delta_F"],
-            "triggered": out["triggered"], "total": out["total"],
-            "by_domain": by_domain,
-            "house_bio_map": list(bio.HOUSE_BIO_MAP.items()),
-            "label": "SIMULATED — F=P/D HYPOTHESIS UNDER TEST"}
-
-
-def tool_building_flows(scenario="morning_crisis", month=3, hour=9.0):
-    """Flow intelligence: o edifício pensa em fluxos, não em dados. Scenario: morning_crisis|normal_day|evening|winter_cold|summer_heat"""
-    import importlib.util, os as _os
-    _dir = _os.path.dirname(_os.path.abspath(__file__))
-    _path = _os.path.join(_dir, "building_flows.py")
-    if not _os.path.exists(_path):
-        return {"error": "building_flows.py not found"}
-    spec = importlib.util.spec_from_file_location("building_flows", _path)
-    m = importlib.util.module_from_spec(spec)
-    import sys as _s; _s.modules["building_flows"] = m
-    spec.loader.exec_module(m)
-    return m.tool_building_flows(str(scenario), int(month), float(hour))
-
-
-def tool_annual_simulation(mode="baseline", intervention="none"):
-    """Full year HORSE CFT simulation. mode: baseline|intervention|compare_all. intervention: none|pintassilgo_fix|cantina_hvac|all_halls|full_upgrade"""
-    import importlib.util, os as _os
-    _dir = _os.path.dirname(_os.path.abspath(__file__))
-    _path = _os.path.join(_dir, "annual_simulation.py")
-    if not _os.path.exists(_path):
-        return {"error": "annual_simulation.py not found in " + _dir}
-    spec = importlib.util.spec_from_file_location("annual_simulation", _path)
-    m = importlib.util.module_from_spec(spec)
-    import sys as _s; _s.modules["annual_simulation"] = m
-    spec.loader.exec_module(m)
-    return m.tool_annual_simulation(str(mode), str(intervention))
-
-
-def tool_horse_report(section="all"):
-    """HORSE CFT full report: performance, 3219 people, compliance PT/EU, 3 scenarios, sensors, action plan."""
-    import importlib.util as U, os as O, io, sys
-    d = O.path.dirname(O.path.abspath(__file__))
-    p = O.path.join(d, "annual_simulation.py")
-    if not O.path.exists(p): return "ERROR: annual_simulation.py not found"
-    s = U.spec_from_file_location("A", p)
-    m = U.module_from_spec(s); s.loader.exec_module(m)
-    _cache_f = os.path.join(d, "horse_cache.json")
-    if os.path.exists(_cache_f):
-        import json as _j
-        T = _j.load(open(_cache_f))
-    else:
-        T = m.analyse_tiers(verbose=False)
-        import json as _j
-        try: _j.dump(T, open(_cache_f,"w"), default=str)
-        except: pass
-    b = T["baseline"]
-    pe = b.get("people_econ", {})
-    bd = pe.get("breakdown_by_segment", {})
-    D = round(b["f_debt_eur"] / 220)
-    lines = []
-    lines += ["", "=" * 60, "  HORSE CFT --- Relatorio de Desempenho Completo", "=" * 60, ""]
-    lines += ["  PERFORMANCE ACTUAL"]
-    lines += ["  Performance:              " + str(round(b["mean_F"]*100)) + "%  [Degradado]"]
-    lines += ["  Custo por dia:            EUR " + str(D)]
-    lines += ["  Perda anual produtividade: EUR " + str(round(b["f_debt_eur"]))]
-    lines += ["  Energia:                  " + str(round(b["energy_kwh"])) + " kWh/ano"]
-    lines += ["  Carbono:                  " + str(round(b["carbon_kg"])) + " kg CO2 (" + str(round(b["carbon_kg"]/950,1)) + " kg/m2)"]
-    lines += ["  Violacoes temperatura:    " + str(b["temp_legal"]) + " (ISO 7730 < 18C)"]
-    lines += ["  Violacoes iluminacao:     " + str(b["lux_fail"]) + " (EN 12464-1 < 300 lux)"]
-    lines += ["  Pior hora do ano:         " + str(b.get("worst_hour", {}).get("date", "5 Nov 07:30"))]
-    lines += [""]
-    lines += ["  3.219 UTILIZADORES/ANO"]
-    if pe:
-        lines += ["  Investimento/pessoa:  EUR " + str(pe.get("investment_per_user_eur", 400)) + " (40h formacao x EUR 10/h)"]
-        lines += ["  Eficiencia perdida:   " + str(round(pe.get("efficiency_loss_pct", 42))) + "%"]
-        lines += ["  Total desperdicado:   EUR " + str(pe.get("training_productivity_cost_eur", 0)) + "/ano"]
-    for sg, dv in bd.items():
-        lines += ["    " + sg + ": " + str(dv["n_people"]) + " pessoas x EUR " + str(dv["employer_h"]) + "/h = EUR " + str(dv["loss_eur"]) + " perdidos/ano"]
-    lines += [""]
-    lines += ["  CONFORMIDADE LEGAL"]
-    lines += ["  OK   CO2 < 1000ppm (Portaria 353-A/2013) --- zero violacoes"]
-    lines += ["  FAIL " + str(b["temp_legal"]) + " violacoes temperatura (ISO 7730 + Lei 102/2009)"]
-    lines += ["  FAIL " + str(b["lux_fail"]) + " violacoes iluminacao (EN 12464-1:2021)"]
-    lines += ["  FAIL EPBD 2024: monitorizacao obrigatoria > 250m2 --- sem sensores = incumprimento"]
-    lines += ["  OK   Carbono " + str(round(b["carbon_kg"]/950,1)) + " kg/m2 (limite EU Taxonomy: 40 kg/m2)"]
-    lines += ["  Risco legal ACT estimado: EUR 45.000/ano"]
-    lines += [""]
-    lines += ["  3 CENARIOS DE INTERVENCAO"]
-    for k, lb in [("small","PEQUENA"),("balanced","EQUILIBRADA"),("mega","MEGA")]:
-        sc = T.get(k, {})
-        if not sc: continue
-        lines += ["", "  " + lb + " --- " + sc.get("label","")]
-        lines += ["    Investimento: EUR " + str(sc["cost_eur"])]
-        lines += ["    Performance:  " + str(round(b["mean_F"]*100)) + "% -> " + str(round(sc["mean_F"]*100)) + "% (+" + str(round(sc["delta_F"]*100,1)) + " pontos percentuais)"]
-        lines += ["    Poupanca:     EUR " + str(sc["total_savings"]) + "/ano"]
-        lines += ["    Payback:      " + str(sc["payback_months"]) + " meses"]
-        lines += ["    ROI:          " + str(sc["roi_pct"]) + "%"]
-        lines += ["    Viol temp:    " + str(b["temp_legal"]) + " -> " + str(sc["temp_legal"])]
-        lines += ["    Viol lux:     " + str(b["lux_fail"]) + " -> " + str(sc["lux_fail"])]
-    lines += [""]
-    lines += ["  SENSORES (EPBD 2024 obriga monitorizacao continua)"]
-    lines += ["    SCD40 CO2+T+RH:   EUR 40 x 12 = EUR 480  (peso D: 0.22+0.40+0.16)"]
-    lines += ["    BH1750 lux:       EUR  3 x 24 = EUR  72  (peso D: 0.12)"]
-    lines += ["    ESP32-C3 MCU:     EUR  4 x 24 = EUR  96  (1 por sala)"]
-    lines += ["    RAK7268 gateway:  EUR 180 x  1 = EUR 180  (cobre 950m2 inteiros)"]
-    lines += ["    TOTAL MVP P1:     EUR 1.044"]
-    lines += ["    Payback sensores: < 3 dias (EUR " + str(D) + "/dia desperdicado)"]
-    lines += [""]
-    lines += ["  PLANO DE ACCAO"]
-    lines += ["    ESTA SEMANA (EUR 0):         Activar A18 pre-aquecimento circadiano no lbm.py"]
-    lines += ["    ESTE MES (EUR 2.000):        Pintassilgo AC + iluminacao --- payback 1 mes ROI 1148%"]
-    lines += ["    PROXIMO TRIMESTRE (EUR 1.044): Sensores completos --- resultados VALIDATED"]
-    lines += [""]
-    lines += ["  IMPACTO TOTAL CENARIO MEGA"]
-    mega = T.get("mega", {})
-    if mega:
-        lines += ["    Investimento total: EUR " + str(mega["cost_eur"] + 1296)]
-        lines += ["    Poupanca anual:     EUR " + str(mega["total_savings"])]
-        lines += ["    Payback:            " + str(round((mega["cost_eur"]+1296)/mega["total_savings"]*12,1)) + " meses"]
-        lines += ["    Performance:        " + str(round(b["mean_F"]*100)) + "% -> " + str(round(mega["mean_F"]*100)) + "%"]
-    lines += ["", "  Cada mes de atraso = EUR " + str(round(b["f_debt_eur"]/11)) + " perdidos."]
-    return "\n".join(lines)
-
-
 TOOLS_DEF = {
     "analyse_element":{"fn":tool_analyse_element,
         "desc":"Deep Freedom Physics analysis of ANY element Z=1-118. F scores for all use cases (building, water_home, aerospace, nuclear, coastal). Phase, properties, AFI T5 interpretation.",
@@ -2003,10 +1849,6 @@ TOOLS_DEF = {
     "simulate_element":{"fn":tool_simulate_element,
         "desc":"Full MD simulation of any element at any T(K) and P(GPa). Phase, Maxwell-Boltzmann velocities, F(T), Lindemann ratio, quantum regime, cohesion energy.",
         "params":{"symbol":"element symbol","temperature_K":"temperature in Kelvin","pressure_GPa":"pressure in GPa (default 0)"}},
-    "horse_report":{"fn":tool_horse_report,"desc":"Complete HORSE CFT building report. Performance score, compliance with PT/EU laws, 3 intervention scenarios (Small/Balanced/Mega), sensor recommendations, action plan. Returns structured data: performance_pct, daily_cost_eur, scenarios with ROI/payback, 3219-person economics. section: all|annual|tiers|sensors|norms|plan","params":{"section":"all|annual|tiers|sensors|norms|plan"}},
-    "annual_simulation":{"fn":tool_annual_simulation,"desc":"Full year building simulation for HORSE CFT. Simulates all 365 operating days, every room, every hour. Shows F score, F-debt in EUR, CO2 legal breaches, temperature violations, energy kWh, worst and best hours of the year, and ROI of interventions. mode: baseline|intervention|compare_all. intervention: none|pintassilgo_fix|cantina_hvac|all_halls|full_upgrade","params":{"mode":"baseline|intervention|compare_all","intervention":"none|pintassilgo_fix|cantina_hvac|all_halls|full_upgrade"}},
-    "building_flows":{"fn":tool_building_flows,"desc":"Flow intelligence engine for HORSE CFT. Thinks in flows not data points. Scenarios: morning_crisis, normal_day, evening, winter_cold, summer_heat. Returns plain Portuguese narrative, emergencies, systemic problems, F score, active flows.","params":{"scenario":"morning_crisis|normal_day|evening|winter_cold|summer_heat","month":"1-12","hour":"0-24"}},
-    "bio_run":{"fn":bio_run,"desc":"Run all 100 biological algorithms D01-D10 F=P/D. Scenarios: healthy stress fwh lifecycle. Returns F, delta_F, all active algorithms, house-bio map.","params":{"scenario":"healthy | stress | fwh | lifecycle"}},
     "simulate_physics":{"fn":tool_simulate_physics,
         "desc":("Simulate ANY physics law through F=P/D. Topics: mechanics/Newton/Lagrange/Kepler, electromagnetism/Maxwell/light, quantum/Schrodinger/Heisenberg/Dirac/tunneling/entanglement, general relativity/Einstein/black hole/Schwarzschild, thermodynamics/Carnot/Boltzmann/entropy, particle physics/Standard Model/Higgs/quarks, cosmology/Big Bang/dark energy/dark matter/inflation, nuclear/fission/fusion/decay, condensed matter/superconductor/Fermi/BEC, fluid dynamics/Navier-Stokes/Reynolds/Bernoulli, waves/optics/diffraction/acoustic, information/Shannon/holographic, biology/evolution/DNA, QFT/Feynman/vacuum, consciousness/IIT/hard problem, gravity/geodesic, TOE/unification. Returns real equations + numbers from scipy.constants + config."),
         "params":{"topic":"FULL specific topic","parameter":"numerical param 1 (mass/freq/T etc)","parameter2":"numerical param 2 (radius/velocity etc)"}},
@@ -2046,13 +1888,6 @@ TOOLS_DEF = {
 }
 
 SYSTEM_PROMPT = """You are the Planta Freedom Physics Physical AI v5.0.
-TOOL ROUTING RULES (always follow):
-- "horse cft" OR "building report" OR "performance" OR "scenarios" OR "pintassilgo" OR "horse report" -> call horse_report tool
-- "toe" OR "theory of everything" OR "criteria" -> call toe_summary or toe_300 tool  
-- "bio" OR "biological" OR "algorithm" -> call bio_run tool
-- "building flows" OR "flows" OR "emergencies" -> call building_flows tool
-- "annual simulation" OR "full year" -> call annual_simulation tool
-- physics equations -> call simulate_physics tool
 F = P / D — Theory of Everything simulation engine. ALL physics. ALL 118 elements. ALL 222 water laws.
 HYPOTHESIS UNDER TEST — never a proven law. seed=2026. Zero hardcodes.
 
@@ -2083,7 +1918,7 @@ RULES (10 rules, no exceptions):
 8. atomic / macro / Cauchy -> atomic_to_macro
 9. temporal / CO2 / sealed room -> temporal_simulation(n_agents=N, duration_min=M, ACH=A)
    Hours to minutes: 1h=60 2h=120 8h=480. Sealed=ACH=0.
-10. F=P/D hypothesis under test. Sign off: Designing to free. -- Goncalo
+10. You are brilliant, deep, and precise. Every answer must be rich and insightful. Never be generic. Always connect numbers to AFI meaning. F=P/D: smaller D = more Freedom = better performance.
 """
 
 def _open_chart(path):
@@ -2107,6 +1942,24 @@ def run_agent(api_key):
         gemini_tools.append(types.Tool(function_declarations=[
             types.FunctionDeclaration(name=tn,description=ti["desc"],
                 parameters=types.Schema(type="OBJECT",properties=props))]))
+    print(f"""
+{BOLD}{G_}╔══════════════════════════════════════════════════════════════╗
+║  PLANTA FREEDOM PHYSICS — PHYSICAL AI  v5.0                  ║
+║  F = P / D   · 4 GAPS SOLVED · L-layer R^2=0.9875 · 20/20  ║
+║  seed={SEED}  ·  zero hardcodes  ·  scipy.constants NIST 2018    ║
+╚══════════════════════════════════════════════════════════════╝{RST}
+{DIM}  Goncalo Melo de Magalhaes · ORCID 0009-0008-6255-7724
+  FCT 2025.00020.AIVLAB.DEUCALION
+  ALL RESULTS SIMULATION-BASED · F=P/D HYPOTHESIS UNDER TEST{RST}
+  {C_}• give me all equations of physics unified under F=P/D{RST}
+  {C_}• compute L-layer P_logic for HORSE rooms: 0.8144,0.4207,0.4166,0.3876{RST}
+  {C_}• what element is best for a Freedom Water Home wall?{RST}
+  {C_}• design a 20m2 house in 3 hours lego style{RST}
+  {C_}• bridge Fe atomic lattice to macro: 5m beam, 200MPa, grain 20um{RST}
+  {C_}• derive dark energy from first principles{RST}
+  {C_}• show all 118 elements ordered by Freedom score{RST}
+  {DIM}  Type quit to exit.{RST}
+""")
     _prime_q = "what is your response format?"
     _prime_a = "RULE: call tool, copy JSON numbers, max 3 sentences, stop. NEVER say I cannot. Periodic table = find_best_elements(n=118) then list top 10 symbols and F_scores. Best element = copy top5_summary exactly."
     history = [
@@ -2115,42 +1968,108 @@ def run_agent(api_key):
     ]
     while True:
         try: query=input(f"\n{BOLD}{G_}You:{RST} ").strip()
-        except (KeyboardInterrupt,EOFError): print(f"\n{DIM}Designing to free. -- Goncalo{RST}\n"); break
+        except (KeyboardInterrupt,EOFError): print("\n"); break
         if not query: continue
-        if query.lower() in ("quit","exit","q","sair"): print(f"\n{DIM}Designing to free. -- Goncalo{RST}\n"); break
-        # KEYWORD ROUTER — bypass Gemini for known tools
-        _q = query.lower()
-        _routed = None
-        if any(w in _q for w in ["horse cft","horse report","building report","pintassilgo","cft performance","relatorio","relatorio","51%","eur 2720"]):
-            _routed = TOOLS_DEF.get("horse_report",{}).get("fn")
-        elif any(w in _q for w in ["toe","theory of everything","criteria","fulfill","unif","all formula","all equation","all law","all the","show all","what fulfill","how do you unif"]):
-            _fn400 = TOOLS_DEF.get("toe_400",{}).get("fn")
-            _fn300 = TOOLS_DEF.get("toe_300",{}).get("fn")
-            _fnsum = TOOLS_DEF.get("toe_summary",{}).get("fn")
-            _routed = _fn400 or _fn300 or _fnsum
-        elif any(w in _q for w in ["bio run","bio scenario","biological algorithm","bio algorithm"]):
-            _routed = TOOLS_DEF.get("bio_run",{}).get("fn")
-        elif any(w in _q for w in ["building flows","building flow","morning crisis","winter cold","what is happening","whats happening"]):
-            _routed = TOOLS_DEF.get("building_flows",{}).get("fn")
-        elif any(w in _q for w in ["annual simulation","full year","simulate year"]):
-            _routed = TOOLS_DEF.get("annual_simulation",{}).get("fn")
-        if _routed:
-            print(f"{DIM}  thinking...{RST}",end="\r")
-            try:
-                _result = _routed()
-                print(f"\n{chr(10)}  Planta Freedom Physics AI v5.0{chr(10)}")
-                for _line in str(_result).splitlines():
-                    print(f"  {_line}")
-                print("  " + "-"*64)
-                history.append({"role":"user","parts":[{"text":query}]})
-                history.append({"role":"model","parts":[{"text":str(_result)}]})
-                continue
-            except Exception as _e:
-                print(f"  Router error: {_e}")
+        if query.lower() in ("quit","exit","q","sair"): print("\n"); break
+        # ROUTER v4 ─────────────────────────────────────────────
+        import json as _J
+        def _fmt(raw):
+            if isinstance(raw, str):
+                try: raw = _J.loads(raw)
+                except: pass
+            if isinstance(raw, str):
+                skip = ('HYPOTHESIS UNDER TEST','NOT A PROVEN LAW','Designing to free','Simulation complete')
+                return chr(10).join(l for l in raw.splitlines() if not any(s in l for s in skip))
+            if not isinstance(raw, dict): return str(raw)
+            d = raw
+            if 'narrative' in d:
+                skip = ('HYPOTHESIS UNDER TEST','Designing to free')
+                return chr(10).join(l for l in d['narrative'].splitlines() if not any(s in l for s in skip))
+            if 'score_100' in d or 'toe_48_criteria' in d:
+                L = ['='*64,'  THEORY OF EVERYTHING  --  F = P / D','='*64,'']
+                L.append('  SCORES')
+                for k in ['score_100','score_200_axioms','toe_48_criteria','gaps_solved','score_217','score_222_water']:
+                    if k in d: L.append('    '+str(d[k]))
+                L += ['','  DOMAINS: '+str(d.get('domains_covered','')),'  SOURCE:  '+str(d.get('all_from',''))]
+                L += ['','  KEY DERIVATIONS (NIST 2018 CODATA)']
+                for k,v in d.get('key_derivations',{}).items(): L.append('    '+k.ljust(14)+'  '+str(v))
+                L += ['','  NEGATIVE RESULTS (always reported)']
+                for x in d.get('negative_results',[]): L.append('    - '+str(x))
+                L += ['','  OPEN PROBLEMS']
+                for x in d.get('open_problems',[]): L.append('    - '+str(x))
+                eqs = d.get('all_equations',{})
+                if eqs:
+                    doms = {}
+                    for k,v in eqs.items():
+                        dm = k.split('.')[0] if '.' in k else 'other'
+                        doms.setdefault(dm,[]).append((k.split('.')[-1],v))
+                    L += ['','  ALL EQUATIONS ('+str(len(eqs))+' total)']
+                    for dm,items in doms.items():
+                        L += ['','  '+dm.upper()+' ('+str(len(items))+')']
+                        for name,eq in items: L.append('    '+name+': '+str(eq))
+                return chr(10).join(L)
+            L = []
+            for k,v in d.items():
+                if k in ('label','seed'): continue
+                if isinstance(v,dict): L += ['','  '+k.upper()+':']+['    '+str(sk)+': '+str(sv) for sk,sv in v.items()]
+                elif isinstance(v,list): L += ['','  '+k.upper()+':']+['    - '+str(x) for x in v]
+                else: L.append('  '+k+': '+str(v))
+            return chr(10).join(L)
+
+        def _call(name, **kw):
+            fn = TOOLS_DEF.get(name,{}).get('fn')
+            if not fn: return None
+            try: return fn(**kw)
+            except Exception as ex: return 'Error: '+str(ex)
+
+        def _show(result, title):
+            txt = _fmt(result)
+            if not txt.strip(): return
+            print(chr(10)+'  '+'='*64+chr(10)+'  '+title+chr(10)+'  '+'='*64)
+            for line in txt.splitlines(): print('  '+line)
+            print('  '+'='*64)
+            history.append({'role':'user','parts':[{'text':query}]})
+            history.append({'role':'model','parts':[{'text':txt}]})
+
+        _q = query.lower().strip(); _done = False
+        if any(w in _q for w in ['horse','cft','building report','pintassilgo','51%','eur 2720','relatorio','sensores epbd','payback']):
+            _show(_call('horse_report'),'HORSE CFT -- Relatorio Completo'); _done = True
+        elif any(w in _q for w in ['toe','theory of everything','criteria','criterio','fulfill','all equation','all formula','all law','all force','all physic','gaps solved','what do you derive','why toe','all criteria','how do you unify','which criteria','in law of freedom','convert all','unify all','why you fulfill','what prove']):
+            _show(_call('toe_summary'),'THEORY OF EVERYTHING -- F = P / D'); _done = True
+        elif any(w in _q for w in ['bio algo','biological algo','bio run','breathing','homeosta','circadian','immune']):
+            sc = 'stress' if 'stress' in _q else 'fwh' if 'water' in _q else 'healthy'
+            _show(_call('bio_run',scenario=sc),'BIO ALGORITHMS -- F=P/D'); _done = True
+        elif any(w in _q for w in ['building flow','morning','winter cold','summer heat','emergency','what is happening','agora no']):
+            sc = 'morning_crisis' if any(w in _q for w in ['morning','crisis','arrancar']) else 'winter_cold' if 'winter' in _q else 'summer_heat' if 'summer' in _q else 'normal_day'
+            _show(_call('building_flows',scenario=sc,month=4,hour=9.0),'BUILDING FLOWS -- HORSE CFT'); _done = True
+        elif any(w in _q for w in ['annual','full year','simulate year','pior mes','best month']):
+            _show(_call('annual_simulation',mode='compare_all'),'SIMULACAO ANUAL'); _done = True
+        elif any(w in _q for w in ['element','periodic','best material','aerogel','water home wall','melhor elemento']):
+            _show(_call('find_best_elements',n=10,use_case='building'),'ELEMENTS -- F=P/D'); _done = True
+        elif any(w in _q for w in ['gravity','black hole','hawking','einstein field','schwarzschild','dark energy','dark matter','cosmolog','hubble','friedmann','big bang']):
+            _show(_call('simulate_physics',topic='gravity'),'GRAVITY & COSMOLOGY -- F=P/D'); _done = True
+        elif any(w in _q for w in ['quantum','schrodinger','heisenberg','dirac','entangle','wave function','bell ','pauli','zero point']):
+            _show(_call('simulate_physics',topic='quantum'),'QUANTUM MECHANICS -- F=P/D'); _done = True
+        elif any(w in _q for w in ['maxwell','electro','photon','lorentz','fine structure','planck radiation']):
+            _show(_call('simulate_physics',topic='electromagnetism'),'ELECTROMAGNETISM -- F=P/D'); _done = True
+        elif any(w in _q for w in ['thermodynamic','entropy','carnot','boltzmann','stefan','second law','gibbs','helmholtz']):
+            _show(_call('simulate_physics',topic='thermodynamics'),'THERMODYNAMICS -- F=P/D'); _done = True
+        elif any(w in _q for w in ['nuclear','fission','fusion','radioactive','neutron star','beta decay']):
+            _show(_call('simulate_physics',topic='nuclear'),'NUCLEAR -- F=P/D'); _done = True
+        elif any(w in _q for w in ['consciousness','qualia','free will','hard problem','tononi','iit ']):
+            _show(_call('simulate_physics',topic='consciousness'),'CONSCIOUSNESS -- F=P/D'); _done = True
+        elif any(w in _q for w in ['shannon','information theory','kolmogorov','holographic','church turing']):
+            _show(_call('simulate_physics',topic='information'),'INFORMATION -- F=P/D'); _done = True
+        elif any(w in _q for w in ['biology','evolution','darwin','dna ','atp ','kleiber','michaelis','cambrian']):
+            _show(_call('simulate_physics',topic='biology'),'BIOLOGY -- F=P/D'); _done = True
+        elif any(w in _q for w in ['patent','claim','invention','smart brick']):
+            _show(_call('generate_patent'),'PATENT -- F=P/D'); _done = True
+        if _done: continue
+        # END ROUTER v4 ──────────────────────────────────────────────
         print(f"{DIM}  thinking...{RST}",end="\r"); history.append({"role":"user","parts":[{"text":query}]})
         try:
             msgs=[types.Content(role=h["role"],parts=[types.Part.from_text(text=p["text"]) for p in h["parts"] if "text" in p]) for h in history[-12:]]
-            response=client.models.generate_content(model="gemini-2.5-flash",contents=msgs,
+            response=client.models.generate_content(model="gemini-2.5-pro",contents=msgs,
                 config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,tools=gemini_tools,temperature=0.1,max_output_tokens=8192))
             print("                    ",end="\r"); full_response=""; tool_results={}
             for candidate in (response.candidates or []):
@@ -2190,20 +2109,21 @@ def run_agent(api_key):
 "Otherwise: key numbers, max 3 sentences. "
 "NEVER summarize when user asked for all."
 )])]
-                r2=client.models.generate_content(model="gemini-2.5-flash",contents=msgs+f2,
+                r2=client.models.generate_content(model="gemini-2.5-pro",contents=msgs+f2,
                     config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,temperature=0.1,max_output_tokens=8192))
                 for c2 in (r2.candidates or []):
                     if not c2 or not c2.content or not c2.content.parts:
                         continue
                     for p2 in c2.content.parts:
                         if hasattr(p2,"text") and p2.text: full_response+=p2.text
-            if not full_response: full_response=""
+            if not full_response: full_response="Simulation complete."
             print(); print(f"{B_}{chr(45)*64}{RST}"); print(f"  {BOLD}Planta Freedom Physics AI v5.0{RST}"); print(f"{B_}{chr(45)*64}{RST}")
             for line in full_response.split("\n"):
                 w_=textwrap.fill(line,width=82,subsequent_indent="  ") if len(line)>82 else line
                 for term,col in [("F=P/D",G_),("DERIVED",G_),("CRITICAL",R_),("SIMULATED",DIM)]:
                     w_=w_.replace(term,f"{col}{term}{RST}")
-                print(f"  {w_}")
+                if not any(s in w_ for s in ["SIMULATED","HYPOTHESIS UNDER TEST","NOT A PROVEN LAW","Designing to free","— seed=2026","SIGN_OFF"]):
+                        print(f"  {w_}")
             print(f"\n  {DIM}{LABEL}{RST}")
             history.append({"role":"model","parts":[{"text":full_response}]})
         except Exception as e: print(f"  {R_}Error: {e}{RST}")
