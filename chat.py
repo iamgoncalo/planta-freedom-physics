@@ -2126,11 +2126,11 @@ def run_agent(api_key):
             history.append({'role':'model','parts':[{'text':txt}]})
 
         _q = query.lower().strip(); _done = False
-        if any(w in _q for w in ['horse','cft','building report','pintassilgo','51%','eur 2720','relatorio','sensores epbd','payback']):
+        if any(w in _q for w in ['horse','cft','building report','pintassilgo','51%','eur 2720','relatorio','sensores epbd','payback','edificio','desempenho edificio','horse cft','formacao perdida','custo diario']):
             _show(_call('horse_report'),'HORSE CFT -- Relatorio Completo'); _done = True
         elif any(w in _q for w in ['toe','theory of everything','criteria','criterio','fulfill','all equation','all formula','all law','all force','all physic','gaps solved','what do you derive','why toe','all criteria','how do you unify','which criteria','in law of freedom','convert all','unify all','why you fulfill','what prove']):
             _show(_call('toe_summary'),'THEORY OF EVERYTHING -- F = P / D'); _done = True
-        elif any(w in _q for w in ['bio algo','biological algo','bio run','breathing','homeosta','circadian','immune']):
+        elif any(w in _q for w in ['bio algo','biological algo','bio run','breathing','homeosta','circadian','immune','algoritmos da vida','algoritmos bio','mostra todos','show all algo','100 algo','vida algo','algoritmos vivos','life algo','living algo','algoritmos biologicos','bio algoritmos']):
             sc = 'stress' if 'stress' in _q else 'fwh' if 'water' in _q else 'healthy'
             try:
                 import importlib.util as _U
@@ -2161,7 +2161,7 @@ def run_agent(api_key):
             _show(_call('building_flows',scenario=sc,month=4,hour=9.0),'BUILDING FLOWS -- HORSE CFT'); _done = True
         elif any(w in _q for w in ['annual','full year','simulate year','pior mes','best month']):
             _show(_call('annual_simulation',mode='compare_all'),'SIMULACAO ANUAL'); _done = True
-        elif any(w in _q for w in ['element','periodic','best material','aerogel','water home wall','melhor elemento']):
+        elif any(w in _q for w in ['element','periodic','best material','aerogel','water home wall','melhor elemento','todos elementos','tabela periodica','118 element','show all element','mostra element','todos os elementos']):
             _show(_call('find_best_elements',n=10,use_case='building'),'ELEMENTS -- F=P/D'); _done = True
         elif any(w in _q for w in ['gravity','black hole','hawking','einstein field','schwarzschild','dark energy','dark matter','cosmolog','hubble','friedmann','big bang']):
             _show(_call('simulate_physics',topic='gravity'),'GRAVITY & COSMOLOGY -- F=P/D'); _done = True
@@ -2244,11 +2244,11 @@ def run_agent(api_key):
             history.append({'role':'model','parts':[{'text':txt}]})
 
         _q = query.lower().strip(); _done = False
-        if any(w in _q for w in ['horse','cft','building report','pintassilgo','51%','eur 2720','relatorio','sensores epbd','payback']):
+        if any(w in _q for w in ['horse','cft','building report','pintassilgo','51%','eur 2720','relatorio','sensores epbd','payback','edificio','desempenho edificio','horse cft','formacao perdida','custo diario']):
             _show(_call('horse_report'),'HORSE CFT -- Relatorio Completo'); _done = True
         elif any(w in _q for w in ['toe','theory of everything','criteria','criterio','fulfill','all equation','all formula','all law','all force','all physic','gaps solved','what do you derive','why toe','all criteria','how do you unify','which criteria','in law of freedom','convert all','unify all','why you fulfill','what prove']):
             _show(_call('toe_summary'),'THEORY OF EVERYTHING -- F = P / D'); _done = True
-        elif any(w in _q for w in ['bio algo','biological algo','bio run','breathing','homeosta','circadian','immune']):
+        elif any(w in _q for w in ['bio algo','biological algo','bio run','breathing','homeosta','circadian','immune','algoritmos da vida','algoritmos bio','mostra todos','show all algo','100 algo','vida algo','algoritmos vivos','life algo','living algo','algoritmos biologicos','bio algoritmos']):
             sc = 'stress' if 'stress' in _q else 'fwh' if 'water' in _q else 'healthy'
             try:
                 import importlib.util as _U
@@ -2279,7 +2279,7 @@ def run_agent(api_key):
             _show(_call('building_flows',scenario=sc,month=4,hour=9.0),'BUILDING FLOWS -- HORSE CFT'); _done = True
         elif any(w in _q for w in ['annual','full year','simulate year','pior mes','best month']):
             _show(_call('annual_simulation',mode='compare_all'),'SIMULACAO ANUAL'); _done = True
-        elif any(w in _q for w in ['element','periodic','best material','aerogel','water home wall','melhor elemento']):
+        elif any(w in _q for w in ['element','periodic','best material','aerogel','water home wall','melhor elemento','todos elementos','tabela periodica','118 element','show all element','mostra element','todos os elementos']):
             _show(_call('find_best_elements',n=10,use_case='building'),'ELEMENTS -- F=P/D'); _done = True
         elif any(w in _q for w in ['gravity','black hole','hawking','einstein field','schwarzschild','dark energy','dark matter','cosmolog','hubble','friedmann','big bang']):
             _show(_call('simulate_physics',topic='gravity'),'GRAVITY & COSMOLOGY -- F=P/D'); _done = True
@@ -2362,11 +2362,11 @@ def run_agent(api_key):
             history.append({'role':'model','parts':[{'text':txt}]})
 
         _q = query.lower().strip(); _done = False
-        if any(w in _q for w in ['horse','cft','building report','pintassilgo','51%','eur 2720','relatorio','sensores epbd','payback']):
+        if any(w in _q for w in ['horse','cft','building report','pintassilgo','51%','eur 2720','relatorio','sensores epbd','payback','edificio','desempenho edificio','horse cft','formacao perdida','custo diario']):
             _show(_call('horse_report'),'HORSE CFT -- Relatorio Completo'); _done = True
         elif any(w in _q for w in ['toe','theory of everything','criteria','criterio','fulfill','all equation','all formula','all law','all force','all physic','gaps solved','what do you derive','why toe','all criteria','how do you unify','which criteria','in law of freedom','convert all','unify all','why you fulfill','what prove']):
             _show(_call('toe_summary'),'THEORY OF EVERYTHING -- F = P / D'); _done = True
-        elif any(w in _q for w in ['bio algo','biological algo','bio run','breathing','homeosta','circadian','immune']):
+        elif any(w in _q for w in ['bio algo','biological algo','bio run','breathing','homeosta','circadian','immune','algoritmos da vida','algoritmos bio','mostra todos','show all algo','100 algo','vida algo','algoritmos vivos','life algo','living algo','algoritmos biologicos','bio algoritmos']):
             sc = 'stress' if 'stress' in _q else 'fwh' if 'water' in _q else 'healthy'
             try:
                 import importlib.util as _U
@@ -2397,7 +2397,7 @@ def run_agent(api_key):
             _show(_call('building_flows',scenario=sc,month=4,hour=9.0),'BUILDING FLOWS -- HORSE CFT'); _done = True
         elif any(w in _q for w in ['annual','full year','simulate year','pior mes','best month']):
             _show(_call('annual_simulation',mode='compare_all'),'SIMULACAO ANUAL'); _done = True
-        elif any(w in _q for w in ['element','periodic','best material','aerogel','water home wall','melhor elemento']):
+        elif any(w in _q for w in ['element','periodic','best material','aerogel','water home wall','melhor elemento','todos elementos','tabela periodica','118 element','show all element','mostra element','todos os elementos']):
             _show(_call('find_best_elements',n=10,use_case='building'),'ELEMENTS -- F=P/D'); _done = True
         elif any(w in _q for w in ['gravity','black hole','hawking','einstein field','schwarzschild','dark energy','dark matter','cosmolog','hubble','friedmann','big bang']):
             _show(_call('simulate_physics',topic='gravity'),'GRAVITY & COSMOLOGY -- F=P/D'); _done = True
