@@ -2383,7 +2383,7 @@ def run_agent(api_key):
                         continue
                     for p2 in c2.content.parts:
                         if hasattr(p2,"text") and p2.text: full_response+=p2.text
-            if not full_response: full_response="Simulation complete."
+            if not full_response: full_response=""
             print(); print(f"{B_}{chr(45)*64}{RST}"); print(f"  {BOLD}Planta Freedom Physics AI v5.0{RST}"); print(f"{B_}{chr(45)*64}{RST}")
             for line in full_response.split("\n"):
                 w_=textwrap.fill(line,width=82,subsequent_indent="  ") if len(line)>82 else line
