@@ -2262,7 +2262,7 @@ def run_agent(api_key):
             'planta intelig','plant intel','stomata','fotossint','photosyn',
             'lifecycle','ciclo de vida','ciclo vital',
         ])
-        _is_toe = any(w in _q for w in [
+        _is_toe = any(w in _q for w in ['all the equation','give me all','all equation','todas as equa','toutes les','alle gleichung','tutte le','all formula','show all equat',
             'toe','theory of every','teoria de tudo','teoria do tudo',
             'equacoes','equation','formula','lei','law','criterio','criteria',
             'unifica','unify','unification','unificacao',
@@ -2590,7 +2590,7 @@ def run_agent(api_key):
             msgs=[types.Content(role=h["role"],parts=[types.Part.from_text(text=p["text"]) for p in h["parts"] if "text" in p]) for h in history[-12:]]
             response=client.models.generate_content(model="gemini-2.5-flash",contents=msgs,
                 config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,tools=gemini_tools,temperature=0.1,max_output_tokens=8192))
-            print("                    ",end="\r"); full_response=""; tool_results={}
+            print("                    ",end="\r"); full_response=""; _gemini_empty_count = 0; tool_results={}
             for candidate in (response.candidates or []):
                 if not candidate or not candidate.content or not candidate.content.parts:
                     continue
