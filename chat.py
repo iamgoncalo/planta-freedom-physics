@@ -2066,10 +2066,105 @@ def run_agent(api_key):
             _show(_call('generate_patent'),'PATENT -- F=P/D'); _done = True
         if _done: continue
         # END ROUTER v4 ──────────────────────────────────────────────
+        # ROUTER v4 ─────────────────────────────────────────────
+        import json as _J
+        def _fmt(raw):
+            if isinstance(raw, str):
+                try: raw = _J.loads(raw)
+                except: pass
+            if isinstance(raw, str):
+                skip = ('HYPOTHESIS UNDER TEST','NOT A PROVEN LAW','Designing to free','Simulation complete')
+                return chr(10).join(l for l in raw.splitlines() if not any(s in l for s in skip))
+            if not isinstance(raw, dict): return str(raw)
+            d = raw
+            if 'narrative' in d:
+                skip = ('HYPOTHESIS UNDER TEST','Designing to free')
+                return chr(10).join(l for l in d['narrative'].splitlines() if not any(s in l for s in skip))
+            if 'score_100' in d or 'toe_48_criteria' in d:
+                L = ['='*64,'  THEORY OF EVERYTHING  --  F = P / D','='*64,'']
+                L.append('  SCORES')
+                for k in ['score_100','score_200_axioms','toe_48_criteria','gaps_solved','score_217','score_222_water']:
+                    if k in d: L.append('    '+str(d[k]))
+                L += ['','  DOMAINS: '+str(d.get('domains_covered','')),'  SOURCE:  '+str(d.get('all_from',''))]
+                L += ['','  KEY DERIVATIONS (NIST 2018 CODATA)']
+                for k,v in d.get('key_derivations',{}).items(): L.append('    '+k.ljust(14)+'  '+str(v))
+                L += ['','  NEGATIVE RESULTS (always reported)']
+                for x in d.get('negative_results',[]): L.append('    - '+str(x))
+                L += ['','  OPEN PROBLEMS']
+                for x in d.get('open_problems',[]): L.append('    - '+str(x))
+                eqs = d.get('all_equations',{})
+                if eqs:
+                    doms = {}
+                    for k,v in eqs.items():
+                        dm = k.split('.')[0] if '.' in k else 'other'
+                        doms.setdefault(dm,[]).append((k.split('.')[-1],v))
+                    L += ['','  ALL EQUATIONS ('+str(len(eqs))+' total)']
+                    for dm,items in doms.items():
+                        L += ['','  '+dm.upper()+' ('+str(len(items))+')']
+                        for name,eq in items: L.append('    '+name+': '+str(eq))
+                return chr(10).join(L)
+            L = []
+            for k,v in d.items():
+                if k in ('label','seed'): continue
+                if isinstance(v,dict): L += ['','  '+k.upper()+':']+['    '+str(sk)+': '+str(sv) for sk,sv in v.items()]
+                elif isinstance(v,list): L += ['','  '+k.upper()+':']+['    - '+str(x) for x in v]
+                else: L.append('  '+k+': '+str(v))
+            return chr(10).join(L)
+
+        def _call(name, **kw):
+            fn = TOOLS_DEF.get(name,{}).get('fn')
+            if not fn: return None
+            try: return fn(**kw)
+            except Exception as ex: return 'Error: '+str(ex)
+
+        def _show(result, title):
+            txt = _fmt(result)
+            if not txt.strip(): return
+            print(chr(10)+'  '+'='*64+chr(10)+'  '+title+chr(10)+'  '+'='*64)
+            for line in txt.splitlines(): print('  '+line)
+            print('  '+'='*64)
+            history.append({'role':'user','parts':[{'text':query}]})
+            history.append({'role':'model','parts':[{'text':txt}]})
+
+        _q = query.lower().strip(); _done = False
+        if any(w in _q for w in ['horse','cft','building report','pintassilgo','51%','eur 2720','relatorio','sensores epbd','payback']):
+            _show(_call('horse_report'),'HORSE CFT -- Relatorio Completo'); _done = True
+        elif any(w in _q for w in ['toe','theory of everything','criteria','criterio','fulfill','all equation','all formula','all law','all force','all physic','gaps solved','what do you derive','why toe','all criteria','how do you unify','which criteria','in law of freedom','convert all','unify all','why you fulfill','what prove']):
+            _show(_call('toe_summary'),'THEORY OF EVERYTHING -- F = P / D'); _done = True
+        elif any(w in _q for w in ['bio algo','biological algo','bio run','breathing','homeosta','circadian','immune']):
+            sc = 'stress' if 'stress' in _q else 'fwh' if 'water' in _q else 'healthy'
+            _show(_call('bio_run',scenario=sc),'BIO ALGORITHMS -- F=P/D'); _done = True
+        elif any(w in _q for w in ['building flow','morning','winter cold','summer heat','emergency','what is happening','agora no']):
+            sc = 'morning_crisis' if any(w in _q for w in ['morning','crisis','arrancar']) else 'winter_cold' if 'winter' in _q else 'summer_heat' if 'summer' in _q else 'normal_day'
+            _show(_call('building_flows',scenario=sc,month=4,hour=9.0),'BUILDING FLOWS -- HORSE CFT'); _done = True
+        elif any(w in _q for w in ['annual','full year','simulate year','pior mes','best month']):
+            _show(_call('annual_simulation',mode='compare_all'),'SIMULACAO ANUAL'); _done = True
+        elif any(w in _q for w in ['element','periodic','best material','aerogel','water home wall','melhor elemento']):
+            _show(_call('find_best_elements',n=10,use_case='building'),'ELEMENTS -- F=P/D'); _done = True
+        elif any(w in _q for w in ['gravity','black hole','hawking','einstein field','schwarzschild','dark energy','dark matter','cosmolog','hubble','friedmann','big bang']):
+            _show(_call('simulate_physics',topic='gravity'),'GRAVITY & COSMOLOGY -- F=P/D'); _done = True
+        elif any(w in _q for w in ['quantum','schrodinger','heisenberg','dirac','entangle','wave function','bell ','pauli','zero point']):
+            _show(_call('simulate_physics',topic='quantum'),'QUANTUM MECHANICS -- F=P/D'); _done = True
+        elif any(w in _q for w in ['maxwell','electro','photon','lorentz','fine structure','planck radiation']):
+            _show(_call('simulate_physics',topic='electromagnetism'),'ELECTROMAGNETISM -- F=P/D'); _done = True
+        elif any(w in _q for w in ['thermodynamic','entropy','carnot','boltzmann','stefan','second law','gibbs','helmholtz']):
+            _show(_call('simulate_physics',topic='thermodynamics'),'THERMODYNAMICS -- F=P/D'); _done = True
+        elif any(w in _q for w in ['nuclear','fission','fusion','radioactive','neutron star','beta decay']):
+            _show(_call('simulate_physics',topic='nuclear'),'NUCLEAR -- F=P/D'); _done = True
+        elif any(w in _q for w in ['consciousness','qualia','free will','hard problem','tononi','iit ']):
+            _show(_call('simulate_physics',topic='consciousness'),'CONSCIOUSNESS -- F=P/D'); _done = True
+        elif any(w in _q for w in ['shannon','information theory','kolmogorov','holographic','church turing']):
+            _show(_call('simulate_physics',topic='information'),'INFORMATION -- F=P/D'); _done = True
+        elif any(w in _q for w in ['biology','evolution','darwin','dna ','atp ','kleiber','michaelis','cambrian']):
+            _show(_call('simulate_physics',topic='biology'),'BIOLOGY -- F=P/D'); _done = True
+        elif any(w in _q for w in ['patent','claim','invention','smart brick']):
+            _show(_call('generate_patent'),'PATENT -- F=P/D'); _done = True
+        if _done: continue
+        # END ROUTER v4 ──────────────────────────────────────────────
         print(f"{DIM}  thinking...{RST}",end="\r"); history.append({"role":"user","parts":[{"text":query}]})
         try:
             msgs=[types.Content(role=h["role"],parts=[types.Part.from_text(text=p["text"]) for p in h["parts"] if "text" in p]) for h in history[-12:]]
-            response=client.models.generate_content(model="gemini-2.5-pro",contents=msgs,
+            response=client.models.generate_content(model="gemini-2.5-flash",contents=msgs,
                 config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,tools=gemini_tools,temperature=0.1,max_output_tokens=8192))
             print("                    ",end="\r"); full_response=""; tool_results={}
             for candidate in (response.candidates or []):
@@ -2109,7 +2204,7 @@ def run_agent(api_key):
 "Otherwise: key numbers, max 3 sentences. "
 "NEVER summarize when user asked for all."
 )])]
-                r2=client.models.generate_content(model="gemini-2.5-pro",contents=msgs+f2,
+                r2=client.models.generate_content(model="gemini-2.5-flash",contents=msgs+f2,
                     config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,temperature=0.1,max_output_tokens=8192))
                 for c2 in (r2.candidates or []):
                     if not c2 or not c2.content or not c2.content.parts:
